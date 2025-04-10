@@ -1,11 +1,31 @@
 <script setup>
-// Anda bisa menambahkan logika navigasi di sini jika diperlukan
+import { ref } from 'vue';
+import AuthModal from './AuthModal.vue';
+
+const showAuthModal = ref(false);
+const authMode = ref('login');
+
 const navItems = [
-  { name: 'Beranda', path: '#' },
+  { name: 'Beranda', path: '/' },
   { name: 'Cari Aktivitas', path: '#about' },
   { name: 'Cari Organisasi', path: '#kategori' },
   { name: 'Tentang Kami', path: '#kontak' }
-]
+];
+
+const openLoginModal = () => {
+  authMode.value = 'login';
+  showAuthModal.value = true;
+};
+
+const openRegisterModal = () => {
+  authMode.value = 'register';
+  showAuthModal.value = true;
+};
+
+const handleLoginSuccess = () => {
+  // Handle successful login if needed
+  window.location.reload();
+};
 </script>
 
 <template>
@@ -31,10 +51,10 @@ const navItems = [
       
       <!-- Login/Register Buttons -->
       <div class="flex space-x-4">
-        <button class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
+        <button @click="openLoginModal" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
           Masuk
         </button>
-        <button class="px-4 py-2 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors">
+        <button @click="openRegisterModal" class="px-4 py-2 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors">
           Daftar
         </button>
       </div>
@@ -50,6 +70,14 @@ const navItems = [
   
   <!-- Spacer to prevent content from being hidden under fixed navbar -->
   <div class="h-16"></div>
+
+  <!-- Auth Modal -->
+  <AuthModal 
+    v-if="showAuthModal"
+    :initial-mode="authMode"
+    @close="showAuthModal = false"
+    @login-success="handleLoginSuccess"
+  />
 </template>
 
 <style scoped>
