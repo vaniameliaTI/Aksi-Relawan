@@ -1,24 +1,45 @@
-<script setup>
-import NavBar from './components/NavBar.vue'
-import HeroSection from './components/HeroSection.vue'
-import FeatureCards from './components/FeatureCards.vue'
-import CategorySection from './components/CategorySection.vue'
-import AksiSection from './components/AksiSection.vue'
-import Footer from './components/Footer.vue'
-</script>
-
 <template>
-  <div>
-    <NavBar />
-    <div class="container mx-auto">
-      <HeroSection />
-      <FeatureCards />
-      <CategorySection />
-      <AksiSection />
-    </div>
-    <Footer />
+  <div class="min-h-screen bg-gray-100">
+    <!-- Main Content -->
+    <main>
+      <router-view></router-view>
+    </main>
   </div>
 </template>
+
+<script>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { logout } from './services/api';
+
+export default {
+  name: 'App',
+  setup() {
+    const router = useRouter();
+    const isAuthenticated = ref(false);
+
+    onMounted(() => {
+      isAuthenticated.value = !!localStorage.getItem('token');
+    });
+
+    const handleLogout = async () => {
+      try {
+        await logout();
+        localStorage.removeItem('token');
+        isAuthenticated.value = false;
+        router.push('/');
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    };
+
+    return {
+      isAuthenticated,
+      handleLogout,
+    };
+  },
+};
+</script>
 
 <style>
 /* Global styles can go here */
