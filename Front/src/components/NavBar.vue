@@ -1,6 +1,21 @@
 <script setup>
 import { ref } from 'vue';
 import AuthModal from './AuthModal.vue';
+import AboutPopup from './AboutPopup.vue';
+
+const showAboutPopup = ref(false);
+const aboutPopupTimeout = ref(null);
+
+const handleAboutMouseEnter = () => {
+  clearTimeout(aboutPopupTimeout.value);
+  showAboutPopup.value = true;
+};
+
+const handleAboutMouseLeave = () => {
+  aboutPopupTimeout.value = setTimeout(() => {
+    showAboutPopup.value = false;
+  }, 200);
+};
 
 const showAuthModal = ref(false);
 const authMode = ref('login');
@@ -39,14 +54,21 @@ const handleLoginSuccess = () => {
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <a 
+        <div 
           v-for="item in navItems" 
           :key="item.name" 
-          :href="item.path"
-          class="text-gray-700 hover:text-blue-900 transition-colors"
+          class="relative"
+          @mouseenter="item.name === 'Tentang Kami' ? handleAboutMouseEnter() : null"
+          @mouseleave="item.name === 'Tentang Kami' ? handleAboutMouseLeave() : null"
         >
-          {{ item.name }}
-        </a>
+          <a 
+            :href="item.path"
+            class="text-gray-700 hover:text-blue-900 transition-colors"
+          >
+            {{ item.name }}
+          </a>
+          <AboutPopup v-if="item.name === 'Tentang Kami' && showAboutPopup" />
+        </div>
       </div>
       
       <!-- Login/Register Buttons -->
