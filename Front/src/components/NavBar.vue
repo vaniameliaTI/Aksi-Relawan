@@ -1,15 +1,21 @@
 <script setup>
 import { ref } from 'vue';
 import AuthModal from './AuthModal.vue';
+import AboutPopup from './AboutPopup.vue';
 
 const showAuthModal = ref(false);
 const authMode = ref('login');
+const showAboutPopup = ref(false);
 
 const navItems = [
   { name: 'Beranda', path: '/' },
   { name: 'Cari Aktivitas', path: '/aktivitas' },
   { name: 'Cari Organisasi', path: '/organisasi' },
-  { name: 'Tentang Kami', path: '/tentang' }
+  { 
+    name: 'Tentang Kami', 
+    path: '/tentang',
+    hasPopup: true
+  }
 ];
 
 const openLoginModal = () => {
@@ -39,14 +45,20 @@ const handleLoginSuccess = () => {
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <router-link 
-          v-for="item in navItems" 
-          :key="item.name" 
-          :to="item.path"
-          class="text-gray-700 hover:text-blue-900 transition-colors"
-        >
-          {{ item.name }}
-        </router-link>
+        <div v-for="item in navItems" :key="item.name" class="relative group">
+          <router-link 
+            :to="item.path"
+            class="text-gray-700 hover:text-blue-900 transition-colors"
+            @mouseenter="item.hasPopup ? showAboutPopup = true : null"
+          >
+            {{ item.name }}
+          </router-link>
+          <AboutPopup 
+            v-if="item.hasPopup && showAboutPopup" 
+            @close="showAboutPopup = false"
+            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+          />
+        </div>
       </div>
       
       <!-- Login/Register Buttons -->
