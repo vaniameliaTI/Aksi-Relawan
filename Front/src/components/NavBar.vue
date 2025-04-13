@@ -13,7 +13,6 @@ const navItems = [
   { name: 'Cari Organisasi', path: '/organisasi' },
   { 
     name: 'Tentang Kami', 
-    path: '/tentang',
     hasPopup: true
   }
 ];
@@ -47,12 +46,20 @@ const handleLoginSuccess = () => {
       <div class="hidden md:flex space-x-8">
         <div v-for="item in navItems" :key="item.name" class="relative group">
           <router-link 
+            v-if="!item.hasPopup"
             :to="item.path"
             class="text-gray-700 hover:text-blue-900 transition-colors"
-            @mouseenter="item.hasPopup ? showAboutPopup = true : null"
           >
             {{ item.name }}
           </router-link>
+          <a 
+            v-else
+            href="#"
+            class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
+            @mouseenter="showAboutPopup = true"
+          >
+            {{ item.name }}
+          </a>
           <AboutPopup 
             v-if="item.hasPopup && showAboutPopup" 
             @close="showAboutPopup = false"

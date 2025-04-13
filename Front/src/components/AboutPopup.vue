@@ -4,16 +4,22 @@ defineEmits(['close']);
 
 <template>
   <div 
-    class="py-1"
+    class="py-1 bg-custom-light rounded shadow"
     @mouseleave="$emit('close')"
   >
-    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tentang Aksi Relawan</a>
-    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visi Misi & Program</a>
-    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Donasi</a>
-    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kontak Kami</a>
+    <router-link to="/tentang" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150">Tentang Aksi Relawan</router-link>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150">Visi Misi & Program</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150">Donasi</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150">Kontak Kami</a>
   </div>
 </template>
 
 <style scoped>
-/* Add any custom styles if needed */
+.bg-custom-light {
+  background-color: #E5E7EB;
+}
+
+.hover\:bg-gray-300:hover {
+  background-color: #D1D5DB;
+}
 </style>
