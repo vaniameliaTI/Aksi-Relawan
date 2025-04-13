@@ -1,1 +1,1 @@
-Made by Love
+Made with Love
