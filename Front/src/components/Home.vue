@@ -7,6 +7,7 @@
       <CategorySection />
       <AksiSection />
     </div>
+    <Review />
     <Footer />
   </div>
 </template>
@@ -18,6 +19,7 @@ import HeroSection from './HeroSection.vue';
 import FeatureCards from './FeatureCards.vue';
 import CategorySection from './CategorySection.vue';
 import AksiSection from './AksiSection.vue';
+import Review from './Review.vue';
 import Footer from './Footer.vue';
 import { testConnection } from '../services/api';
 
@@ -29,6 +31,7 @@ export default {
     FeatureCards,
     CategorySection,
     AksiSection,
+    Review,
     Footer
   },
   setup() {
