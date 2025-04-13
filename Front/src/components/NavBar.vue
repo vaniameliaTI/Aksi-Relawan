@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import AuthModal from './AuthModal.vue';
 import AboutPopup from './AboutPopup.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const showAuthModal = ref(false);
 const authMode = ref('login');
 const showAboutPopup = ref(false);
+
+const isLoggedIn = computed(() => {
+  return localStorage.getItem('token') !== null;
+});
 
 const navItems = [
   { name: 'Beranda', path: '/' },
@@ -28,8 +34,25 @@ const openRegisterModal = () => {
 };
 
 const handleLoginSuccess = () => {
-  // Handle successful login if needed
   window.location.reload();
+};
+
+const handleLogout = () => {
+  // Hapus semua data terkait user
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  // Hapus semua item localStorage yang tidak dikenali (untuk berjaga-jaga)
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)) {
+      localStorage.removeItem(key);
+    }
+  }
+  window.location.reload();
+};
+
+const goToProfile = () => {
+  router.push('/profile');
 };
 </script>
 
@@ -68,8 +91,8 @@ const handleLoginSuccess = () => {
         </div>
       </div>
       
-      <!-- Login/Register Buttons -->
-      <div class="flex space-x-4">
+      <!-- Auth Buttons -->
+      <div class="flex space-x-4" v-if="!isLoggedIn">
         <button @click="openLoginModal" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
           Masuk
         </button>
@@ -77,8 +100,18 @@ const handleLoginSuccess = () => {
           Daftar
         </button>
       </div>
+
+      <!-- Profile Menu -->
+      <div class="flex items-center space-x-4" v-else>
+        <button @click="goToProfile" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
+          Profil
+        </button>
+        <button @click="handleLogout" class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">
+          Keluar
+        </button>
+      </div>
       
-      <!-- Mobile Menu Button (only visible on small screens) -->
+      <!-- Mobile Menu Button -->
       <button class="md:hidden text-gray-700">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -87,7 +120,7 @@ const handleLoginSuccess = () => {
     </div>
   </nav>
   
-  <!-- Spacer to prevent content from being hidden under fixed navbar -->
+  <!-- Spacer -->
   <div class="h-16"></div>
 
   <!-- Auth Modal -->

@@ -7,6 +7,7 @@ require_once __DIR__ . '/../config/database.php';
 class AuthController {
     private $db;
     private $pdo;
+    private $secret_key = "aksi_relawan_secret_key_2025"; // Ganti dengan secret key yang aman
 
     public function __construct() {
         $database = new Database();
@@ -25,6 +26,68 @@ class AuthController {
         // $this->db = $database;
     }
 
+    private function generateJWT($user) {
+        $issued_at = time();
+        $expiration = $issued_at + (60 * 60); // Token berlaku 1 jam
+
+        $payload = [
+            'iss' => 'aksi_relawan_api', // issuer
+            'aud' => 'aksi_relawan_app', // audience
+            'iat' => $issued_at, // issued at
+            'exp' => $expiration, // expiration
+            'data' => [
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'username' => $user['username']
+            ]
+        ];
+
+        // Encode Header
+        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+        $header = base64_encode($header);
+
+        // Encode Payload
+        $payload = json_encode($payload);
+        $payload = base64_encode($payload);
+
+        // Create Signature
+        $signature = hash_hmac('sha256', "$header.$payload", $this->secret_key, true);
+        $signature = base64_encode($signature);
+
+        // Create JWT Token
+        $jwt = "$header.$payload.$signature";
+
+        return $jwt;
+    }
+
+    private function verifyJWT($token) {
+        $parts = explode('.', $token);
+        if (count($parts) !== 3) {
+            return false;
+        }
+
+        list($header, $payload, $signature) = $parts;
+
+        // Verify Signature
+        $valid_signature = base64_encode(
+            hash_hmac('sha256', "$header.$payload", $this->secret_key, true)
+        );
+
+        if ($signature !== $valid_signature) {
+            return false;
+        }
+
+        // Decode Payload
+        $payload = json_decode(base64_decode($payload), true);
+
+        // Check Expiration
+        if (isset($payload['exp']) && $payload['exp'] < time()) {
+            return false;
+        }
+
+        return $payload;
+    }
+
     /**
      * Menangani registrasi pengguna baru.
      */
@@ -35,7 +98,7 @@ class AuthController {
         // 2. Validasi data (username, email, password)
         if (empty($data['username']) || empty($data['email']) || empty($data['password'])) {
             http_response_code(400); // Bad Request
-            return ['status' => 'error', 'message' => 'Username (Nama Lengkap), email, dan password wajib diisi'];
+            return ['status' => 'error', 'message' => 'Username, email, dan password wajib diisi'];
         }
         if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             http_response_code(400);
@@ -110,14 +173,88 @@ class AuthController {
             return ['status' => 'error', 'message' => 'Email dan password wajib diisi'];
         }
 
-        // 3. TODO: Cari pengguna berdasarkan email
+        try {
+            // 3. Cari pengguna berdasarkan email
+            $sql = "SELECT id, username, email, password, full_name, phone, address FROM users WHERE email = :email LIMIT 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->execute();
+            
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // 4. TODO: Verifikasi password
+            // 4. Verifikasi password
+            if (!$user || !password_verify($data['password'], $user['password'])) {
+                http_response_code(401);
+                return ['status' => 'error', 'message' => 'Email atau password salah'];
+            }
 
-        // 5. TODO: Generate token (misalnya JWT)
+            // 5. Generate JWT token
+            $jwt = $this->generateJWT($user);
+            
+            // 6. Hapus password dari response
+            unset($user['password']);
+            unset($user['token']);
 
-        // 6. Berikan response sukses (sementara)
-        return ['status' => 'success', 'message' => 'Login berhasil (implementasi database dan token belum selesai)'];
+            // 7. Berikan response sukses dengan data user dan token
+            return [
+                'status' => 'success',
+                'message' => 'Login berhasil',
+                'data' => [
+                    'user' => $user,
+                    'token' => $jwt
+                ]
+            ];
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            error_log("Database error during login: " . $e->getMessage());
+            return ['status' => 'error', 'message' => 'Terjadi kesalahan saat proses login'];
+        }
+    }
+
+    /**
+     * Menangani logout pengguna.
+     */
+    public function logout() {
+        try {
+            // Dapatkan token dari header Authorization
+            $headers = getallheaders();
+            $authHeader = $headers['Authorization'] ?? '';
+            
+            error_log("Auth Header: " . $authHeader); // Log header
+            
+            if (strpos($authHeader, 'Bearer ') === 0) {
+                $token = substr($authHeader, 7);
+                error_log("Token from request: " . $token);
+                
+                // Verify JWT
+                $payload = $this->verifyJWT($token);
+                if (!$payload) {
+                    return [
+                        'status' => 'error',
+                        'message' => 'Token tidak valid'
+                    ];
+                }
+
+                return [
+                    'status' => 'success',
+                    'message' => 'Logout berhasil'
+                ];
+            }
+            
+            error_log("No valid Bearer token in header");
+            return [
+                'status' => 'error',
+                'message' => 'Token tidak ditemukan'
+            ];
+            
+        } catch (Exception $e) {
+            error_log("Error during logout: " . $e->getMessage());
+            return [
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat logout'
+            ];
+        }
     }
 }
 ?> 

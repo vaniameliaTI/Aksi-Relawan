@@ -16,6 +16,7 @@ return [
     // Rute Autentikasi
     'POST /api/register' => ['AuthController', 'register'],
     'POST /api/login' => ['AuthController', 'login'],
+    'POST /api/logout' => ['AuthController', 'logout'],
 
     // Contoh Rute untuk Relawan (sesuaikan path dan method jika perlu)
     // 'GET /api/relawan' => ['RelawanController', 'getAll'],

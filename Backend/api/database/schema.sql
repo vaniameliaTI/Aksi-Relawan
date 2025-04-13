@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    full_name VARCHAR(100) NOT NULL,
+    full_name VARCHAR(100) NULL,
     phone VARCHAR(20),
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -62,4 +62,7 @@ CREATE TABLE IF NOT EXISTS activity_photos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Jalankan ini di database Anda jika memilih opsi ini:
-ALTER TABLE users MODIFY COLUMN full_name VARCHAR(100) NULL; 
+ALTER TABLE users MODIFY COLUMN full_name VARCHAR(100) NULL;
+
+-- Jalankan ini untuk menghapus kolom token jika sudah ada
+ALTER TABLE users DROP COLUMN IF EXISTS token;

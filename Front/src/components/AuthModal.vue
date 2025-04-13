@@ -197,10 +197,20 @@ export default {
         loading.value = true;
         error.value = '';
         const response = await login(loginForm.value);
-        localStorage.setItem('token', response.data.token);
-        emit('login-success');
-        closeModal();
+        
+        if (response.data && response.data.status === 'success') {
+          localStorage.setItem('token', response.data.data.token);
+          localStorage.setItem('user', JSON.stringify(response.data.data.user));
+          
+          emit('login-success');
+          closeModal();
+          
+          router.push('/profile');
+        } else {
+          error.value = response.data?.message || 'Terjadi kesalahan saat login';
+        }
       } catch (err) {
+        console.error('Login error:', err);
         error.value = err.response?.data?.message || 'Terjadi kesalahan saat login';
       } finally {
         loading.value = false;
