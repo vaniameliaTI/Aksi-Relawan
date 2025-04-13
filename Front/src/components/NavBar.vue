@@ -7,9 +7,9 @@ const authMode = ref('login');
 
 const navItems = [
   { name: 'Beranda', path: '/' },
-  { name: 'Cari Aktivitas', path: '#about' },
-  { name: 'Cari Organisasi', path: '#kategori' },
-  { name: 'Tentang Kami', path: '#kontak' }
+  { name: 'Cari Aktivitas', path: '/aktivitas' },
+  { name: 'Cari Organisasi', path: '/organisasi' },
+  { name: 'Tentang Kami', path: '/tentang' }
 ];
 
 const openLoginModal = () => {
@@ -39,14 +39,14 @@ const handleLoginSuccess = () => {
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <a 
+        <router-link 
           v-for="item in navItems" 
           :key="item.name" 
-          :href="item.path"
+          :to="item.path"
           class="text-gray-700 hover:text-blue-900 transition-colors"
         >
           {{ item.name }}
-        </a>
+        </router-link>
       </div>
       
       <!-- Login/Register Buttons -->
