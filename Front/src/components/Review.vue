@@ -1,23 +1,109 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger)
+
+const reviews = [
+  {
+    title: "PARTNERSHIP",
+    subtitle: "Partnership",
+    image: '/src/assets/images/partnership.png',
+    text: "Aksi Relawan adalah platform yang sangat membantu dalam menghubungkan organisasi dengan volunteer secara efektif. Dengan tampilan yang intuitif dan fitur pendaftaran berbasis minat, website ini mempermudah relawan menemukan peluang yang sesuai, sementara sistem verifikasi organisasi memastikan kepercayaan dan transparansi. Sangat direkomendasikan bagi siapa saja yang ingin berkontribusi dalam kegiatan sosial"
+  },
+  {
+    title: "INGOUDE COMPANY",
+    subtitle: "Ingoude Company",
+    image: '/src/assets/images/ingoude.png',
+    text: "Aksi Relawan adalah solusi terbaik bagi organisasi yang ingin menjangkau lebih banyak volunteer dengan mudah. Proses pendaftaran yang sederhana dan sistem verifikasi organisasi membuat platform ini terpercaya dan nyaman digunakan. Sebuah inovasi yang sangat bermanfaat bagi komunitas sosial!"
+  },
+  {
+    title: "TEAMWORK",
+    subtitle: "Teamwork",
+    image: '/src/assets/images/teamwork.png',
+    text: "Website Aksi Relawan sangat memudahkan relawan dalam menemukan kegiatan yang sesuai dengan minat dan keterampilan mereka. Antarmukanya bersih, informatif, dan responsif, menjadikannya pilihan utama bagi siapa saja yang ingin berkontribusi dalam aksi sosial!"
+  }
+]
+
+const reviewsRef = ref(null)
+const titleRef = ref(null)
+
+onMounted(() => {
+  // Set initial state for title
+  gsap.set(titleRef.value, {
+    opacity: 0,
+    y: -30
+  })
+
+  // Create ScrollTrigger for title
+  ScrollTrigger.create({
+    trigger: titleRef.value,
+    start: 'top 80%',
+    onEnter: () => {
+      gsap.to(titleRef.value, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'back.out(1.7)'
+      })
+    }
+  })
+
+  // Set initial state for reviews
+  gsap.set('.review-card', {
+    opacity: 0,
+    y: 50
+  })
+
+  // Create ScrollTrigger for reviews
+  ScrollTrigger.create({
+    trigger: '.reviews-container',
+    start: 'top 80%',
+    onEnter: () => {
+      gsap.to('.review-card', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out'
+      })
+    }
+  })
+})
+</script>
+
 <template>
-  <section class="py-12 bg-white">
+  <section class="py-16">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-10">Review</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <h2 ref="titleRef" class="text-4xl font-bold text-center mb-16">Review</h2>
+      <div ref="reviewsRef" class="grid grid-cols-1 md:grid-cols-3 gap-8 reviews-container max-w-6xl mx-auto">
         <div
           v-for="(review, index) in reviews"
           :key="index"
-          class="bg-white p-6 rounded-xl border shadow text-center hover:shadow-md transition duration-300"
+          class="review-card bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center"
         >
+          <!-- Subtitle (normal case) -->
+          <h3 class="text-gray-800 text-xl mb-4 text-center">
+            {{ review.subtitle }}
+          </h3>
+          
+          <!-- Image -->
           <img 
             :src="review.image" 
             :alt="review.title" 
-            class="mx-auto mb-4 w-12 h-12 object-contain"
+            class="w-16 h-16 object-contain mb-6"
           />
-          <h3 class="text-blue-800 font-semibold text-base mb-2 uppercase tracking-wide">
+          
+          <!-- Title (uppercase) -->
+          <h4 class="text-blue-600 font-bold text-lg mb-4 text-center tracking-wide">
             {{ review.title }}
-          </h3>
-          <hr class="border-t border-gray-300 w-10 mx-auto mb-4" />
-          <p class="text-gray-600 text-sm leading-relaxed text-justify">
+          </h4>
+          
+          <hr class="border-t border-gray-200 w-16 mb-6" />
+          
+          <p class="text-gray-600 text-base leading-relaxed text-justify">
             {{ review.text }}
           </p>
         </div>
@@ -26,29 +112,20 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: "ReviewSection",
-  data() {
-    return {
-      reviews: [
-  {
-    title: "Partnership",
-    image: ('/assets/images/partnership.png'),
-    text: "Aksi Relawan adalah platform yang sangat membantu dalam menghubungkan organisasi dengan volunteer secara efektif. Dengan tampilan yang intuitif dan fitur pendaftaran berbasis minat, website ini mempermudah relawan menemukan peluang yang sesuai, sementara sistem verifikasi organisasi memastikan kepercayaan dan transparansi. Sangat direkomendasikan bagi siapa saja yang ingin berkontribusi dalam kegiatan sosial"
-  },
-  {
-    title: "Ingoude Company",
-    image: ('/assets/images/ingoude.png'),
-    text: "Aksi Relawan adalah solusi terbaik bagi organisasi yang ingin menjangkau lebih banyak volunteer dengan mudah. Proses pendaftaran yang sederhana dan sistem verifikasi organisasi membuat platform ini terpercaya dan nyaman digunakan. Sebuah inovasi yang sangat bermanfaat bagi komunitas sosial!"
-  },
-  {
-    title: "Teamwork",
-    image: ('/assets/images/teamwork.png'),
-    text: "Website Aksi Relawan sangat memudahkan relawan dalam menemukan kegiatan yang sesuai dengan minat dan keterampilan mereka. Antarmukanya bersih, informatif, dan responsif, menjadikannya pilihan utama bagi siapa saja yang ingin berkontribusi dalam aksi sosial!"
-  }
-]
-    }
+<style scoped>
+.review-card {
+  transform: translateY(0);
+  will-change: transform, opacity;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .review-card {
+    padding: 2rem;
   }
 }
-</script>
+</style>

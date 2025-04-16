@@ -1,5 +1,35 @@
 <script setup>
-// No props or data needed for this component
+import { ref, onMounted } from 'vue'
+import { gsap } from 'gsap'
+import { TextPlugin } from 'gsap/TextPlugin'
+
+// Register TextPlugin
+gsap.registerPlugin(TextPlugin)
+
+const taglineRef = ref(null)
+
+onMounted(() => {
+  // Set initial state
+  gsap.set(taglineRef.value, { opacity: 0 })
+
+  // Create ScrollTrigger for tagline
+  gsap.to(taglineRef.value, {
+    opacity: 1,
+    duration: 0.5,
+    scrollTrigger: {
+      trigger: taglineRef.value,
+      start: 'top 80%',
+      onEnter: () => {
+        // Start typing animation
+        gsap.to(taglineRef.value, {
+          duration: 3,
+          text: '"Bergabunglah dengan komunitas relawan untuk menciptakan dampak positif bagi masyarakat. Bersama, kita bisa membawa perubahan!"',
+          ease: "none"
+        })
+      }
+    }
+  })
+})
 </script>
 
 <template>
@@ -15,8 +45,8 @@
             <h3 class="text-xl font-bold">Aksi Relawan</h3>
           </div>
           
-          <blockquote class="text-lg">
-            "Bergabunglah dengan komunitas relawan untuk menciptakan dampak positif bagi masyarakat. Bersama, kita bisa membawa perubahan! "
+          <blockquote ref="taglineRef" class="text-lg min-h-[4rem]">
+            <!-- Text will be typed here -->
           </blockquote>
         </div>
         

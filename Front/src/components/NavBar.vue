@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { gsap } from 'gsap';
 import AuthModal from './AuthModal.vue';
 import AboutPopup from './AboutPopup.vue';
 import { useRouter } from 'vue-router';
@@ -54,20 +55,48 @@ const handleLogout = () => {
 const goToProfile = () => {
   router.push('/profile');
 };
+
+onMounted(() => {
+  // Animasi untuk logo
+  gsap.from('.nav-logo', {
+    duration: 1,
+    x: -50,
+    opacity: 0,
+    ease: 'power3.out'
+  });
+
+  // Animasi untuk menu items
+  gsap.from('.nav-item', {
+    duration: 0.8,
+    y: 20,
+    opacity: 0,
+    stagger: 0.1,
+    ease: 'power3.out'
+  });
+
+  // Animasi untuk auth buttons
+  gsap.from('.auth-button', {
+    duration: 1,
+    x: 50,
+    opacity: 0,
+    delay: 0.5,
+    ease: 'power3.out'
+  });
+});
 </script>
 
 <template>
   <nav class="bg-white shadow-md py-4 fixed w-full top-0 z-50">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <!-- Logo -->
-      <div class="flex items-center">
+      <div class="flex items-center nav-logo">
         <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-8 mr-2" />
         <div class="font-bold text-2xl text-blue-900">AksiRelawan</div>
       </div>
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <div v-for="item in navItems" :key="item.name" class="relative group">
+        <div v-for="item in navItems" :key="item.name" class="relative group nav-item">
           <router-link 
             v-if="!item.hasPopup"
             :to="item.path"
@@ -92,7 +121,7 @@ const goToProfile = () => {
       </div>
       
       <!-- Auth Buttons -->
-      <div class="flex space-x-4" v-if="!isLoggedIn">
+      <div class="flex space-x-4 auth-button" v-if="!isLoggedIn">
         <button @click="openLoginModal" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
           Masuk
         </button>
@@ -102,7 +131,7 @@ const goToProfile = () => {
       </div>
 
       <!-- Profile Menu -->
-      <div class="flex items-center space-x-4" v-else>
+      <div class="flex items-center space-x-4 auth-button" v-else>
         <button @click="goToProfile" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
           Profil
         </button>

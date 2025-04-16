@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Data kategori dengan gambar
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger)
+
+// Category data with images
 const categories = [
   {
     id: 1,
     title: 'MITIGASI<br>BENCANA &<br>LINGKUNGAN',
     number: '01',
     color: 'purple',
-    image: '/src/assets/images/MitigasiBencana.png', // Gunakan path gambar Anda
+    image: '/src/assets/images/MitigasiBencana.png',
     description: 'Volunteer di bidang mitigasi bencana dan lingkungan berperan dalam upaya pencegahan, kesiapsiagaan, dan pemulihan pasca bencana. Mereka juga terlibat dalam kegiatan konservasi lingkungan dan edukasi masyarakat tentang pentingnya menjaga kelestarian alam.'
   },
   {
@@ -16,7 +21,7 @@ const categories = [
     title: 'PENDIDIKAN &<br>SENI BUDAYA',
     number: '02',
     color: 'blue',
-    image: '/src/assets/images/MitigasiBencana.png', // Ganti dengan gambar yang sesuai
+    image: '/src/assets/images/MitigasiBencana.png',
     description: 'Volunteer di bidang seni dan budaya berperan dalam melestarikan, mengembangkan, dan mempromosikan warisan budaya serta ekspresi seni. Mereka terlibat dalam berbagai kegiatan seperti festival, pameran, lokakarya, dan edukasi untuk memperkaya kehidupan sosial dan memperkuat identitas budaya.'
   },
   {
@@ -24,7 +29,7 @@ const categories = [
     title: 'SOSIAL &<br>KEMANUSIAAN',
     number: '03',
     color: 'green',
-    image: '/src/assets/images/MitigasiBencana.png', // Ganti dengan gambar yang sesuai
+    image: '/src/assets/images/MitigasiBencana.png',
     description: 'Volunteer di bidang sosial dan kemanusiaan fokus pada upaya membantu kelompok rentan dan terpinggirkan. Mereka terlibat dalam berbagai kegiatan seperti distribusi bantuan, pendampingan sosial, dan advokasi untuk meningkatkan kesejahteraan masyarakat yang membutuhkan.'
   },
   {
@@ -32,21 +37,66 @@ const categories = [
     title: 'KESEHATAN',
     number: '04',
     color: 'teal',
-    image: '/src/assets/images/MitigasiBencana.png', // Ganti dengan gambar yang sesuai
+    image: '/src/assets/images/MitigasiBencana.png',
     description: 'Volunteer di bidang kesehatan berperan dalam meningkatkan akses dan kualitas layanan kesehatan. Mereka terlibat dalam kegiatan seperti kampanye kesehatan, edukasi masyarakat, dan pendampingan pasien untuk mendukung kesehatan dan kesejahteraan masyarakat.'
   }
 ]
+
+const sectionRef = ref(null)
+
+onMounted(() => {
+  // Set initial state for title
+  gsap.set('.section-title', {
+    y: 50,
+    opacity: 0
+  })
+
+  // Set initial state for cards
+  gsap.set('.category-card', {
+    y: 100,
+    opacity: 0
+  })
+
+  // Create ScrollTrigger for section title
+  ScrollTrigger.create({
+    trigger: '.section-title',
+    start: 'top 80%',
+    onEnter: () => {
+      gsap.to('.section-title', {
+        duration: 0.3,
+        y: 0,
+        opacity: 1,
+        ease: 'none'
+      })
+    }
+  })
+
+  // Create ScrollTrigger for category cards
+  ScrollTrigger.create({
+    trigger: '.categories-container',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('.category-card', {
+        duration: 0.3,
+        y: 0,
+        opacity: 1,
+        stagger: 0.1,
+        ease: 'none'
+      })
+    }
+  })
+})
 </script>
 
 <template>
-  <div class="mt-24 mb-16">
-    <h2 class="text-5xl font-bold text-center mb-16">KATEGORI</h2>
+  <div ref="sectionRef" class="mt-24 mb-16">
+    <h2 class="section-title text-5xl font-bold text-center mb-16">KATEGORI</h2>
     
-    <!-- Container dengan kategori di tengah -->
+    <!-- Category container centered -->
     <div class="px-4">
-      <!-- Kategori Cards Container -->
+      <!-- Category Cards Container -->
       <div class="flex justify-center flex-wrap gap-8 categories-container">
-        <!-- Kategori Cards -->
+        <!-- Category Cards -->
         <div 
           v-for="category in categories" 
           :key="category.id"
@@ -105,7 +155,7 @@ const categories = [
 </template>
 
 <style scoped>
-/* Warna untuk kategori */
+/* Category colors */
 .bg-purple-900 {
   background-color: #581c87;
 }
@@ -122,14 +172,14 @@ const categories = [
 /* Category card animations */
 .category-card {
   transition: all 0.5s ease;
-  width: 220px; /* Lebar awal yang lebih besar */
-  height: 400px; /* Tinggi yang lebih besar */
+  width: 220px;
+  height: 400px;
   z-index: 1;
 }
 
 .category-card:hover {
-  width: 380px; /* Lebar saat hover yang lebih besar */
-  z-index: 10; /* Meningkatkan z-index agar kartu muncul di atas yang lain */
+  width: 380px;
+  z-index: 10;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
