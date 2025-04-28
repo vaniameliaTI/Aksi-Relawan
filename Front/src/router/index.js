@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/Home.vue';
-import OrganisasiPage from '../components/OrganisasiPage.vue';
+import OrganisasiPage from '../pages/OrganisasiPage.vue';
 import AboutAksiRelawan from '../components/AboutAksiRelawan.vue';
 import Profile from '../components/Profile.vue';
+import Aktivitas from '../pages/Aktivitas.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/aktivitas',
+      name: 'aktivitas',
+      component: Aktivitas
     }
   ]
 });
