@@ -4,6 +4,13 @@ import OrganisasiPage from '../pages/OrganisasiPage.vue';
 import AboutAksiRelawan from '../components/AboutAksiRelawan.vue';
 import Profile from '../components/Profile.vue';
 import Aktivitas from '../pages/Aktivitas.vue';
+import VisiMisiProgram from '../pages/VisiMisiProgram.vue';
+import DonasiPage from '../pages/DonasiPage.vue';
+
+import ContactUs from '../pages/ContactUs.vue';
+import DonasiSekarangPage from '../pages/tentang/donasi/DonasiSekarangPage.vue';
+import LiputanMedia from '../pages/LiputanMedia.vue';
+import Sponsor from '../pages/Sponsor.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +24,36 @@ const router = createRouter({
       path: '/tentang',
       name: 'about',
       component: AboutAksiRelawan
+    },
+    {
+      path: '/tentang/visi-misi-program',
+      name: 'VisiMisiProgram',
+      component: VisiMisiProgram
+    },
+    {
+      path: '/tentang/donasi',
+      name: 'donasi',
+      component: DonasiPage
+    },
+    {
+      path: '/tentang/donasi/donasisekarang',
+      name: 'donasiSekarang',
+      component: DonasiSekarangPage
+    },
+    {
+      path: '/tentang/kontak-kami',
+      name: 'kontakKami',
+      component: ContactUs
+    },
+    {
+      path: '/liputan-media',
+      name: 'liputanMedia',
+      component: LiputanMedia
+    },
+    {
+      path: '/sponsor',
+      name: 'sponsor',
+      component: Sponsor
     },
     {
       path: '/organisasi',

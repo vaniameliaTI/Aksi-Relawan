@@ -24,6 +24,17 @@ const navItems = [
   }
 ];
 
+const handleNavItemClick = (item) => {
+  if (item.path) {
+    if (router.currentRoute.value.path === item.path) {
+      // If clicking the same route, reload the page
+      window.location.reload();
+    } else {
+      router.push(item.path);
+    }
+  }
+};
+
 const openLoginModal = () => {
   authMode.value = 'login';
   showAuthModal.value = true;
@@ -90,8 +101,8 @@ onMounted(() => {
     <div class="container mx-auto px-4 flex justify-between items-center">
       <!-- Logo -->
       <div class="flex items-center nav-logo">
-        <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-8 mr-2" />
-        <div class="font-bold text-2xl text-blue-900">AksiRelawan</div>
+        <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-11 mr-2" />
+        <div class="font-bold text-2xl text-black-800">Aksi Relawan</div>
       </div>
       
       <!-- Navigation Links -->
@@ -101,6 +112,7 @@ onMounted(() => {
             v-if="!item.hasPopup"
             :to="item.path"
             class="text-gray-700 hover:text-blue-900 transition-colors"
+            @click.prevent="handleNavItemClick(item)"
           >
             {{ item.name }}
           </router-link>

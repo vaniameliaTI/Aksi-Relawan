@@ -76,7 +76,7 @@ const searchActivities = () => {
     <div class="container mx-auto px-4 py-8">
       <!-- Header Section -->
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold mb-4">Cari Aktivitas</h1>
+        <h1 class="text-3xl font-bold mb-4 text-center">Cari Aktivitas</h1>
         <p class="text-gray-600">Temukan aktivitas relawan yang sesuai dengan minat dan kemampuan Anda</p>
       </div>
 

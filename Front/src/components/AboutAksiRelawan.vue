@@ -4,7 +4,7 @@
     <div class="container mx-auto px-4 py-8 max-w-4xl">
       <h1 class="text-3xl font-bold text-center mb-8">Aksi Relawan</h1>
       
-      <div class="space-y-6">
+      <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
         <p class="text-gray-700 text-justify">
           Aksi Relawan adalah sebuah platform digital yang dirancang untuk menghubungkan para relawan dengan berbagai 
           kegiatan sosial di seluruh Indonesia. Kami hadir dengan tujuan untuk mempermudah setiap individu, komunitas, dan 
@@ -47,4 +47,4 @@ import Footer from './Footer.vue';
 
 <style scoped>
 /* Jika diperlukan untuk styling tambahan */
-</style> 
+</style>
