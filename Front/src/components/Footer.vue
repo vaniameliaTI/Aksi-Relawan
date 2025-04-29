@@ -2,28 +2,35 @@
 import { ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin'
+import { useRouter } from 'vue-router'
 
 // Register TextPlugin
 gsap.registerPlugin(TextPlugin)
 
 const taglineRef = ref(null)
+const router = useRouter()
+
+const goToTentang = () => {
+  window.location.href = '/tentang'
+}
 
 onMounted(() => {
   // Set initial state
   gsap.set(taglineRef.value, { opacity: 0 })
 
   // Create ScrollTrigger for tagline
-  gsap.to(taglineRef.value, {
+gsap.to(taglineRef.value, {
     opacity: 1,
     duration: 0.5,
     scrollTrigger: {
       trigger: taglineRef.value,
       start: 'top 80%',
       onEnter: () => {
-        // Start typing animation
+        // Start typing animation always
+        gsap.set(taglineRef.value, { text: '' });
         gsap.to(taglineRef.value, {
           duration: 3,
-          text: '"Bergabunglah dengan komunitas relawan untuk menciptakan dampak positif bagi masyarakat. Bersama, kita bisa membawa perubahan!"',
+          text: 'Bergabunglah dengan komunitas relawan untuk menciptakan dampak positif bagi masyarakat. Bersama, kita bisa membawa perubahan!',
           ease: "none"
         })
       }
@@ -37,29 +44,28 @@ onMounted(() => {
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <!-- Kolom 1: Logo dan Tagline -->
-        <div class="space-y-6">
+        <div class="space-y-6 flex flex-col items-start">
           <div class="flex items-center space-x-3">
             <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden">
-              <img src="../assets/images/icons/AksiRelawan.png" alt="Aksi Relawan Logo" class="h-full w-full object-cover" />
+              <img src="../assets/images/icons/AksiRelawan.png" alt="Logo Aksi Relawan" class="h-full w-full object-cover" />
             </div>
-            <h3 class="text-xl font-bold">Aksi Relawan</h3>
+            <h3 class="text-xl font-semibold">Aksi Relawan</h3>
           </div>
           
-          <blockquote ref="taglineRef" class="text-lg min-h-[4rem]">
-            <!-- Text will be typed here -->
+          <blockquote ref="taglineRef" class="text-lg max-w-xs">
+            Bergabunglah dengan komunitas relawan untuk menciptakan dampak positif bagi masyarakat. Bersama, kita bisa membawa perubahan!
           </blockquote>
         </div>
         
         <!-- Kolom 2: Menu Links -->
-        <div class="space-y-4">
-          <h3 class="text-xl font-bold mb-6">Informasi</h3>
-          <ul class="space-y-3">
-            <li><a href="#" class="hover:underline">Tentang Kami</a></li>
-            <li><a href="#" class="hover:underline">Liputan Media</a></li>
-            <li><a href="#" class="hover:underline">Donasi Sekarang</a></li>
-            <li><a href="#" class="hover:underline">Sponsor</a></li>
-            <li><a href="#" class="hover:underline">Kontak Kami</a></li>
-          </ul>
+        <div class="space-y-6 text-left">
+<ul class="space-y-3 ml-10">
+  <li><a href="#" @click.prevent="goToTentang" class="hover:underline cursor-pointer">Tentang Kami</a></li>
+  <li><a href="/liputan-media" class="hover:underline">Liputan Media</a></li>
+  <li><a href="/tentang/donasi" class="hover:underline">Donasi Sekarang</a></li>
+  <li><a href="/sponsor" class="hover:underline">Sponsor</a></li>
+  <li><a href="/tentang/kontak-kami" class="hover:underline">Kontak Kami</a></li>
+</ul>
         </div>
         
         <!-- Kolom 3: Newsletter -->

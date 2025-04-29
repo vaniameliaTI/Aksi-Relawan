@@ -15,12 +15,24 @@ export const testConnection = async () => {
 // Auth APIs
 export const login = (credentials) => api.post('/login', credentials);
 export const register = (userData) => api.post('/register', userData);
-export const logout = () => {
-  // Dengan JWT, kita hanya perlu menghapus token dari localStorage
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  // Redirect ke halaman utama
-  router.push('/');
+export const logout = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      await api.post('/logout', null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (error) {
+    console.error('Error during logout API call:', error);
+  } finally {
+    // Clear local storage and redirect regardless of API call success
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/');
+  }
 };
 
 // User APIs
@@ -43,4 +55,4 @@ export const updateVolunteerStatus = (id, status) => api.put(`api/relawan/${id}/
 // Donation APIs
 export const getDonations = () => api.get('api/donations');
 export const createDonation = (donationData) => api.post('api/donations', donationData);
-export const getDonationById = (id) => api.get(`api/donations/${id}`); 
+export const getDonationById = (id) => api.get(`api/donations/${id}`);
