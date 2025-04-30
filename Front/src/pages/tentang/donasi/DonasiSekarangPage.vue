@@ -87,7 +87,7 @@
   <div class="flex justify-center">
     <button
       type="submit"
-      class="bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors disabled:opacity-50"
+      class="bg-blue-900 text-white px-6 py-3 rounded-full font-semi hover:bg-blue-800 transition-colors disabled:opacity-50"
       :disabled="loading"
     >
       <span v-if="loading">Mengirim...</span>

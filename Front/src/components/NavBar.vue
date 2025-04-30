@@ -72,6 +72,10 @@ const isActive = (item) => {
 };
 
 const isSubMenuActive = (item) => {
+  // Keep active if current route path starts with /tentang for "Tentang Kami" submenu
+  if (item.hasPopup && router.currentRoute.value.path.startsWith('/tentang')) {
+    return true;
+  }
   return showAboutPopup.value && item.hasPopup;
 };
 
@@ -108,22 +112,27 @@ onMounted(() => {
   <nav class="bg-white shadow-md py-4 fixed w-full top-0 z-50">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <!-- Logo -->
-      <div class="flex items-center nav-logo">
+      <a
+        href="#"
+        class="flex items-center nav-logo cursor-pointer"
+        @click.prevent="handleNavItemClick({ path: '/' })"
+      >
         <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-11 mr-2" />
         <div class="font-bold text-2xl text-black-800">Aksi Relawan</div>
-      </div>
+      </a>
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
         <div v-for="item in navItems" :key="item.name" class="relative group nav-item">
-          <router-link 
+          <a
             v-if="!item.hasPopup"
-            :to="item.path"
-            class="text-gray-700 hover:text-blue-900 transition-colors"
+            href="#"
+            class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
             :class="{ active: isActive(item) }"
+            @click.prevent="handleNavItemClick(item)"
           >
             {{ item.name }}
-          </router-link>
+          </a>
           <div v-else>
             <a 
               href="#"

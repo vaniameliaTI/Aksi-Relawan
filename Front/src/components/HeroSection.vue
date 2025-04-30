@@ -83,12 +83,12 @@ onMounted(() => {
       
       <!-- Description -->
       <p class="text-white text-center max-w-2xl mb-16 hero-description">
-        Jangan cuma peduli, tunjukkan aksi nyata dengan menjadi bagian<br>
-        dari perubahan!
+        Jangan cuma peduli, tunjukkan aksi nyata dengan<br>
+         menjadi bagian dari perubahan!
       </p>
 
       <!-- Search Bar Group -->
-      <div class="flex w-full max-w-xl mx-auto mb-24 justify-center">
+      <div class="flex w-full max-w-xl mx-auto mt-8 mb-24 justify-center">
         <button 
           @click="$router.push('/aktivitas')"
           class="h-10 px-12 bg-white text-blue-900 rounded-full whitespace-nowrap flex items-center hero-button shadow-md hover:bg-gray-100 transition-colors"
@@ -124,10 +124,54 @@ onMounted(() => {
   position: relative;
 }
 
+/* New styles for call to action texts */
+.hero-title {
+  font-size: 3.5rem;
+  color: #ffffff; /* White */
+  text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.4);
+  line-height: 1.1;
+}
+
+.typing-text {
+  font-size: 2rem;
+  font-weight: 650;
+  color: #1e3a8a; /* Blue from footer */
+  text-shadow:
+    -1px -1px 0 #ffffff,
+    1px -1px 0 #ffffff,
+    -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff,
+    1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000000; /* Black */
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  text-shadow:
+    -1px -1px 0 #ffffff,
+    1px -1px 0 #ffffff,
+    -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff,
+    1px 1px 2px rgba(0,0,0,0.5);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .hero-container {
     height: 70vh;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .typing-text {
+    font-size: 1.5rem;
+  }
+  .hero-description {
+    font-size: 1rem;
   }
 }
 
