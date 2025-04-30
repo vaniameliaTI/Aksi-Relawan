@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8 bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8">
       <h1 class="text-3xl font-bold text-center mb-8">Visi Misi & Program</h1>
 
       <section class="bg-white p-6 rounded-lg shadow-md">

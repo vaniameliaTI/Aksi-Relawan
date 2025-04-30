@@ -94,8 +94,8 @@ gsap.to(taglineRef.value, {
         </div>
         
         <div class="flex space-x-6 text-sm">
-          <a href="#" class="text-blue-300 hover:underline">Kebijakan Privasi</a>
-          <a href="#" class="text-blue-300 hover:underline">Syarat & Ketentuan</a>
+          <a href="#" class="text-blue-300">Kebijakan Privasi</a>
+          <a href="#" class="text-blue-300">Syarat & Ketentuan</a>
         </div>
       </div>
     </div>
