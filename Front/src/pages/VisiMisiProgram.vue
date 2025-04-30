@@ -40,7 +40,7 @@
         <div class="flex justify-center">
           <button 
             @click="handleClick" 
-            class="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 transition-colors"
+            class="px-6 py-3 bg-blue-900 text-white rounded-full hover:bg-blue-800 transition-colors"
           >
             Cari Organisasi
           </button>

@@ -6,7 +6,7 @@
       <div class="bg-white p-6 rounded-lg shadow-md">
         <form @submit.prevent="submitForm" class="space-y-6">
           <div>
-            <label for="name" class="block text-gray-700 font-medium mb-2">Nama :</label>
+            <label for="name" class="block text-gray-700 font-medium mb-2">Nama </label>
             <input
               id="name"
               v-model="form.name"
@@ -16,7 +16,7 @@
             />
           </div>
           <div>
-            <label for="email" class="block text-gray-700 font-medium mb-2">Alamat Email :</label>
+            <label for="email" class="block text-gray-700 font-medium mb-2">Alamat Email </label>
             <input
               id="email"
               v-model="form.email"
@@ -26,7 +26,7 @@
             />
           </div>
           <div>
-            <label for="subject" class="block text-gray-700 font-medium mb-2">Subjek :</label>
+            <label for="subject" class="block text-gray-700 font-medium mb-2">Subjek </label>
             <input
               id="subject"
               v-model="form.subject"
@@ -36,7 +36,7 @@
             />
           </div>
           <div>
-            <label for="message" class="block text-gray-700 font-medium mb-2">Isi Pesan :</label>
+            <label for="message" class="block text-gray-700 font-medium mb-2">Isi Pesan </label>
             <textarea
               id="message"
               v-model="form.message"
@@ -48,7 +48,7 @@
           <div class="flex justify-end">
             <button
               type="submit"
-              class="bg-blue-900 text-white px-6 py-2 rounded hover:bg-blue-800 transition-colors"
+              class="bg-blue-900 text-white px-6 py-2 rounded-full hover:bg-blue-800 transition-colors"
             >
               Kirim
             </button>
@@ -59,20 +59,28 @@
       <!-- Info Section -->
       <div class="bg-white p-6 rounded-lg shadow-md mt-8 flex justify-center">
         <div>
-          <ul class="flex space-x-8 justify-center text-gray-700">
-            <li class="flex items-center space-x-2">
-              <img :src="pinIcon" alt="Alamat" class="w-8 h-8" />
-              <span>Volunteer Hub Magelang, Jl. Panglima Polim V No. 60, Magelang Utara 12160</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <img :src="whatsappIcon" alt="Nomor" class="w-7 h-7" />
-              <span>+62 1122 3341 40</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <img :src="mailIcon" alt="Email" class="w-7 h-7" />
-              <span>kontak@aksirelawan.org</span>
-            </li>
-          </ul>
+      <ul class="flex space-x-8 justify-center text-gray-700">
+        <li class="flex items-center space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span>Volunteer Hub Magelang, Jl. Panglima Polim V No. 60, Magelang Utara 12160</span>
+        </li>
+        <li class="flex items-center space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          <span>+62 1122 3341 40</span>
+        </li>
+        <li class="flex items-center space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M3 5h18a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2z" />
+            <path d="M3 7l9 6 9-6" />
+          </svg>
+          <span>kontak@aksirelawan.org</span>
+        </li>
+      </ul>
         </div>
       </div>
 

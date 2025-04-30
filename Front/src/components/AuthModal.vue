@@ -31,34 +31,34 @@
         </h2>
         
         <!-- Login Form -->
-        <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-5">
+        <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-6">
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              id="email"
-              v-model="loginForm.email"
-              type="email"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="email@contoh.com"
-            />
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input
+            id="email"
+            v-model="loginForm.email"
+            type="email"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="email@contoh.com"
+          />
           </div>
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              id="password"
-              v-model="loginForm.password"
-              type="password"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="••••••••"
-            />
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input
+            id="password"
+            v-model="loginForm.password"
+            type="password"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="••••••••"
+          />
           </div>
           <div class="pt-2">
             <button
               type="submit"
               :disabled="loading"
-              class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            class="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-3xl shadow-lg text-base font-semibold text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-blue-900 transition-colors"
             >
               <svg v-if="loading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -73,84 +73,84 @@
         </form>
         
         <!-- Register Form -->
-        <form v-else @submit.prevent="handleRegister" class="space-y-5">
+        <form v-else @submit.prevent="handleRegister" class="space-y-6">
           <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-            <input
-              id="username"
-              v-model="registerForm.username"
-              type="text"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="Nama Anda"
-            />
+          <label for="username" class="block text-sm font-semibold text-gray-800 mb-2">Nama Lengkap</label>
+          <input
+            id="username"
+            v-model="registerForm.username"
+            type="text"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="Nama Anda"
+          />
           </div>
           <div>
-            <label for="reg-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              id="reg-email"
-              v-model="registerForm.email"
-              type="email"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="email@contoh.com"
-            />
+          <label for="reg-email" class="block text-sm font-semibold text-gray-800 mb-2">Email</label>
+          <input
+            id="reg-email"
+            v-model="registerForm.email"
+            type="email"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="email@contoh.com"
+          />
           </div>
           <div>
-            <label for="reg-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              id="reg-password"
-              v-model="registerForm.password"
-              type="password"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="••••••••"
-            />
+          <label for="reg-password" class="block text-sm font-semibold text-gray-800 mb-2">Password</label>
+          <input
+            id="reg-password"
+            v-model="registerForm.password"
+            type="password"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="••••••••"
+          />
           </div>
           <div>
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
-            <input
-              id="password_confirmation"
-              v-model="registerForm.password_confirmation"
-              type="password"
-              required
-              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              placeholder="••••••••"
-            />
+          <label for="password_confirmation" class="block text-sm font-semibold text-gray-800 mb-2">Konfirmasi Password</label>
+          <input
+            id="password_confirmation"
+            v-model="registerForm.password_confirmation"
+            type="password"
+            required
+            class="mt-1 block w-full px-5 py-3 border border-black rounded-3xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-700 focus:border-blue-700 transition-all"
+            placeholder="••••••••"
+          />
           </div>
-          <div class="pt-2">
-            <button
-              type="submit"
-              :disabled="loading"
-              class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-            >
-              <svg v-if="loading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <div class="pt-3">
+          <button
+            type="submit"
+            :disabled="loading"
+            class="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-3xl shadow-lg text-base font-semibold text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-blue-900 transition-colors"
+          >
+              <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               <span>{{ loading ? 'Memproses...' : 'Daftar Sekarang' }}</span>
             </button>
           </div>
-          <div v-if="error" class="text-red-500 text-center text-sm py-2 px-3 bg-red-50 rounded-lg">
+          <div v-if="error" class="text-red-600 text-center text-sm py-2 px-3 bg-red-100 rounded-xl">
             {{ error }}
           </div>
         </form>
         
         <!-- Toggle between login and register -->
-        <div class="mt-6 text-center text-sm text-gray-600">
-          <span v-if="mode === 'login'">
-            Belum punya akun? 
-            <a href="#" @click.prevent="mode = 'register'" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
-              Daftar di sini
-            </a>
-          </span>
-          <span v-else>
-            Sudah punya akun? 
-            <a href="#" @click.prevent="mode = 'login'" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
-              Masuk di sini
-            </a>
-          </span>
-        </div>
+          <div class="mt-6 text-center text-sm text-gray-600">
+            <span v-if="mode === 'login'">
+              Belum punya akun? 
+              <a href="#" @click.prevent="mode = 'register'" class="font-medium text-blue-900 hover:text-blue-800 transition-colors">
+                Daftar di sini
+              </a>
+            </span>
+            <span v-else>
+              Sudah punya akun? 
+              <a href="#" @click.prevent="mode = 'login'" class="font-medium text-blue-900 hover:text-blue-800 transition-colors">
+                Masuk di sini
+              </a>
+            </span>
+          </div>
       </div>
     </div>
   </div>

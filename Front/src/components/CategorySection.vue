@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useRouter } from 'vue-router'
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
@@ -43,6 +44,13 @@ const categories = [
 ]
 
 const sectionRef = ref(null)
+const router = useRouter()
+
+const goToOrganisasi = (categoryTitle) => {
+  // Remove HTML tags from title for query param
+  const plainCategory = categoryTitle.replace(/<br>/g, ' ').replace(/<\/?[^>]+(>|$)/g, "").trim()
+  router.push({ name: 'Cari Organisasi', query: { kategori: plainCategory } })
+}
 
 onMounted(() => {
   // Set initial state for title
@@ -90,12 +98,12 @@ onMounted(() => {
 
 <template>
   <div ref="sectionRef" class="mt-24 mb-16">
-    <h2 class="section-title text-5xl font-bold text-center mb-16">KATEGORI</h2>
+<h2 class="section-title text-4xl font-bold text-center mb-16">Kategori Kegiatan</h2>
     
     <!-- Category container centered -->
     <div class="px-4">
       <!-- Category Cards Container -->
-      <div class="flex justify-center flex-wrap gap-8 categories-container">
+      <div class="flex justify-center flex-wrap gap-8 categories-container" style="overflow: hidden; scrollbar-width: none; -ms-overflow-style: none; overflow-y: hidden;">
         <!-- Category Cards -->
         <div 
           v-for="category in categories" 
@@ -139,14 +147,15 @@ onMounted(() => {
             ></div>
             
             <!-- Description -->
-            <p class="text-white text-sm mb-6 overflow-y-auto max-h-48">{{ category.description }}</p>
+            <p class="text-white text-sm mb-6 max-h-48 overflow-hidden">{{ category.description }}</p>
             
             <!-- Button -->
-            <button 
-              class="mt-auto px-6 py-3 rounded-lg font-bold self-start bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-            >
-              Pilih Organisasi
-            </button>
+<button 
+  class="mt-auto px-6 py-3 rounded-full font-bold self-start bg-white text-blue-900 hover:bg-gray-100 transition-colors"
+  @click="goToOrganisasi(category.title)"
+>
+  Pilih Organisasi
+</button>
           </div>
         </div>
       </div>
@@ -155,18 +164,32 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Category colors */
+/* Hide scrollbar for Firefox */
+.categories-container {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+.categories-container {
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.categories-container::-webkit-scrollbar {
+  display: none;
+}
+/* Category colors updated to match footer blue color palette */
 .bg-purple-900 {
-  background-color: #581c87;
+  background-color: #1e3a8a; /* changed to footer bg-blue-900 */
 }
 .bg-blue-900 {
-  background-color: #1e3a8a;
+  background-color: #134e4a; /* changed to footer border-blue-800 */
 }
 .bg-green-900 {
-  background-color: #14532d;
+  background-color: #1e40af; /* a blue shade for variety */
 }
 .bg-teal-900 {
-  background-color: #134e4a;
+  background-color: #2563eb; /* a lighter blue shade */
 }
 
 /* Category card animations */

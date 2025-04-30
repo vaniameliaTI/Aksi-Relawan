@@ -67,6 +67,14 @@ const goToProfile = () => {
   router.push('/profile');
 };
 
+const isActive = (item) => {
+  return router.currentRoute.value.path === item.path;
+};
+
+const isSubMenuActive = (item) => {
+  return showAboutPopup.value && item.hasPopup;
+};
+
 onMounted(() => {
   // Animasi untuk logo
   gsap.from('.nav-logo', {
@@ -112,52 +120,47 @@ onMounted(() => {
             v-if="!item.hasPopup"
             :to="item.path"
             class="text-gray-700 hover:text-blue-900 transition-colors"
-            @click.prevent="handleNavItemClick(item)"
+            :class="{ active: isActive(item) }"
           >
             {{ item.name }}
           </router-link>
-          <a 
-            v-else
-            href="#"
-            class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
-            @mouseenter="showAboutPopup = true"
-          >
-            {{ item.name }}
-          </a>
-          <AboutPopup 
-            v-if="item.hasPopup && showAboutPopup" 
-            @close="showAboutPopup = false"
-            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
-          />
+          <div v-else>
+            <a 
+              href="#"
+              class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
+              :class="{ active: isSubMenuActive(item) }"
+              @mouseenter="showAboutPopup = true"
+            >
+              {{ item.name }}
+            </a>
+            <AboutPopup 
+              v-if="item.hasPopup && showAboutPopup" 
+              @close="showAboutPopup = false"
+              class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+            />
+          </div>
         </div>
       </div>
       
       <!-- Auth Buttons -->
       <div class="flex space-x-4 auth-button" v-if="!isLoggedIn">
-        <button @click="openLoginModal" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
+        <button @click="openLoginModal" class="btn-login">
           Masuk
         </button>
-        <button @click="openRegisterModal" class="px-4 py-2 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors">
+        <button @click="openRegisterModal" class="btn-register">
           Daftar
         </button>
       </div>
 
       <!-- Profile Menu -->
       <div class="flex items-center space-x-4 auth-button" v-else>
-        <button @click="goToProfile" class="px-4 py-2 text-blue-900 font-medium hover:text-blue-700 transition-colors">
+        <button @click="goToProfile" class="px-4 py-2 text-blue-900 font-medium rounded-lg hover:text-blue-700 transition-colors">
           Profil
         </button>
         <button @click="handleLogout" class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">
           Keluar
         </button>
       </div>
-      
-      <!-- Mobile Menu Button -->
-      <button class="md:hidden text-gray-700">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
     </div>
   </nav>
   
@@ -174,16 +177,101 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.text-blue-900 {
-  color: #1e3a8a;
+/* Default style for navbar links */
+.nav-item a {
+  position: relative; /* Dibutuhkan untuk pseudo-element */
+  text-decoration: none; /* Hilangkan underline default */
+  color: #000000; /* Warna teks tetap hitam */
+  font-weight: 400; /* Berat font default */
+  transition: color 0.3s ease; /* Transisi untuk warna teks */
 }
-.bg-blue-900 {
-  background-color: #1e3a8a;
+
+/* Pseudo-element for underline */
+.nav-item a::after {
+  content: ''; /* Pseudo-element kosong */
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Jarak underline dari teks */
+  width: 0; /* Awalnya tidak terlihat */
+  height: 2px; /* Ketebalan underline */
+  background-color: black; /* Warna garis bawah */
+  transition: width 0.3s ease; /* Transisi untuk animasi */
 }
-.hover\:bg-blue-800:hover {
-  background-color: #1e40af;
+
+/* Hover effect for navbar links */
+.nav-item a:hover {
+  color: #000000; /* Warna teks tetap hitam saat hover */
 }
-.hover\:text-blue-700:hover {
-  color: #1d4ed8;
+
+.nav-item a:hover::after {
+  width: 100%; /* Underline meluas ke seluruh teks */
+}
+
+/* Active link style */
+.nav-item a.active {
+  color: #000000; /* Warna teks tetap hitam */
+}
+
+.nav-item a.active::after {
+  width: 100%; /* Garis bawah penuh untuk link aktif */
+}
+
+/* Style for "Masuk" and "Daftar" buttons */
+.auth-button button {
+  display: inline-block; /* Membuat tombol hanya selebar kontennya */
+  padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
+  background-color: transparent; /* Latar belakang transparan */
+  color: #000000; /* Warna teks default (hitam) */
+  font-size: 1rem; /* Ukuran font */
+  font-weight: 500; /* Berat font default */
+  text-align: center; /* Teks rata tengah */
+  border: none; /* Hilangkan border default */
+  cursor: pointer; /* Menunjukkan tombol dapat diklik */
+  transition: color 0.3s ease; /* Transisi untuk warna teks */
+}
+
+/* Hover effect for "Masuk" and "Daftar" buttons */
+.auth-button button:hover {
+  color: #000000; /* Warna teks tetap hitam saat hover */
+}
+
+/* Style for "Masuk" button */
+.auth-button .btn-login {
+  display: inline-block; /* Membuat tombol hanya selebar kontennya */
+  padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
+  background-color: transparent; /* Latar belakang transparan */
+  color: #1e3a8a; /* Warna teks biru (default) */
+  font-size: 1rem; /* Ukuran font */
+  font-weight: 500; /* Berat font default */
+  text-align: center; /* Teks rata tengah */
+  border: none; /* Hilangkan border default */
+  cursor: pointer; /* Menunjukkan tombol dapat diklik */
+  transition: color 0.3s ease; /* Transisi untuk warna teks */
+}
+
+/* Hover effect for "Masuk" button */
+.auth-button .btn-login:hover {
+  color: #000000; /* Warna teks berubah menjadi hitam saat hover */
+}
+
+/* Style for "Daftar" button */
+.auth-button .btn-register {
+  display: inline-block; /* Membuat tombol hanya selebar kontennya */
+  padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
+  background-color: #1e3a8a; /* Warna latar belakang biru (default) */
+  color: #ffffff; /* Warna teks putih */
+  font-size: 1rem; /* Ukuran font */
+  font-weight: 500; /* Berat font default */
+  text-align: center; /* Teks rata tengah */
+  border: none; /* Hilangkan border default */
+  border-radius: 9999px; /* Membuat tombol berbentuk pill */
+  cursor: pointer; /* Menunjukkan tombol dapat diklik */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk warna */
+}
+
+/* Hover effect for "Daftar" button */
+.auth-button .btn-register:hover {
+  background-color: #000000; /* Warna latar belakang berubah menjadi hitam saat hover */
+  color: #ffffff; /* Warna teks tetap putih saat hover */
 }
 </style>
