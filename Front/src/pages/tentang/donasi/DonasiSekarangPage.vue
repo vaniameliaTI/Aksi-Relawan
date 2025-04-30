@@ -41,7 +41,7 @@
       <option :value="200000">Rp 200.000</option>
       <option :value="225000">Rp 225.000</option>
       <option :value="250000">Rp 250.000</option>
-      <option value="other">Isi Manual Nominal Donasi</option>
+      <option value="other">Isi manual nominal donasi</option>
     </select>
     <p v-if="errors.amount" id="amountError" class="text-red-600 text-sm mt-1">{{ errors.amount }}</p>
     <div v-if="form.amount === 'other'" class="mt-2">

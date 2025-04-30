@@ -21,7 +21,12 @@
         </p>
 
         <div class="text-center">
-          <router-link to="/visi-misi" class="text-blue-600 hover:text-blue-800 underline">Baca Lebih Lanjut Mengenai Misi Kami</router-link>
+          <router-link 
+            :to="{ name: 'VisiMisiProgram' }" 
+            class="text-blue-900 hover:text-blue-700 underline"
+          >
+            Baca Lebih Lanjut Mengenai Misi Kami
+          </router-link>
         </div>
 
         <div class="mt-8">
@@ -31,7 +36,12 @@
             class="w-full rounded-lg shadow-lg object-cover h-[400px]"
           />
           <div class="text-center mt-4">
-            <router-link to="/tim" class="text-blue-600 hover:text-blue-800 underline">Kenali Lebih Dekat dengan Tim Aksi Relawan</router-link>
+            <router-link 
+              :to="{ name: 'TimAksiRelawan' }" 
+              class="text-blue-900 hover:text-blue-700 underline"
+            >
+              Kenali Lebih Dekat dengan Tim Aksi Relawan
+            </router-link>
           </div>
         </div>
       </div>

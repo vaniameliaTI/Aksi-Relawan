@@ -88,34 +88,16 @@ onMounted(() => {
       </p>
 
       <!-- Search Bar Group -->
-      <div class="flex w-full max-w-xl mx-auto mb-24">
-        <div class="flex-1 relative bg-white rounded-l-lg">
-          <select class="w-full h-10 px-4 py-2 appearance-none bg-transparent">
-            <option value="" disabled selected>Pilih Lokasi</option>
-          </select>
-          <div class="absolute right-3 top-1/2 -translate-y-1/2">
-            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        
-        <div class="flex-1 relative bg-white">
-          <select class="w-full h-10 px-4 py-2 appearance-none bg-transparent">
-            <option value="" disabled selected>Pilih Kategori</option>
-          </select>
-          <div class="absolute right-3 top-1/2 -translate-y-1/2">
-            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        
-        <button class="h-10 px-6 bg-blue-900 text-white rounded-r-lg whitespace-nowrap flex items-center hero-button">
+      <div class="flex w-full max-w-xl mx-auto mb-24 justify-center">
+        <button 
+          @click="$router.push('/aktivitas')"
+          class="h-10 px-12 bg-white text-blue-900 rounded-full whitespace-nowrap flex items-center hero-button shadow-md hover:bg-gray-100 transition-colors"
+          aria-label="Cari Aktivitas"
+        >
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          Cari Aksi
+          Temukan Tempat di Mana Kepedulian Anda Dibutuhkan
         </button>
       </div>
     </div>

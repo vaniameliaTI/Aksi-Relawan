@@ -1,73 +1,32 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
+import { useActivities } from '../composables/useActivities.js'
 
-// Data aktivitas (sementara menggunakan data dummy)
-const activities = [
-  {
-    id: 1,
-    title: 'Relawan Edukasi Mitigasi Bencana',
-    organization: 'Badan Nasional Penanggulangan Bencana (BNPB)',
-    date: '21 Maret 2025',
-    location: 'Jakarta, Indonesia',
-    image: '/src/assets/images/Aksi.png',
-    categories: ['Event', 'Mitigasi Bencana']
-  },
-  {
-    id: 2,
-    title: 'Aksi Hijau untuk Bumi',
-    organization: 'Organisasi Peduli Lingkungan',
-    date: '25 Maret 2025',
-    location: 'Kota Yogyakarta',
-    image: '/src/assets/images/Aksi.png',
-    categories: ['Event', 'Lingkungan']
-  },
-  {
-    id: 3,
-    title: 'Relawan Pengajar',
-    organization: 'Sobat Mengajar',
-    date: '2 Maret 2025',
-    location: 'Kota Surabaya',
-    image: '/src/assets/images/Aksi.png',
-    categories: ['Event', 'Pendidikan']
-  }
-]
+const { activities } = useActivities()
 
-// State untuk filter dan pencarian
-const selectedLocation = ref('')
-const selectedCategory = ref('')
-const filteredActivities = ref(activities)
+const localSearchInput = ref('')
+const searchQuery = ref('')
 
-// Daftar lokasi (contoh)
-const locations = [
-  'Jakarta',
-  'Yogyakarta',
-  'Surabaya',
-  'Bandung',
-  'Semarang',
-  'Malang'
-]
+const localLocationInput = ref('')
+const locationQuery = ref('')
 
-// Daftar kategori
-const categories = [
-  'Event',
-  'Mitigasi Bencana',
-  'Lingkungan',
-  'Pendidikan',
-  'Kesehatan'
-]
-
-// Filter aktivitas berdasarkan lokasi dan kategori
-const searchActivities = () => {
-  filteredActivities.value = activities.filter(activity => {
-    const matchesLocation = !selectedLocation.value || 
-                          activity.location.toLowerCase().includes(selectedLocation.value.toLowerCase())
-    const matchesCategory = !selectedCategory.value || 
-                          activity.categories.includes(selectedCategory.value)
-    return matchesLocation && matchesCategory
-  })
+const applySearch = () => {
+  searchQuery.value = localSearchInput.value.trim()
+  locationQuery.value = localLocationInput.value.trim()
 }
+
+const filteredActivitiesLocal = computed(() => {
+  const query = searchQuery.value.toLowerCase()
+  const location = locationQuery.value.toLowerCase()
+
+  return activities.value.filter(activity => {
+    const matchesSearch = !query || activity.title.toLowerCase().includes(query) || activity.organization.toLowerCase().includes(query)
+    const matchesLocation = !location || activity.location.toLowerCase().includes(location)
+    return matchesSearch && matchesLocation
+  })
+})
 </script>
 
 <template>
@@ -75,64 +34,46 @@ const searchActivities = () => {
     <NavBar />
     <div class="container mx-auto px-4 py-8">
       <!-- Header Section -->
-      <div class="text-center mb-12">
+      <div class="text-center mb-8">
         <h1 class="text-3xl font-bold mb-4 text-center">Cari Aktivitas</h1>
-        <p class="text-gray-600">Temukan aktivitas relawan yang sesuai dengan minat dan kemampuan Anda</p>
+        <p class="text-gray-600 mb-8">Temukan berbagai aktivitas relawan yang sesuai dengan minat, waktu luang, dan lokasi Anda. Gunakan fitur pencarian dan filter untuk menelusuri kegiatan sosial, lingkungan, pendidikan, hingga kemanusiaan. Pilih aktivitas yang paling relevan, dan berkontribusilah secara langsung untuk menciptakan perubahan positif di masyarakat.</p>
       </div>
 
-      <!-- Search and Filter Section -->
+      <!-- Search Form -->
       <div class="max-w-4xl mx-auto mb-12">
-        <div class="flex gap-2 bg-white rounded-lg shadow-sm p-1">
-          <!-- Location Dropdown -->
-          <div class="flex-1">
-            <select
-              v-model="selectedLocation"
-              class="w-full px-4 py-2.5 rounded-lg bg-white border-none focus:outline-none focus:ring-0 text-gray-700"
-            >
-              <option value="" disabled selected>Pilih Lokasi</option>
-              <option v-for="location in locations" :key="location" :value="location">
-                {{ location }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Divider -->
-          <div class="w-px bg-gray-200"></div>
-
-          <!-- Category Dropdown -->
-          <div class="flex-1">
-            <select
-              v-model="selectedCategory"
-              class="w-full px-4 py-2.5 rounded-lg bg-white border-none focus:outline-none focus:ring-0 text-gray-700"
-            >
-              <option value="" disabled selected>Pilih Kategori</option>
-              <option v-for="category in categories" :key="category" :value="category">
-                {{ category }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Search Button -->
+<form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-3/4 mx-auto">
+          <input
+            v-model="localSearchInput"
+            type="text"
+            placeholder="Cari aktivitas..."
+            class="flex-grow px-4 py-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-sm"
+          />
+          <input
+            v-model="localLocationInput"
+            type="text"
+            placeholder="Cari lokasi..."
+            class="flex-grow px-4 py-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-sm"
+          />
           <button
-            @click="searchActivities"
-            class="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+            type="submit"
+            class="px-6 py-2 bg-blue-900 text-white font-medium rounded-full hover:bg-blue-800 transition-colors text-sm"
           >
             <span class="flex items-center">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              Cari Aksi
+              Cari
             </span>
           </button>
-        </div>
+        </form>
       </div>
 
       <!-- Activities Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="activity in filteredActivities"
+          v-for="activity in filteredActivitiesLocal"
           :key="activity.id"
-          class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+          class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 max-w-sm mx-auto"
         >
           <!-- Image -->
           <div class="h-48 overflow-hidden">
@@ -185,7 +126,7 @@ const searchActivities = () => {
             </div>
 
             <!-- Action Button -->
-            <button class="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button class="mt-6 w-full py-2 bg-blue-900 text-white rounded-full hover:bg-blue-800 transition-colors">
               Lihat Detail
             </button>
           </div>
@@ -197,17 +138,20 @@ const searchActivities = () => {
 </template>
 
 <style scoped>
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
+/* Slightly larger font size for activity card text */
+.p-6 {
+  font-size: 0.875rem;
 }
 
-select:focus {
-  box-shadow: none;
-  border-color: transparent;
+.p-6 h3 {
+  font-size: 1rem;
 }
-</style> 
+
+.p-6 p {
+  font-size: 0.875rem;
+}
+
+.p-6 .flex.flex-wrap.gap-2.mb-3 span {
+  font-size: 0.75rem;
+}
+</style>

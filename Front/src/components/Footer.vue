@@ -59,13 +59,13 @@ gsap.to(taglineRef.value, {
         
         <!-- Kolom 2: Menu Links -->
         <div class="space-y-6 text-left">
-<ul class="space-y-3 ml-10">
-  <li><a href="#" @click.prevent="goToTentang" class="hover:underline cursor-pointer">Tentang Kami</a></li>
-  <li><a href="/liputan-media" class="hover:underline">Liputan Media</a></li>
-  <li><a href="/tentang/donasi" class="hover:underline">Donasi Sekarang</a></li>
-  <li><a href="/sponsor" class="hover:underline">Sponsor</a></li>
-  <li><a href="/tentang/kontak-kami" class="hover:underline">Kontak Kami</a></li>
-</ul>
+          <ul class="space-y-3 ml-10">
+            <li><a href="#" @click.prevent="goToTentang" class="cursor-pointer">Tentang Kami</a></li>
+            <li><a href="/liputan-media">Liputan Media</a></li>
+            <li><a href="/tentang/donasi">Donasi Sekarang</a></li>
+            <li><a href="/sponsor">Sponsor</a></li>
+            <li><a href="/tentang/kontak-kami">Kontak Kami</a></li>
+          </ul>
         </div>
         
         <!-- Kolom 3: Newsletter -->
@@ -77,10 +77,10 @@ gsap.to(taglineRef.value, {
             <input 
               type="email" 
               placeholder="Alamat Email" 
-              class="w-full px-4 py-3 rounded-lg bg-blue-800 border border-blue-700 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-4 py-3 rounded-full bg-blue-800 border border-blue-700 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             
-            <button class="w-full py-3 bg-white text-blue-900 font-medium rounded-lg hover:bg-gray-100 transition-colors">
+            <button class="w-full py-3 bg-white text-blue-900 font-medium rounded-full hover:bg-gray-100 transition-colors">
               Dapatkan
             </button>
           </div>
@@ -103,4 +103,32 @@ gsap.to(taglineRef.value, {
 </template>
 
 <style scoped>
+/* Link default */
+footer a {
+  position: relative; /* Dibutuhkan untuk pseudo-element */
+  text-decoration: none; /* Hilangkan underline default */
+  color: #ffffff; /* Warna teks tetap putih */
+  transition: color 0.3s ease; /* Transisi warna teks */
+}
+
+/* Pseudo-element untuk underline */
+footer a::after {
+  content: ''; /* Pseudo-element kosong */
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Jarak underline dari teks */
+  width: 0; /* Awalnya tidak terlihat */
+  height: 2px; /* Ketebalan underline */
+  background-color: currentColor; /* Warna mengikuti teks */
+  transition: width 0.3s ease; /* Transisi untuk animasi */
+}
+
+/* Hover effect */
+footer a:hover {
+  color: #ffffff; /* Warna teks tetap putih saat hover */
+}
+
+footer a:hover::after {
+  width: 100%; /* Underline meluas ke seluruh teks */
+}
 </style>

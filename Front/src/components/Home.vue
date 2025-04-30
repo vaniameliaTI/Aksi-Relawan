@@ -5,6 +5,11 @@
       <HeroSection />
       <FeatureCards />
       <CategorySection />
+
+      <!-- New Section: Peluang Bagi Anda untuk Membantu -->
+      <!-- Removed as per user request -->
+      <!-- Section removed -->
+
       <AksiSection />
     </div>
     <Review />
@@ -14,6 +19,7 @@
 
 <script>
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import NavBar from './NavBar.vue';
 import HeroSection from './HeroSection.vue';
 import FeatureCards from './FeatureCards.vue';
@@ -22,6 +28,7 @@ import AksiSection from './AksiSection.vue';
 import Review from './Review.vue';
 import Footer from './Footer.vue';
 import { testConnection } from '../services/api';
+import { useActivities } from '../composables/useActivities.js';
 
 export default {
   name: 'Home',
@@ -35,6 +42,15 @@ export default {
     Footer
   },
   setup() {
+    const router = useRouter();
+    const {
+      activities
+    } = useActivities();
+
+    const goToAktivitas = () => {
+      router.push('/aktivitas');
+    };
+
     onMounted(async () => {
       try {
         const result = await testConnection();
@@ -46,6 +62,11 @@ export default {
         alert('Gagal terhubung ke backend. Silakan periksa koneksi Anda.');
       }
     });
+
+    return {
+      activities,
+      goToAktivitas
+    };
   }
 };
-</script> 
+</script>

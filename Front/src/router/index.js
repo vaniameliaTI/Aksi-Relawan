@@ -70,6 +70,11 @@ const router = createRouter({
       path: '/aktivitas',
       name: 'aktivitas',
       component: Aktivitas
+    },
+    {
+      path: '/tentang/tim-aksi-relawan',
+      name: 'TimAksiRelawan',
+      component: () => import('../pages/tentang/TimAksiRelawan.vue')
     }
   ]
 });

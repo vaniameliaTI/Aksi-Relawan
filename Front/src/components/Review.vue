@@ -9,19 +9,16 @@ gsap.registerPlugin(ScrollTrigger)
 const reviews = [
   {
     title: "PARTNERSHIP",
-    subtitle: "Partnership",
     image: '/src/assets/images/icon review/Logo1.png',
     text: "Aksi Relawan adalah platform yang sangat membantu dalam menghubungkan organisasi dengan volunteer secara efektif. Dengan tampilan yang intuitif dan fitur pendaftaran berbasis minat, website ini mempermudah relawan menemukan peluang yang sesuai, sementara sistem verifikasi organisasi memastikan kepercayaan dan transparansi. Sangat direkomendasikan bagi siapa saja yang ingin berkontribusi dalam kegiatan sosial"
   },
   {
     title: "INGOUDE COMPANY",
-    subtitle: "Ingoude Company",
     image: '/src/assets/images/icon review/Logo2.png',
     text: "Aksi Relawan adalah solusi terbaik bagi organisasi yang ingin menjangkau lebih banyak volunteer dengan mudah. Proses pendaftaran yang sederhana dan sistem verifikasi organisasi membuat platform ini terpercaya dan nyaman digunakan. Sebuah inovasi yang sangat bermanfaat bagi komunitas sosial!"
   },
   {
     title: "TEAMWORK",
-    subtitle: "Teamwork",
     image: '/src/assets/images/icon review/Logo3.png',
     text: "Website Aksi Relawan sangat memudahkan relawan dalam menemukan kegiatan yang sesuai dengan minat dan keterampilan mereka. Antarmukanya bersih, informatif, dan responsif, menjadikannya pilihan utama bagi siapa saja yang ingin berkontribusi dalam aksi sosial!"
   }
@@ -77,18 +74,13 @@ onMounted(() => {
 <template>
   <section class="py-16">
     <div class="container mx-auto px-4">
-      <h2 ref="titleRef" class="text-4xl font-bold text-center mb-16">Review</h2>
+<h2 ref="titleRef" class="text-4xl font-bold text-center mb-16">Review</h2>
       <div ref="reviewsRef" class="grid grid-cols-1 md:grid-cols-3 gap-8 reviews-container max-w-6xl mx-auto">
         <div
           v-for="(review, index) in reviews"
           :key="index"
           class="review-card bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center"
         >
-          <!-- Subtitle (normal case) -->
-          <h3 class="text-gray-800 text-xl mb-4 text-center">
-            {{ review.subtitle }}
-          </h3>
-          
           <!-- Image -->
           <img 
             :src="review.image" 
@@ -96,8 +88,8 @@ onMounted(() => {
             class="w-16 h-16 object-contain mb-6"
           />
           
-          <!-- Title (uppercase) -->
-          <h4 class="text-blue-600 font-bold text-lg mb-4 text-center tracking-wide">
+          <!-- Title (black text) -->
+          <h4 class="text-black font-bold text-lg mb-4 text-center tracking-wide">
             {{ review.title }}
           </h4>
           
