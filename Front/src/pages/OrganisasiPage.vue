@@ -2,8 +2,8 @@
   <div>
     <NavBar />
     <div class="container mx-auto py-8">
-      <h1 class="text-3xl font-bold mb-4 text-center">Cari Organisasi</h1>
-      <p class="text-gray-600 mb-8">Jelajahi berbagai organisasi yang membuka kesempatan bagi relawan untuk terlibat dalam program-program mereka. Dapatkan informasi mengenai visi, misi, dan fokus kegiatan dari setiap organisasi. Dengan bergabung bersama organisasi yang sejalan dengan nilai Anda, peran relawan dapat dijalankan secara lebih bermakna dan berkelanjutan.</p>
+<h1 class="text-3xl font-bold mb-4 text-center" style="color: #000000;">Cari Organisasi</h1>
+      <p class="mb-8">Jelajahi berbagai organisasi yang membuka kesempatan bagi relawan untuk terlibat dalam program-program mereka. Dapatkan informasi mengenai visi, misi, dan fokus kegiatan dari setiap organisasi. Dengan bergabung bersama organisasi yang sejalan dengan nilai Anda, peran relawan dapat dijalankan secara lebih bermakna dan berkelanjutan.</p>
       <div class="max-w-4xl mx-auto mb-12">
         <form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-1/2 mx-auto">
           <input
@@ -35,15 +35,18 @@
             class="w-16 h-16 object-contain mb-2"
           />
           <div>
-            <h2 class="font-bold">{{ org.nama }}</h2>
-            <p class="text-sm text-gray-600">{{ org.kategori }}</p>
+            <h2 class="font-bold" style="color: #000000;">{{ org.nama }}</h2>
+<p class="text-sm">{{ org.kategori }}</p>
             <p>Email: {{ org.email }}</p>
             <p>No Telepon: {{ org.no_telp }}</p>
           </div>
         </div>
-        <div v-if="!showAll && filteredOrganizations.length > 1" class="col-span-full text-center">
-          <button class="show-all-button rounded-lg" @click="showAll = true">Show All</button>
-        </div>
+      <div v-if="!showAll && filteredOrganizations.length > 1" class="col-span-full text-center">
+        <button class="show-all-button rounded-lg" @click="showAll = true">Show All</button>
+      </div>
+      <div v-else-if="showAll" class="col-span-full text-center">
+        <button class="show-all-button rounded-lg" @click="showAll = false">Show Less</button>
+      </div>
       </div>
     </div>
     <Footer />
@@ -208,7 +211,7 @@ const displayedOrganizations = computed(() => {
   if (showAll.value) {
     return filteredOrganizations.value;
   } else {
-    return filteredOrganizations.value.slice(0, 3);
+    return filteredOrganizations.value.slice(0, 6);
   }
 });
 

@@ -46,28 +46,28 @@ const handleSubMenuClick = (path, event) => {
   >
     <a 
       href="/tentang" 
-      class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150"
+      class="block px-4 py-2 text-sm text-black hover:bg-gray-300 transition-colors duration-150"
       @click="handleSubMenuClick('/tentang', $event)"
     >
       Tentang Aksi Relawan
     </a>
     <a 
       href="/tentang/visi-misi-program" 
-      class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150"
+      class="block px-4 py-2 text-sm text-black hover:bg-gray-300 transition-colors duration-150"
       @click="handleSubMenuClick('/tentang/visi-misi-program', $event)"
     >
       Visi Misi & Program
     </a>
     <a 
       href="/tentang/donasi" 
-      class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150"
+      class="block px-4 py-2 text-sm text-black hover:bg-gray-300 transition-colors duration-150"
       @click="handleSubMenuClick('/tentang/donasi', $event)"
     >
       Donasi
     </a>
     <a 
       href="/tentang/kontak-kami" 
-      class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-300 transition-colors duration-150"
+      class="block px-4 py-2 text-sm text-black hover:bg-gray-300 transition-colors duration-150"
       @click="handleSubMenuClick('/tentang/kontak-kami', $event)"
     >
       Kontak Kami

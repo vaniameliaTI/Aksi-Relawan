@@ -79,11 +79,18 @@ const isSubMenuActive = (item) => {
   return showAboutPopup.value && item.hasPopup;
 };
 
-onMounted(() => {
-  // Animasi untuk logo
-  gsap.from('.nav-logo', {
+  onMounted(() => {
+  // Animasi untuk logo dan auth buttons bersama-sama dengan animasi yang sama
+  gsap.from('.nav-logo-content', {
     duration: 1,
-    x: -50,
+    x:-50,
+    opacity: 0,
+    ease: 'power3.out'
+  });
+
+  gsap.from('.auth-button', {
+    duration: 1,
+    x: 50,
     opacity: 0,
     ease: 'power3.out'
   });
@@ -94,15 +101,6 @@ onMounted(() => {
     y: 20,
     opacity: 0,
     stagger: 0.1,
-    ease: 'power3.out'
-  });
-
-  // Animasi untuk auth buttons
-  gsap.from('.auth-button', {
-    duration: 1,
-    x: 50,
-    opacity: 0,
-    delay: 0.5,
     ease: 'power3.out'
   });
 });
@@ -117,8 +115,10 @@ onMounted(() => {
         class="flex items-center nav-logo cursor-pointer"
         @click.prevent="handleNavItemClick({ path: '/' })"
       >
-        <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-11 mr-2" />
-        <div class="font-bold text-2xl text-black-800">Aksi Relawan</div>
+        <div class="nav-logo-content flex items-center">
+          <img src="../assets/images/icons/AksiRelawan.png" alt="AksiRelawan Logo" class="h-11 mr-2" />
+          <div class="font-bold text-xl text-black-800">Aksi Relawan</div>
+        </div>
       </a>
       
       <!-- Navigation Links -->
@@ -127,7 +127,7 @@ onMounted(() => {
           <a
             v-if="!item.hasPopup"
             href="#"
-            class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
+            class="text-black hover:text-black transition-colors cursor-pointer"
             :class="{ active: isActive(item) }"
             @click.prevent="handleNavItemClick(item)"
           >
@@ -136,7 +136,7 @@ onMounted(() => {
           <div v-else>
             <a 
               href="#"
-              class="text-gray-700 hover:text-blue-900 transition-colors cursor-pointer"
+              class="text-black hover:text-black transition-colors cursor-pointer"
               :class="{ active: isSubMenuActive(item) }"
               @mouseenter="showAboutPopup = true"
             >
@@ -152,7 +152,7 @@ onMounted(() => {
       </div>
       
       <!-- Auth Buttons -->
-      <div class="flex space-x-4 auth-button" v-if="!isLoggedIn">
+<div class="flex space-x-2 auth-button" v-if="!isLoggedIn">
         <button @click="openLoginModal" class="btn-login">
           Masuk
         </button>
@@ -231,8 +231,8 @@ onMounted(() => {
   padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
   background-color: transparent; /* Latar belakang transparan */
   color: #000000; /* Warna teks default (hitam) */
-  font-size: 1rem; /* Ukuran font */
-  font-weight: 500; /* Berat font default */
+  font-size: 1.10rem; /* Ukuran font disesuaikan dengan navbar title */
+  font-weight: 700; /* Berat font disesuaikan dengan navbar title */
   text-align: center; /* Teks rata tengah */
   border: none; /* Hilangkan border default */
   cursor: pointer; /* Menunjukkan tombol dapat diklik */
@@ -250,8 +250,8 @@ onMounted(() => {
   padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
   background-color: transparent; /* Latar belakang transparan */
   color: #1e3a8a; /* Warna teks biru (default) */
-  font-size: 1rem; /* Ukuran font */
-  font-weight: 500; /* Berat font default */
+  font-size: 1.10rem; /* Ukuran font disesuaikan dengan navbar title */
+  font-weight: 700; /* Berat font disesuaikan dengan navbar title */
   text-align: center; /* Teks rata tengah */
   border: none; /* Hilangkan border default */
   cursor: pointer; /* Menunjukkan tombol dapat diklik */
@@ -269,8 +269,8 @@ onMounted(() => {
   padding: 0.5rem 1rem; /* Padding untuk ukuran tombol */
   background-color: #1e3a8a; /* Warna latar belakang biru (default) */
   color: #ffffff; /* Warna teks putih */
-  font-size: 1rem; /* Ukuran font */
-  font-weight: 500; /* Berat font default */
+  font-size: 1.10rem; /* Ukuran font disesuaikan dengan navbar title */
+  font-weight: 700; /* Berat font disesuaikan dengan navbar title */
   text-align: center; /* Teks rata tengah */
   border: none; /* Hilangkan border default */
   border-radius: 9999px; /* Membuat tombol berbentuk pill */

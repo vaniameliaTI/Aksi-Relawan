@@ -97,8 +97,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="sectionRef" class="mt-24 mb-16">
-<h2 class="section-title text-4xl font-bold text-center mb-16">Kategori Kegiatan</h2>
+  <div ref="sectionRef" class="mt-24 mb-16 p-8">
+<h2 class="section-title text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: black; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Kategori Kegiatan</h2>
     
     <!-- Category container centered -->
     <div class="px-4">
@@ -150,12 +150,12 @@ onMounted(() => {
             <p class="text-white text-sm mb-6 max-h-48 overflow-hidden">{{ category.description }}</p>
             
             <!-- Button -->
-<button 
-  class="mt-auto px-6 py-3 rounded-full font-bold self-start bg-white text-blue-900 hover:bg-gray-100 transition-colors"
-  @click="goToOrganisasi(category.title)"
->
-  Pilih Organisasi
-</button>
+            <button 
+              class="mt-auto px-6 py-3 rounded-full font-bold self-start bg-white text-blue-900 hover:bg-gray-100 transition-colors"
+              @click="goToOrganisasi(category.title)"
+            >
+              Lihat Organisasi
+            </button>
           </div>
         </div>
       </div>

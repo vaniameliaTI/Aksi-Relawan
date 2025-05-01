@@ -1,7 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
+  <div class="min-h-screen relative">
+    <BackgroundEffect />
     <!-- Main Content -->
-    <main>
+    <main class="relative z-10">
       <router-view></router-view>
     </main>
   </div>
@@ -11,9 +12,13 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from './services/api';
+import BackgroundEffect from './components/BackgroundEffect.vue';
 
 export default {
   name: 'App',
+  components: {
+    BackgroundEffect
+  },
   setup() {
     const router = useRouter();
     const isAuthenticated = ref(false);

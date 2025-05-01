@@ -2,10 +2,10 @@
   <div>
     <NavBar />
     <div class="container mx-auto px-4 py-8 max-w-4xl space-y-8">
-      <h1 class="text-3xl font-bold text-center mb-8">Visi Misi & Program</h1>
+      <h1 class="text-3xl font-bold text-center mb-8" style="color: #000000;">Visi Misi & Program</h1>
 
       <section class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-4 text-center">Visi</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Visi</h2>
         <img src="/src/assets/images/Aksi2.png" alt="Visi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <p class="text-center">
           Menjadi platform terdepan yang mempertemukan relawan dengan berbagai kesempatan aksi sosial di seluruh Indonesia, serta mendorong terciptanya perubahan positif dan berkelanjutan bagi masyarakat dan lingkungan.
@@ -13,7 +13,7 @@
       </section>
 
       <section class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-4 text-center">Misi</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Misi</h2>
         <img src="/src/assets/images/Aksi3.jpg" alt="Misi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <ul class="list-disc list-inside mb-4 text-left space-y-2">
           <li>Menginspirasi lebih banyak orang untuk terlibat dalam aksi relawan melalui penyediaan informasi yang mudah diakses.</li>
@@ -26,7 +26,7 @@
       </section>
 
       <section class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-4 text-center">Program Aksi Relawan</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Program Aksi Relawan</h2>
         <img src="/src/assets/images/Aksi4.jpg" alt="Program" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <ul class="list-disc list-inside mb-4 text-left space-y-2">
           <p>

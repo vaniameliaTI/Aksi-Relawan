@@ -74,11 +74,11 @@ onMounted(() => {
 <template>
   <section class="py-16">
     <div class="container mx-auto px-4">
-<h2 ref="titleRef" class="text-4xl font-bold text-center mb-16">Review</h2>
+<h2 ref="titleRef" class="text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: black; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Review</h2>
       <div ref="reviewsRef" class="grid grid-cols-1 md:grid-cols-3 gap-8 reviews-container max-w-6xl mx-auto">
         <div
           v-for="(review, index) in reviews"
-          :key="index"
+          :key="index"  
           class="review-card bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center"
         >
           <!-- Image -->
@@ -89,13 +89,13 @@ onMounted(() => {
           />
           
           <!-- Title (black text) -->
-          <h4 class="text-black font-bold text-lg mb-4 text-center tracking-wide">
+<h4 class="font-bold text-lg mb-4 text-center tracking-wide" style="color: #000000;">
             {{ review.title }}
           </h4>
           
           <hr class="border-t border-gray-200 w-16 mb-6" />
           
-          <p class="text-gray-600 text-base leading-relaxed text-justify">
+          <p class="text-base leading-relaxed text-justify" style="color: inherit;">
             {{ review.text }}
           </p>
         </div>
