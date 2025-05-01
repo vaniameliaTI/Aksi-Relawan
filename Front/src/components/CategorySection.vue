@@ -62,7 +62,8 @@ onMounted(() => {
   // Set initial state for cards
   gsap.set('.category-card', {
     y: 100,
-    opacity: 0
+    opacity: 0,
+    zIndex: 10
   })
 
   // Create ScrollTrigger for section title
@@ -89,7 +90,8 @@ onMounted(() => {
         y: 0,
         opacity: 1,
         stagger: 0.1,
-        ease: 'none'
+        ease: 'none',
+        zIndex: 20
       })
     }
   })
@@ -97,11 +99,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="sectionRef" class="mt-24 mb-16 p-8">
-<h2 class="section-title text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: black; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Kategori Kegiatan</h2>
+  <div ref="sectionRef" class="mt-24 mb-16 p-8 category-section-bg relative overflow-hidden">
+<h2 class="section-title text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-gradient-to-r from-white via-blue-100 to-white backdrop-blur-sm" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: #1e3a8a;">Kategori Kegiatan</h2>
     
+    <!-- Wave element black behind cards -->
+    <svg class="absolute bottom-0 left-0 w-full h-32" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="z-index: 0;">
+      <path fill="#000000" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,197.3C672,224,768,224,864,197.3C960,171,1056,117,1152,106.7C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+    </svg>
+    <!-- Wave element white in front of cards -->
+    <svg class="absolute bottom-0 left-0 w-full h-32 pointer-events-none" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="z-index: 15;">
+      <path fill="rgba(224, 231, 255, 1)" fill-opacity="1" d="M0,224L48,208C96,192,192,160,288,138.7C384,117,480,107,576,112C672,117,768,139,864,165.3C960,192,1056,224,1152,229.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+    </svg>
     <!-- Category container centered -->
-    <div class="px-4">
+    <div class="px-4 relative z-10">
       <!-- Category Cards Container -->
       <div class="flex justify-center flex-wrap gap-8 categories-container" style="overflow: hidden; scrollbar-width: none; -ms-overflow-style: none; overflow-y: hidden;">
         <!-- Category Cards -->
@@ -151,7 +161,7 @@ onMounted(() => {
             
             <!-- Button -->
             <button 
-              class="mt-auto px-6 py-3 rounded-full font-bold self-start bg-white text-blue-900 hover:bg-gray-100 transition-colors"
+              class="mt-auto px-6 py-3 rounded-full font-bold self-start bg-gradient-to-r from-white via-blue-100 to-white text-blue-900 hover:from-blue-100 hover:via-blue-200 hover:to-blue-100 transition-colors shadow-md"
               @click="goToOrganisasi(category.title)"
             >
               Lihat Organisasi
@@ -234,5 +244,38 @@ onMounted(() => {
   .category-card:hover {
     width: 300px;
   }
+}
+.category-section-bg {
+  background: linear-gradient(135deg, #134e4a 0%, #60a5fa 50%, #1e3a8a 100%);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem; /* updated corner radius only */
+  padding: 3rem 2rem;
+  transition: background-position 3s ease;
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Add subtle overlay effect */
+.category-section-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 1.5rem; /* updated to match container corner radius */
 }
 </style>

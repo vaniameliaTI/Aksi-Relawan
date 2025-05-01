@@ -128,7 +128,7 @@ onMounted(() => {
 .hero-title {
   font-size: 3.5rem;
   color: #ffffff; /* White */
-  text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.4);
+  text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.2);
   line-height: 1.1;
 }
 
@@ -141,7 +141,7 @@ onMounted(() => {
     1px -1px 0 #ffffff,
     -1px 1px 0 #ffffff,
     1px 1px 0 #ffffff,
-    1px 1px 3px rgba(0,0,0,0.6);
+    1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .hero-description {
@@ -156,7 +156,7 @@ onMounted(() => {
     1px -1px 0 #ffffff,
     -1px 1px 0 #ffffff,
     1px 1px 0 #ffffff,
-    1px 1px 2px rgba(0,0,0,0.5);
+    1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive adjustments */
@@ -178,4 +178,23 @@ onMounted(() => {
 .bg-blue-900 {
   background-color: #1e3a8a;
 }
+
+.hero-button {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flex.w-full.max-w-xl.mx-auto.mt-8.mb-24.justify-center {
+  transition: transform 0.3s ease;
+}
+
+/* Removed hover scale transform on parent container to avoid conflict */
+/* .flex.w-full.max-w-xl.mx-auto.mt-8.mb-24.justify-center:hover {
+  transform: scale(1.1);
+} */
 </style>
