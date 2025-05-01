@@ -2,14 +2,14 @@
   <div>
     <NavBar />
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 class="text-3xl font-bold text-center mb-8">Donasi Sekarang</h1>
+      <h1 class="text-3xl font-bold text-center mb-8" style="color: #000000;">Donasi Sekarang</h1>
       <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
 <p class="text-gray-700 text-center mx-auto max-w-7xl">
   Terima kasih atas niat baik Anda untuk berdonasi. Silakan isi formulir di bawah ini untuk melakukan donasi dan mendukung program kami.
 </p>
 <form @submit.prevent="confirmSubmit" class="space-y-4" novalidate>
   <div>
-    <label for="name" class="block font-semibold mb-1">Nama</label>
+    <label for="name" class="block font-medium mb-1">Nama</label>
     <input
       id="name"
       v-model="form.name"
@@ -22,15 +22,18 @@
     <p v-if="errors.name" id="nameError" class="text-red-600 text-sm mt-1">{{ errors.name }}</p>
   </div>
   <div>
-    <label for="amount" class="block font-semibold mb-1">Jumlah Donasi (Rp) </label>
-    <select
-      id="amount"
-      v-model="form.amount"
-      :class="['w-full border rounded px-3 py-2', errors.amount ? 'border-red-500' : 'border-gray-300']"
-      required
-      aria-describedby="amountError"
-    >
-      <option disabled value="">Pilih jumlah donasi</option>
+    <label for="amount" class="block font-medium mb-1">Jumlah Donasi (Rp) </label>
+      <select
+        id="amount"
+        v-model="form.amount"
+        :class="[
+          'w-full border rounded px-3 py-2 text-gray-700',
+          errors.amount ? 'border-red-500' : 'border-gray-300'
+        ]"
+        required
+        aria-describedby="amountError"
+      >
+        <option disabled value="" class="text-gray-400">Pilih jumlah donasi</option>
       <option :value="25000">Rp 25.000</option>
       <option :value="50000">Rp 50.000</option>
       <option :value="75000">Rp 75.000</option>
@@ -58,15 +61,18 @@
     </div>
   </div>
   <div>
-    <label for="paymentMethod" class="block font-semibold mb-1">Metode Pembayaran</label>
-    <select
-      id="paymentMethod"
-      v-model="form.paymentMethod"
-      :class="['w-full border rounded px-3 py-2', errors.paymentMethod ? 'border-red-500' : 'border-gray-300']"
-      required
-      aria-describedby="paymentMethodError"
-    >
-      <option disabled value="">Pilih metode pembayaran</option>
+    <label for="paymentMethod" class="block font-medium mb-1">Metode Pembayaran</label>
+      <select
+        id="paymentMethod"
+        v-model="form.paymentMethod"
+        :class="[
+          'w-full border rounded px-3 py-2 text-gray-700',
+          errors.paymentMethod ? 'border-red-500' : 'border-gray-300'
+        ]"
+        required
+        aria-describedby="paymentMethodError"
+      >
+        <option disabled value="" class="text-gray-400">Pilih metode pembayaran</option>
       <option value="Transfer Bank">Transfer Bank</option>
       <option value="OVO">OVO</option>
       <option value="GoPay">GoPay</option>
@@ -76,7 +82,7 @@
     <p v-if="errors.paymentMethod" id="paymentMethodError" class="text-red-600 text-sm mt-1">{{ errors.paymentMethod }}</p>
   </div>
   <div>
-    <label for="message" class="block font-semibold mb-1">Pesan (opsional)</label>
+    <label for="message" class="block font-medium mb-1">Pesan (opsional)</label>
     <textarea
       id="message"
       v-model="form.message"

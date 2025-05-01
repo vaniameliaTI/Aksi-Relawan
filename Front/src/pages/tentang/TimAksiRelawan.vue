@@ -2,7 +2,7 @@
   <div>
     <NavBar />
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 class="text-3xl font-bold text-center mb-8">Tim Aksi Relawan</h1>
+      <h1 class="text-3xl font-bold text-center mb-8" style="color: #000000;">Tim Aksi Relawan</h1>
       <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
         <p class="text-gray-700 text-justify">
           Tim Aksi Relawan terdiri dari individu-individu berdedikasi yang berkomitmen untuk menjalankan berbagai kegiatan sosial dan kemanusiaan. Kami bekerja sama dengan komunitas dan organisasi untuk menciptakan dampak positif yang nyata di masyarakat.

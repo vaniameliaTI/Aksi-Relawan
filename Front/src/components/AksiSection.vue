@@ -89,11 +89,8 @@ const scrollRight = () => {
 <template>
   <div ref="sectionRef">
     <div class="container mx-auto py-16">
-      <h2 ref="titleRef" class="text-4xl font-bold text-center mb-12">
-        <span
-          class="bg-clip-text text-transparent bg-gradient-to-r from-[#1e3a8a] to-[#2563eb] bg-[length:200%_auto] animate-shine"
-          >Peluang Bagi Anda untuk Membantu</span
-        >
+<h2 ref="titleRef" class="text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: #000000; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        Peluang Bagi Anda untuk Membantu
       </h2>
 
       <!-- Scrollable Container -->

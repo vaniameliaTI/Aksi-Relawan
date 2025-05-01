@@ -2,17 +2,17 @@
   <div>
     <NavBar />
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 class="text-3xl font-bold text-center mb-8">Aksi Relawan</h1>
+<h1 class="text-3xl font-bold text-center mb-8" style="color: #000000;">Aksi Relawan</h1>
       
       <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
-        <p class="text-gray-700 text-justify">
+        <p class="text-justify text-gray-700">
           Aksi Relawan adalah sebuah platform digital yang dirancang untuk menghubungkan para relawan dengan berbagai 
           kegiatan sosial di seluruh Indonesia. Kami hadir dengan tujuan untuk mempermudah setiap individu, komunitas, dan 
           organisasi yang ingin berkontribusi secara nyata dalam berbagai aksi sosial yang berdampak positif bagi masyarakat 
           dan lingkungan.
         </p>
 
-        <p class="text-gray-700 text-justify">
+        <p class="text-justify text-gray-700">
           Sebagai wadah yang menyatukan semangat kepedulian, Aksi Relawan percaya bahwa setiap orang memiliki potensi 
           untuk membawa perubahan. Melalui platform ini, kami memberikan akses yang lebih luas dan transparan bagi siapa 
           pun yang ingin mengambil peran dalam membantu sesama. Dengan dukungan teknologi, kami berupaya menciptakan 

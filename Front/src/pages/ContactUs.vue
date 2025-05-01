@@ -2,11 +2,11 @@
   <div>
     <NavBar />
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 class="text-3xl font-bold text-center mb-8">Kontak dengan Kami</h1>
+      <h1 class="text-3xl font-bold text-center mb-8" style="color: #000000; mb-8">Kontak dengan Kami</h1>
       <div class="bg-white p-6 rounded-lg shadow-md">
         <form @submit.prevent="submitForm" class="space-y-6">
           <div>
-            <label for="name" class="block text-gray-700 font-medium mb-2">Nama </label>
+            <label for="name" class="block text-gray-800 font-medium mb-2">Nama </label>
             <input
               id="name"
               v-model="form.name"
@@ -16,7 +16,7 @@
             />
           </div>
           <div>
-            <label for="email" class="block text-gray-700 font-medium mb-2">Alamat Email </label>
+            <label for="email" class="block text-gray-800 font-medium mb-2">Alamat Email </label>
             <input
               id="email"
               v-model="form.email"
@@ -26,7 +26,7 @@
             />
           </div>
           <div>
-            <label for="subject" class="block text-gray-700 font-medium mb-2">Subjek </label>
+            <label for="subject" class="block text-gray-800 font-medium mb-2">Subjek </label>
             <input
               id="subject"
               v-model="form.subject"
@@ -36,7 +36,7 @@
             />
           </div>
           <div>
-            <label for="message" class="block text-gray-700 font-medium mb-2">Isi Pesan </label>
+            <label for="message" class="block text-gray-800 font-medium mb-2">Isi Pesan </label>
             <textarea
               id="message"
               v-model="form.message"
