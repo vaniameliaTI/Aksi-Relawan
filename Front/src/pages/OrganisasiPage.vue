@@ -5,7 +5,7 @@
 <h1 class="text-3xl font-bold mb-4 text-center" style="color: #000000;">Cari Organisasi</h1>
       <p class="mb-8">Jelajahi berbagai organisasi yang membuka kesempatan bagi relawan untuk terlibat dalam program-program mereka. Dapatkan informasi mengenai visi, misi, dan fokus kegiatan dari setiap organisasi. Dengan bergabung bersama organisasi yang sejalan dengan nilai Anda, peran relawan dapat dijalankan secara lebih bermakna dan berkelanjutan.</p>
       <div class="max-w-4xl mx-auto mb-12">
-        <form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-1/2 mx-auto">
+        <form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-1/2 mx-auto search-bar">
           <input
             v-model="localSearchInput"
             type="text"
@@ -28,7 +28,7 @@
       <div v-if="loading" class="text-center">Loading...</div>
       <div v-if="!loading && organizations.length === 0" class="text-center">No organizations found.</div>
       <div v-if="!loading && organizations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div v-for="org in displayedOrganizations" :key="org.id" class="border rounded p-4 flex flex-col items-center space-y-4 text-center">
+        <div v-for="org in displayedOrganizations" :key="org.id" class="bg-white border rounded p-4 flex flex-col items-center space-y-4 text-center hover:shadow-lg hover:scale-105 transition-transform transition-shadow duration-300 cursor-pointer hover:scale-[1.02]">
           <img 
             :src="org.image" 
             alt="Organization Logo" 
@@ -211,14 +211,14 @@ const displayedOrganizations = computed(() => {
   if (showAll.value) {
     return filteredOrganizations.value;
   } else {
-    return filteredOrganizations.value.slice(0, 6);
+    return filteredOrganizations.value.slice(0, 3);
   }
 });
 
-onMounted(fetchOrganizations);
-
-
-
+onMounted(() => {
+  fetchOrganizations();
+  window.scrollTo(0, 0);
+});
 </script>
 
 <style scoped>
@@ -247,5 +247,10 @@ onMounted(fetchOrganizations);
 
 .show-all-button::after {
   content: none; /* Hilangkan underline */
+}
+.search-bar:hover {
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+  transition: box-shadow 0.3s ease-in-out;
+  cursor: text;
 }
 </style>

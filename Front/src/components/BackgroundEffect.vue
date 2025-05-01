@@ -9,9 +9,6 @@
     <div class="square square1"></div>
     <div class="square square2"></div>
     <div class="square square3"></div>
-    <div class="triangle triangle1"></div>
-    <div class="triangle triangle2"></div>
-    <div class="triangle triangle3"></div>
   </div>
 </template>
 
@@ -48,18 +45,9 @@
   animation-iteration-count: infinite;
   animation-direction: alternate;
   background: rgba(30, 58, 138, 0.15);
+  border-radius: 15px;
 }
 
-.triangle {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  opacity: 0.5;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
 
 .circle1 {
   width: 120px;
@@ -111,33 +99,6 @@
   background: rgba(30, 58, 138, 0.1);
 }
 
-.triangle1 {
-  border-width: 0 40px 70px 40px;
-  border-color: transparent transparent rgba(30, 58, 138, 0.15) transparent;
-  top: 30%;
-  left: 10%;
-  animation-name: float1, rotate3;
-  animation-duration: 6s, 20s;
-}
-
-.triangle2 {
-  border-width: 0 30px 50px 30px;
-  border-color: transparent transparent rgba(30, 58, 138, 0.12) transparent;
-  top: 85%;
-  left: 90%;
-  animation-name: float3, rotate4;
-  animation-duration: 7s, 20s;
-}
-
-.triangle3 {
-  border-width: 0 25px 40px 25px;
-  border-color: transparent transparent rgba(30, 58, 138, 0.1) transparent;
-  top: 55%;
-  left: 30%;
-  animation-name: float2, rotate2;
-  animation-duration: 8s, 22s;
-}
-
 .square1 {
   width: 100px;
   height: 100px;
@@ -158,23 +119,6 @@
   background: rgba(30, 58, 138, 0.12); /* blue with opacity */
 }
 
-.triangle1 {
-  border-width: 0 40px 70px 40px;
-  border-color: transparent transparent rgba(30, 58, 138, 0.15) transparent;
-  top: 30%;
-  left: 10%;
-  animation-name: float1, rotate3;
-  animation-duration: 6s, 20s;
-}
-
-.triangle2 {
-  border-width: 0 30px 50px 30px;
-  border-color: transparent transparent rgba(30, 58, 138, 0.12) transparent;
-  top: 85%;
-  left: 90%;
-  animation-name: float3, rotate4;
-  animation-duration: 7s, 20s;
-}
 
 .circle2 {
   width: 80px;

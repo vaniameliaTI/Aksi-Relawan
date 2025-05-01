@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import { useActivities } from '../composables/useActivities.js'
@@ -38,6 +38,10 @@ const displayedActivities = computed(() => {
     return filteredActivitiesLocal.value.slice(0, 6)
   }
 })
+
+onMounted(() => {
+  window.scrollTo(0, 0)
+})
 </script>
 
 <template>
@@ -52,7 +56,7 @@ const displayedActivities = computed(() => {
 
       <!-- Search Form -->
       <div class="max-w-4xl mx-auto mb-12">
-        <form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-3/4 mx-auto">
+        <form @submit.prevent="applySearch" class="flex bg-white rounded-full shadow-sm p-2 gap-x-3 items-center w-3/4 mx-auto search-bar">
           <input
             v-model="localSearchInput"
             type="text"
@@ -85,7 +89,7 @@ const displayedActivities = computed(() => {
         <div
           v-for="activity in displayedActivities"
           :key="activity.id"
-          class="action-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+          class="action-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-105 transition-transform transition-shadow duration-300 cursor-pointer hover:scale-[1.02]"
         >
           <!-- Image -->
           <div class="h-44 overflow-hidden">
@@ -190,5 +194,10 @@ const displayedActivities = computed(() => {
 
 .show-all-button::after {
   content: none; /* Hilangkan underline */
+}
+.search-bar:hover {
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+  transition: box-shadow 0.3s ease-in-out;
+  cursor: text;
 }
 </style>

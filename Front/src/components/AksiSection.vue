@@ -87,14 +87,73 @@ const scrollRight = () => {
 </script>
 
 <template>
-  <div ref="sectionRef">
-    <div class="container mx-auto py-16">
-<h2 ref="titleRef" class="text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white" style="width: fit-content; margin-left: auto; margin-right: auto; text-align: center; color: #000000; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+  <div ref="sectionRef" class="aksi-section-bg">
+      <!-- Floating volunteer-related icons background -->
+      <div class="floating-icons-background" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-cube" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 21.5a11.952 11.952 0 01-6.824-3.943 12.083 12.083 0 01.665-6.479L12 14z" />
+        <path stroke-linejoin="round" d="M12 14v7.5" />
+      </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-person" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7" r="4" />
+        <path d="M5.5 21a6.5 6.5 0 0113 0" />
+      </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-heart" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 1.01 4.5 2.09C13.09 4.01 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+      </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-globe" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M2 12h20" />
+        <path d="M12 2a15.3 15.3 0 010 20" />
+      </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-group" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17 20h5v-2a4 4 0 00-3-3.87" />
+  <path d="M9 20H4v-2a4 4 0 013-3.87" />
+  <circle cx="9" cy="7" r="4" />
+  <circle cx="17" cy="7" r="4" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-calendar-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+  <path d="M16 2v4M8 2v4M3 10h18" />
+  <path d="M9 16l2 2 4-4" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-office-building" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+  <path d="M9 3v18M15 3v18M3 9h18" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-presentation-chart" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 3v18h18" />
+  <rect x="7" y="10" width="3" height="5" />
+  <rect x="14" y="7" width="3" height="8" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-star" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-gift" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="8" width="18" height="13" rx="2" ry="2" />
+  <path d="M12 8v13M3 12h18" />
+  <path d="M8 8V6a4 4 0 018 0v2" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-badge" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 2l3.09 6.26L22 9l-4.91 4.24L18.18 22 12 18.77 5.82 22l1.09-8.76L2 9l6.91-.74L12 2z" />
+  <path d="M12 8v4m0 4h.01" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-map-pin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 2a10 10 0 00-10 10c0 5.25 10 12 10 12s10-6.75 10-12a10 10 0 00-10-10z" />
+  <path d="M12 6a2 2 0 100 4 2 2 0 000-4z" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-phone" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+</svg>
+  </div>
+
+    <div class="container mx-auto py-10 relative z-10">
+      <h2 ref="titleRef" class="text-4xl font-bold mb-8 px-6 py-3 rounded-full bg-white shadow-lg" style="width: fit-content; margin-left: auto; margin-right: auto; margin-top: 0; text-align: center; color: #000000;">
         Peluang Bagi Anda untuk Membantu
       </h2>
-
       <!-- Scrollable Container -->
-      <div class="relative px-4">
+      <div class="relative px-4" style="padding-top: 10px; padding-bottom: 20px;">
         <!-- Navigation Buttons -->
         <button 
           @click="scrollLeft"
@@ -129,7 +188,7 @@ const scrollRight = () => {
           <div
               v-for="action in (filteredActivities ? filteredActivities.slice(0, 4) : [])"
               :key="action.id"
-              class="action-card flex-shrink-0 w-[340px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 snap-start cursor-pointer hover:scale-[1.02] transform-gpu"
+              class="action-card flex-shrink-0 w-[340px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 snap-start cursor-pointer hover:scale-[1.02] transform-gpu transition-transform duration-300 ease-in-out mx-1"
             >
               <!-- Image -->
               <div class="h-44 overflow-hidden">
@@ -187,14 +246,14 @@ const scrollRight = () => {
                 </button>
               </div>
             </div>
-            <button
-              @click="$router.push('/aktivitas')"
-              class="show-all-button"
-              aria-label="Show All"
-            >
-              Show All
-            </button>
           </div>
+          <button
+            @click="$router.push('/aktivitas')"
+            class="show-all-button"
+            aria-label="Show All"
+          >
+            Show All
+          </button>
         </div>
       </div>
     </div>
@@ -237,7 +296,9 @@ h2 span {
 .actions-container {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem; /* Added horizontal padding to prevent clipping on hover */
+  overflow-x: visible; /* Allow horizontal overflow visible to prevent clipping */
+  overflow-y: hidden; /* Hide vertical overflow */
 }
 
 /* Snap scrolling for better experience */
@@ -293,5 +354,183 @@ h2 span {
 
 .show-all-button::after {
   content: none;
+} 
+.aksi-section-bg {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  padding: 0.5rem 2rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  background-color: transparent;
+  z-index: 0;
 }
+
+.floating-icons-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0; /* Put behind other content */
+  color: #1e3a8a; /* Blue color for icon stroke */
+  border-radius: 1.5rem;
+  overflow: hidden; /* Hide overflow for cleaner edges */
+  background-color: #ffffff; /* White background */
+}
+
+.floating-icons-background .icon {
+  position: absolute;
+  opacity: 0.6; /* Slightly reduced opacity for subtle effect */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  fill: none; /* Remove fill color */
+  stroke: #1e3a8a; /* Set stroke color for border */
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 2px rgba(30, 58, 138, 0.3)); /* Add subtle shadow for depth */
+}
+
+.floating-icons-background .icon-cube {
+  width: 60px;
+  height: 60px;
+  top: 95%;
+  left: 95%;
+  animation-name: float1;
+  animation-duration: 15s;
+}
+
+.floating-icons-background .icon-arrows {
+  display: none;
+}
+
+.floating-icons-background .icon-person {
+  width: 55px;
+  height: 55px;
+  top: 15%;
+  left: 80%;
+  animation-name: float3;
+  animation-duration: 20s;
+}
+
+.floating-icons-background .icon-heart {
+  width: 55px;
+  height: 55px;
+  top: 40%;
+  left: 60%;
+  animation-name: float1;
+  animation-duration: 16s;
+}
+
+.floating-icons-background .icon-globe {
+  width: 60px;
+  height: 60px;
+  top: 40%;
+  left: 90%;
+  animation-name: float2;
+  animation-duration: 22s;
+}
+
+.floating-icons-background .icon-cube {
+  width: 60px;
+  height: 60px;
+  top: 17%;
+  left: 45%;
+  animation-name: float1;
+  animation-duration: 15s;
+}
+.floating-icons-background .icon-group {
+  width: 60px;
+  height: 60px;
+  top: 70%;
+  left: 25%;
+  animation-name: float2;
+  animation-duration: 18s;
+}
+.floating-icons-background .icon-calendar-check {
+  width: 55px;
+  height: 55px;
+  top: 5%;
+  left: 5%;
+  animation-name: float3;
+  animation-duration: 20s;
+}
+.floating-icons-background .icon-office-building {
+  width: 50px;
+  height: 50px;
+  top: 89%;
+  left:7%;
+  animation-name: float1;
+  animation-duration: 16s;
+}
+.floating-icons-background .icon-presentation-chart {
+  width: 55px;
+  height: 55px;
+  top: 5%;
+  left: 90%;
+  animation-name: float2;
+  animation-duration: 20s;
+}
+.floating-icons-background .icon-star {
+  width: 55px;
+  height: 55px;
+  top: 15%;
+  left: 15%;
+  animation-name: float3;
+  animation-duration: 22s;
+}
+
+.floating-icons-background .icon-gift {
+  width: 60px;
+  height: 55px;
+  top: 88%;
+  left: 90%;
+  animation-name: float1;
+  animation-duration: 18s;
+}
+.floating-icons-background .icon-badge {
+  width: 50px;
+  height: 60px;
+  top: 40%;
+  left: 20%;
+  animation-name: float2;
+  animation-duration: 18s;
+}
+.floating-icons-background .icon-map-pin {
+  width: 45px;
+  height: 60px;
+  top: 65%;
+  left: 40%;
+  animation-name: float3;
+  animation-duration: 20s;
+}
+.floating-icons-background .icon-phone {
+  width: 52px;
+  height: 52px;
+  top: 75%;
+  left: 60%;
+  animation-name: float3;
+  animation-duration: 22s;
+  stroke-width: 2.5;
+}
+
+@keyframes float1 {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes float2 {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(15px) translateX(-10px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes float3 {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-10px) translateX(-15px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
 </style>
