@@ -1,4 +1,8 @@
 <?php
+
+echo "Hello World!";
+
+
 class TestController {
     public function test() {
         return [
