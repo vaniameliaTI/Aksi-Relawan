@@ -1,11 +1,18 @@
 <?php
 
 class Database {
-    private $host = "localhost";
-    private $db_name = "aksi_relawan";
-    private $username = "root";
-    private $password = "3131";
-    public $conn;
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
+    private $conn;
+
+    public function __construct() {
+        $this->host = getenv('DB_HOST') ?: 'db';
+        $this->db_name = getenv('DB_DATABASE') ?: 'aksi_relawan';
+        $this->username = getenv('DB_USERNAME') ?: 'aksi_user';
+        $this->password = getenv('DB_PASSWORD') ?: '3131';
+    }
 
     public function getConnection() {
         $this->conn = null;
@@ -19,8 +26,7 @@ class Database {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->exec("set names utf8");
         } catch(PDOException $e) {
-            error_log("Database Connection Error: " . $e->getMessage());
-            return null;
+            echo "Connection error: " . $e->getMessage();
         }
 
         return $this->conn;

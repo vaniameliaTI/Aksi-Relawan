@@ -60,9 +60,3 @@ CREATE TABLE IF NOT EXISTS activity_photos (
     FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE,
     FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Jalankan ini di database Anda jika memilih opsi ini:
-ALTER TABLE users MODIFY COLUMN full_name VARCHAR(100) NULL;
-
--- Jalankan ini untuk menghapus kolom token jika sudah ada
-ALTER TABLE users DROP COLUMN IF EXISTS token;

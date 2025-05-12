@@ -35,9 +35,14 @@ export const logout = async () => {
   }
 };
 
-// User APIs
-export const getUserProfile = () => api.get('api/users/profile');
-export const updateUserProfile = (data) => api.put('api/users/profile', data);
+// Profile APIs
+export const getUserProfile = () => api.get('/profile');
+export const updateUserProfile = (data) => api.put('/profile', data);
+export const uploadProfilePhoto = (formData) => api.post('/profile/photo', formData, {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+});
 
 // Activity APIs
 export const getActivities = () => api.get('api/activities');

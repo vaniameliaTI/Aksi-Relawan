@@ -1,0 +1,67 @@
+services:
+  # MariaDB Database
+  db:
+    image: mariadb:10.6
+    container_name: aksi-relawan-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: aksi_relawan
+      MARIADB_ROOT_PASSWORD: 3131
+      MARIADB_USER: aksi_user
+      MARIADB_PASSWORD: 3131
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - aksi-network
+
+  # PHP Backend
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: aksi-relawan-backend
+    restart: unless-stopped
+    volumes:
+      - ./Backend:/var/www/html
+      - ./Backend/uploads:/var/www/html/uploads
+    environment:
+      PHP_MEMORY_LIMIT: 256M
+      PHP_UPLOAD_MAX_FILESIZE: 10M
+      PHP_POST_MAX_SIZE: 10M
+      PHP_MAX_EXECUTION_TIME: 300
+      # Database configuration
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: aksi_relawan
+      DB_USERNAME: aksi_user
+      DB_PASSWORD: 3131
+    ports:
+      - "8080:80"
+      - "9000:9000"
+    depends_on:
+      - db
+    networks:
+      - aksi-network
+
+  # Vue.js Frontend
+  frontend:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    container_name: aksi-relawan-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - aksi-network
+
+networks:
+  aksi-network:
+    driver: bridge
+
+volumes:
+  dbdata: 
