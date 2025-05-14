@@ -1,5 +1,7 @@
 <?php
 require 'utils/cors.php';
+require 'utils/auth.php';
+require 'config/database.php';
 
 // 1. Muat Definisi Rute
 $routes = require 'routes/api.php';
@@ -27,7 +29,7 @@ if ($controllerAction) {
     $controllerFile = 'controllers/' . $controllerName . '.php';
 
     if (file_exists($controllerFile)) {
-        require $controllerFile;
+        require_once $controllerFile;
 
         if (class_exists($controllerName)) {
             $controller = new $controllerName();
@@ -36,7 +38,12 @@ if ($controllerAction) {
                 // Panggil method controller
                 try {
                     $result = $controller->$methodName(); // Untuk rute dengan parameter, perlu penyesuaian
-                    echo json_encode($result);
+                    // Jika respons adalah string, mungkin sudah JSON, jadi jangan encode lagi
+                    if (is_string($result) && strpos($result, '{') === 0) {
+                        echo $result;
+                    } else {
+                        echo json_encode($result);
+                    }
                 } catch (Exception $e) {
                     http_response_code(500);
                     echo json_encode(['status' => 'error', 'message' => 'Internal Server Error', 'details' => $e->getMessage()]);

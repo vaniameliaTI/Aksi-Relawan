@@ -7,6 +7,7 @@ const api = axios.create({
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     },
+    withCredentials: false
 });
 
 // Request interceptor
@@ -32,6 +33,12 @@ api.interceptors.request.use(
                 console.error('Error checking token:', e);
             }
         }
+
+        // Jika request adalah upload file, jangan set Content-Type (biarkan browser mengaturnya)
+        if (config.data instanceof FormData) {
+            delete config.headers['Content-Type'];
+        }
+
         return config;
     },
     (error) => {

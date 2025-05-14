@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/Home.vue';
 import OrganisasiPage from '../pages/OrganisasiPage.vue';
 import AboutAksiRelawan from '../components/AboutAksiRelawan.vue';
-import Profile from '../components/Profile.vue';
+import ProfilePage from '../pages/ProfilePage.vue';
 import Aktivitas from '../pages/Aktivitas.vue';
 import VisiMisiProgram from '../pages/VisiMisiProgram.vue';
 import DonasiPage from '../pages/DonasiPage.vue';
@@ -63,7 +63,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: Profile,
+      component: ProfilePage,
       meta: { requiresAuth: true }
     },
     {
