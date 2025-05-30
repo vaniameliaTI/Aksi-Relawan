@@ -3,6 +3,11 @@ import { ref, computed, onMounted } from 'vue'
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import { useActivities } from '../composables/useActivities.js'
+import Aksi1 from '../assets/images/Aksi.png'
+import Aksi2 from '../assets/images/Aksi2.png'
+import Aksi3 from '../assets/images/Aksi3.jpg'
+import Aksi4 from '../assets/images/Aksi4.jpg'
+import ActivityDetailModal from '../components/ActivityDetailModal.vue'
 
 const { activities } = useActivities()
 
@@ -14,6 +19,9 @@ const locationQuery = ref('')
 
 const showAll = ref(false)
 
+const selectedActivity = ref(null)
+const showModal = ref(false)
+
 const applySearch = () => {
   searchQuery.value = localSearchInput.value.trim()
   locationQuery.value = localLocationInput.value.trim()
@@ -24,7 +32,17 @@ const filteredActivitiesLocal = computed(() => {
   const query = searchQuery.value.toLowerCase()
   const location = locationQuery.value.toLowerCase()
 
-  return activities.value.filter(activity => {
+  // Map activities to replace image paths with imported images if needed
+  const mappedActivities = activities.value.map(activity => {
+    let image = activity.image
+    if (image === '/src/assets/images/Aksi.png') image = Aksi1
+    else if (image === '/src/assets/images/Aksi2.png') image = Aksi2
+    else if (image === '/src/assets/images/Aksi3.jpg') image = Aksi3
+    else if (image === '/src/assets/images/Aksi4.jpg') image = Aksi4
+    return { ...activity, image }
+  })
+
+  return mappedActivities.filter(activity => {
     const matchesSearch = !query || activity.title.toLowerCase().includes(query) || activity.organization.toLowerCase().includes(query)
     const matchesLocation = !location || activity.location.toLowerCase().includes(location)
     return matchesSearch && matchesLocation
@@ -38,6 +56,16 @@ const displayedActivities = computed(() => {
     return filteredActivitiesLocal.value.slice(0, 6)
   }
 })
+
+const openModal = (activity) => {
+  selectedActivity.value = activity
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedActivity.value = null
+}
 
 onMounted(() => {
   window.scrollTo(0, 0)
@@ -90,6 +118,7 @@ onMounted(() => {
           v-for="activity in displayedActivities"
           :key="activity.id"
           class="action-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-105 transition-transform transition-shadow duration-300 cursor-pointer hover:scale-[1.02]"
+          @click="openModal(activity)"
         >
           <!-- Image -->
           <div class="h-44 overflow-hidden">
@@ -142,7 +171,10 @@ onMounted(() => {
             </div>
 
             <!-- Action Button -->
-            <button class="mt-6 w-full py-2 bg-blue-900 text-white rounded-full hover:bg-blue-800 transition-colors text-sm">
+            <button
+              class="mt-6 w-full py-2 bg-blue-900 text-white rounded-full hover:bg-blue-800 transition-colors text-sm"
+              @click.stop="openModal(activity)"
+            >
               Lihat Detail
             </button>
           </div>
@@ -159,6 +191,12 @@ onMounted(() => {
       </div>
       <Footer />
   </div>
+
+  <ActivityDetailModal
+    v-if="showModal"
+    :activity="selectedActivity"
+    @close="closeModal"
+  />
 </template>
 
 <style scoped>

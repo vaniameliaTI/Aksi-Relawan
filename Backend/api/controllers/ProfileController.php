@@ -68,19 +68,50 @@ class ProfileController {
         }
         
         try {
-            $stmt = $this->db->prepare("
-                UPDATE users 
-                SET username = ?, full_name = ?, phone = ?, address = ? 
-                WHERE id = ?
-            ");
-            
-            $stmt->execute([
-                $data['username'] ?? '',
-                $data['full_name'] ?? '',
-                $data['phone'] ?? '',
-                $data['address'] ?? '',
-                $userId
-            ]);
+            // Check if photo_url is present in data to update photo_url as well
+            if (array_key_exists('photo_url', $data)) {
+                // If photo_url is empty string, do not update other fields to avoid deleting data unintentionally
+                if ($data['photo_url'] === '') {
+                    $stmt = $this->db->prepare("
+                        UPDATE users 
+                        SET photo_url = ?
+                        WHERE id = ?
+                    ");
+                    $stmt->execute([
+                        $data['photo_url'],
+                        $userId
+                    ]);
+                } else {
+                    $stmt = $this->db->prepare("
+                        UPDATE users 
+                        SET username = ?, full_name = ?, phone = ?, address = ?, photo_url = ?
+                        WHERE id = ?
+                    ");
+                    
+                    $stmt->execute([
+                        $data['username'] ?? '',
+                        $data['full_name'] ?? '',
+                        $data['phone'] ?? '',
+                        $data['address'] ?? '',
+                        $data['photo_url'] ?? '',
+                        $userId
+                    ]);
+                }
+            } else {
+                $stmt = $this->db->prepare("
+                    UPDATE users 
+                    SET username = ?, full_name = ?, phone = ?, address = ? 
+                    WHERE id = ?
+                ");
+                
+                $stmt->execute([
+                    $data['username'] ?? '',
+                    $data['full_name'] ?? '',
+                    $data['phone'] ?? '',
+                    $data['address'] ?? '',
+                    $userId
+                ]);
+            }
 
             return ['status' => 'success', 'message' => 'Profile updated successfully'];
         } catch (PDOException $e) {

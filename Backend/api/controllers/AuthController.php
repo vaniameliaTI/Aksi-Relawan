@@ -121,9 +121,10 @@ class AuthController {
             }
         } catch (PDOException $e) {
             http_response_code(500); // Internal Server Error
-            // Sebaiknya log error ini daripada menampilkannya ke user
+            // Log error detail for debugging
             error_log("Database error check user: " . $e->getMessage());
-            return ['status' => 'error', 'message' => 'Terjadi masalah saat memeriksa data pengguna'];
+            // Return detailed error message for debugging (remove or mask in production)
+            return ['status' => 'error', 'message' => 'Terjadi masalah saat memeriksa data pengguna: ' . $e->getMessage()];
         }
 
         // 4. Hash password
@@ -256,5 +257,55 @@ class AuthController {
             ];
         }
     }
+    /**
+     * Menangani login superadmin dengan email dan access code.
+     */
+    public function loginSuperAdmin() {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($data['email']) || empty($data['accessCode'])) {
+            http_response_code(400);
+            return ['status' => 'error', 'message' => 'Email dan kode akses wajib diisi'];
+        }
+
+        try {
+            $sql = "SELECT * FROM superadmin_sessions WHERE email = :email AND access_code = :accessCode LIMIT 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':accessCode', $data['accessCode']);
+            $stmt->execute();
+
+            $session = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$session) {
+                http_response_code(401);
+                return ['status' => 'error', 'message' => 'Email atau kode akses salah'];
+            }
+
+            // Generate a new session token (simple random string for demo)
+            $sessionToken = bin2hex(random_bytes(16));
+
+            // Update session token and timestamps
+            $updateSql = "UPDATE superadmin_sessions SET session_token = :token, created_at = NOW(), expires_at = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id = :id";
+            $updateStmt = $this->pdo->prepare($updateSql);
+            $updateStmt->bindParam(':token', $sessionToken);
+            $updateStmt->bindParam(':id', $session['id']);
+            $updateStmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Login berhasil',
+                'data' => [
+                    'email' => $session['email'],
+                    'token' => $sessionToken
+                ]
+            ];
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            error_log("Database error during superadmin login: " . $e->getMessage());
+            return ['status' => 'error', 'message' => 'Terjadi kesalahan saat proses login superadmin'];
+        }
+    }
 }
-?> 
+?>

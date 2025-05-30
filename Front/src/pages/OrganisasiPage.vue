@@ -28,7 +28,12 @@
       <div v-if="loading" class="text-center">Loading...</div>
       <div v-if="!loading && organizations.length === 0" class="text-center">No organizations found.</div>
       <div v-if="!loading && organizations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div v-for="org in displayedOrganizations" :key="org.id" class="bg-white border rounded p-4 flex flex-col items-center space-y-4 text-center hover:shadow-lg hover:scale-105 transition-transform transition-shadow duration-300 cursor-pointer hover:scale-[1.02]">
+        <div
+          v-for="org in displayedOrganizations"
+          :key="org.id"
+          class="bg-white border rounded p-4 flex flex-col items-center space-y-4 text-center hover:shadow-lg hover:scale-105 transition-transform transition-shadow duration-300 cursor-pointer hover:scale-[1.02]"
+          @click="openModal(org)"
+        >
           <img 
             :src="org.image" 
             alt="Organization Logo" 
@@ -50,6 +55,12 @@
       </div>
     </div>
     <Footer />
+
+    <OrganizationDetailModal
+      v-if="showModal"
+      :organization="selectedOrganization"
+      @close="closeModal"
+    />
   </div>
 </template>
 
@@ -58,12 +69,19 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import NavBar from '../components/NavBar.vue';
 import Footer from '../components/Footer.vue';
+import OrganizationDetailModal from '../components/OrganizationDetailModal.vue';
+import Logo1 from '../assets/images/icon review/Logo1.png';
+import Logo2 from '../assets/images/icon review/Logo2.png';
+import Logo3 from '../assets/images/icon review/Logo3.png';
 
 const searchQuery = ref('');
 const localSearchInput = ref('');
 const organizations = ref([]);
 const loading = ref(true);
 const showAll = ref(false);
+
+const showModal = ref(false);
+const selectedOrganization = ref(null);
 
 const route = useRoute();
 
@@ -76,7 +94,7 @@ const fetchOrganizations = () => {
       kategori: 'Mitigasi Bencana & Lingkungan',
       email: 'relawan@example.com',
       no_telp: '08123456789',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     },
     {
       id: 2,
@@ -84,7 +102,7 @@ const fetchOrganizations = () => {
       kategori: 'Mitigasi Bencana & Lingkungan',
       email: 'lingkungan@example.com', 
       no_telp: '08234567890',
-      image: '/src/assets/images/icon review/Logo2.png'
+      image: Logo2
     },
     {
       id: 3,
@@ -92,7 +110,7 @@ const fetchOrganizations = () => {
       kategori: 'Pendidikan & Seni Budaya',
       email: 'pendidikan@example.com',
       no_telp: '08345678901',
-      image: '/src/assets/images/icon review/Logo3.png'
+      image: Logo3
     },
     {
       id: 4,
@@ -100,7 +118,7 @@ const fetchOrganizations = () => {
       kategori: 'Sosial & Kemanusiaan',
       email: 'sosial@example.com',
       no_telp: '08456789012',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     },
     {
       id: 5,
@@ -108,7 +126,7 @@ const fetchOrganizations = () => {
       kategori: 'Kesehatan',
       email: 'kesehatan@example.com',
       no_telp: '08567890123',
-      image: '/src/assets/images/icon review/Logo2.png'
+      image: Logo2
     },
     {
       id: 6,
@@ -116,7 +134,7 @@ const fetchOrganizations = () => {
       kategori: 'Pendidikan & Seni Budaya',
       email: 'seni@example.com',
       no_telp: '08678901234',
-      image: '/src/assets/images/icon review/Logo3.png'
+      image: Logo3
     },
     {
       id: 7,
@@ -124,7 +142,7 @@ const fetchOrganizations = () => {
       kategori: 'Sosial & Kemanusiaan',
       email: 'anak@example.com',
       no_telp: '08789012345',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     },
     {
       id: 8,
@@ -132,7 +150,7 @@ const fetchOrganizations = () => {
       kategori: 'Kesehatan',
       email: 'kesehatan2@example.com',
       no_telp: '08890123456',
-      image: '/src/assets/images/icon review/Logo2.png'
+      image: Logo2
     },
     {
       id: 9,
@@ -140,7 +158,7 @@ const fetchOrganizations = () => {
       kategori: 'Mitigasi Bencana & Lingkungan',
       email: 'lingkungan2@example.com',
       no_telp: '08901234567',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     },
     {
       id: 10,
@@ -148,7 +166,7 @@ const fetchOrganizations = () => {
       kategori: 'Pendidikan & Seni Budaya',
       email: 'pendidikan2@example.com',
       no_telp: '08012345678',
-      image: '/src/assets/images/icon review/Logo3.png'
+      image: Logo3
     },
     {
       id: 11,
@@ -156,7 +174,7 @@ const fetchOrganizations = () => {
       kategori: 'Sosial & Kemanusiaan',
       email: 'sosial2@example.com',
       no_telp: '08123456780',
-      image: '/src/assets/images/icon review/Logo2.png'
+      image: Logo2
     },
     {
       id: 12,
@@ -164,7 +182,7 @@ const fetchOrganizations = () => {
       kategori: 'Kesehatan',
       email: 'kesehatan3@example.com',
       no_telp: '08234567890',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     },
     {
       id: 13,
@@ -172,7 +190,7 @@ const fetchOrganizations = () => {
       kategori: 'Mitigasi Bencana & Lingkungan',
       email: 'mitigasi@example.com',
       no_telp: '08345678901',
-      image: '/src/assets/images/icon review/Logo3.png'
+      image: Logo3
     },
     {
       id: 14,
@@ -180,7 +198,7 @@ const fetchOrganizations = () => {
       kategori: 'Pendidikan & Seni Budaya',
       email: 'seni2@example.com',
       no_telp: '08456789012',
-      image: '/src/assets/images/icon review/Logo2.png'
+      image: Logo2
     },
     {
       id: 15,
@@ -188,7 +206,7 @@ const fetchOrganizations = () => {
       kategori: 'Sosial & Kemanusiaan',
       email: 'sosial3@example.com',
       no_telp: '08567890123',
-      image: '/src/assets/images/icon review/Logo1.png'
+      image: Logo1
     }
   ];
   loading.value = false;
@@ -196,6 +214,16 @@ const fetchOrganizations = () => {
 
 function applySearch() {
   searchQuery.value = localSearchInput.value;
+}
+
+function openModal(org) {
+  selectedOrganization.value = org;
+  showModal.value = true;
+}
+
+function closeModal() {
+  showModal.value = false;
+  selectedOrganization.value = null;
 }
 
 const filteredOrganizations = computed(() => {

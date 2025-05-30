@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useRouter } from 'vue-router'
+import MitigasiBencana from '../assets/images/MitigasiBencana.png'
+
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
@@ -14,7 +16,7 @@ const categories = [
     title: 'MITIGASI<br>BENCANA &<br>LINGKUNGAN',
     number: '01',
     color: 'purple',
-    image: '/src/assets/images/MitigasiBencana.png',
+    image: MitigasiBencana,
     description: 'Volunteer di bidang mitigasi bencana dan lingkungan berperan dalam upaya pencegahan, kesiapsiagaan, dan pemulihan pasca bencana. Mereka juga terlibat dalam kegiatan konservasi lingkungan dan edukasi masyarakat tentang pentingnya menjaga kelestarian alam.'
   },
   {
@@ -22,7 +24,7 @@ const categories = [
     title: 'PENDIDIKAN &<br>SENI BUDAYA',
     number: '02',
     color: 'blue',
-    image: '/src/assets/images/MitigasiBencana.png',
+    image: MitigasiBencana,
     description: 'Volunteer di bidang seni dan budaya berperan dalam melestarikan, mengembangkan, dan mempromosikan warisan budaya serta ekspresi seni. Mereka terlibat dalam berbagai kegiatan seperti festival, pameran, lokakarya, dan edukasi untuk memperkaya kehidupan sosial dan memperkuat identitas budaya.'
   },
   {
@@ -30,7 +32,7 @@ const categories = [
     title: 'SOSIAL &<br>KEMANUSIAAN',
     number: '03',
     color: 'green',
-    image: '/src/assets/images/MitigasiBencana.png',
+    image: MitigasiBencana,
     description: 'Volunteer di bidang sosial dan kemanusiaan fokus pada upaya membantu kelompok rentan dan terpinggirkan. Mereka terlibat dalam berbagai kegiatan seperti distribusi bantuan, pendampingan sosial, dan advokasi untuk meningkatkan kesejahteraan masyarakat yang membutuhkan.'
   },
   {
@@ -38,7 +40,7 @@ const categories = [
     title: 'KESEHATAN',
     number: '04',
     color: 'teal',
-    image: '/src/assets/images/MitigasiBencana.png',
+    image: MitigasiBencana,
     description: 'Volunteer di bidang kesehatan berperan dalam meningkatkan akses dan kualitas layanan kesehatan. Mereka terlibat dalam kegiatan seperti kampanye kesehatan, edukasi masyarakat, dan pendampingan pasien untuk mendukung kesehatan dan kesejahteraan masyarakat.'
   }
 ]

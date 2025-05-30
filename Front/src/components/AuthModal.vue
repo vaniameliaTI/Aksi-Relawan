@@ -202,10 +202,15 @@ export default {
           localStorage.setItem('token', response.data.data.token);
           localStorage.setItem('user', JSON.stringify(response.data.data.user));
           
+          // Dispatch event to notify NavBar to update profile photo
+          window.dispatchEvent(new Event('profilePhotoUpdated'));
+
           emit('login-success');
           closeModal();
           
-          router.push('/profile');
+
+          // Force reload the current page to update UI after login
+          window.location.reload();
         } else {
           error.value = response.data?.message || 'Terjadi kesalahan saat login';
         }
@@ -261,4 +266,18 @@ export default {
     };
   }
 };
-</script> 
+</script>
+
+<style scoped>
+.modal-fade-enter-active, .modal-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.modal-fade-enter-from, .modal-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.modal-fade-enter-to, .modal-fade-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+</style>

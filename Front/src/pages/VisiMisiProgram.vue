@@ -6,7 +6,7 @@
 
       <section class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Visi</h2>
-        <img src="/src/assets/images/Aksi2.png" alt="Visi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
+        <img :src="Aksi2" alt="Visi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <p class="text-center">
           Menjadi platform terdepan yang mempertemukan relawan dengan berbagai kesempatan aksi sosial di seluruh Indonesia, serta mendorong terciptanya perubahan positif dan berkelanjutan bagi masyarakat dan lingkungan.
         </p>
@@ -14,7 +14,7 @@
 
       <section class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Misi</h2>
-        <img src="/src/assets/images/Aksi3.jpg" alt="Misi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
+        <img :src="Aksi3" alt="Misi" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <ul class="list-disc list-inside mb-4 text-left space-y-2">
           <li>Menginspirasi lebih banyak orang untuk terlibat dalam aksi relawan melalui penyediaan informasi yang mudah diakses.</li>
           <li>Lebih banyak orang untuk terlibat dalam aksi relawan melalui penyediaan informasi yang mudah diakses.</li>
@@ -27,7 +27,7 @@
 
       <section class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold mb-4 text-center" style="color: #000000;">Program Aksi Relawan</h2>
-        <img src="/src/assets/images/Aksi4.jpg" alt="Program" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
+        <img :src="Aksi4" alt="Program" class="mb-4 rounded-lg shadow-md w-full h-64 object-cover" />
         <ul class="list-disc list-inside mb-4 text-left space-y-2">
           <p>
             Kami memiliki berbagai program yang dapat diikuti oleh relawan dan organisasi sosial, antara lain:
@@ -55,6 +55,9 @@
 import { useRouter } from 'vue-router';
 import NavBar from '../components/NavBar.vue';
 import Footer from '../components/Footer.vue';
+import Aksi2 from '../assets/images/Aksi2.png';
+import Aksi3 from '../assets/images/Aksi3.jpg';
+import Aksi4 from '../assets/images/Aksi4.jpg';
 
 const router = useRouter();
 

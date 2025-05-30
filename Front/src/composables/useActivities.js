@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue'
+import aksiImage from '../assets/images/Aksi.png'
 
 const activities = [
   {
@@ -7,7 +8,7 @@ const activities = [
     organization: 'Badan Nasional Penanggulangan Bencana (BNPB)',
     date: '21 Maret 2025',
     location: 'Jakarta, Indonesia',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Mitigasi Bencana']
   },
   {
@@ -16,7 +17,7 @@ const activities = [
     organization: 'Organisasi Peduli Lingkungan',
     date: '25 Maret 2025',
     location: 'Kota Yogyakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Lingkungan']
   },
   {
@@ -25,7 +26,7 @@ const activities = [
     organization: 'Sobat Mengajar',
     date: '2 Maret 2025',
     location: 'Kota Surabaya',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Pendidikan']
   },
   {
@@ -34,7 +35,7 @@ const activities = [
     organization: 'Komunitas Peduli Lingkungan',
     date: '10 April 2025',
     location: 'Bali',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Lingkungan']
   },
   {
@@ -43,7 +44,7 @@ const activities = [
     organization: 'Yayasan Kesehatan',
     date: '15 April 2025',
     location: 'Bandung',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Kesehatan']
   },
   {
@@ -52,7 +53,7 @@ const activities = [
     organization: 'Lembaga Pendidikan',
     date: '20 April 2025',
     location: 'Semarang',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Pendidikan']
   },
   {
@@ -61,7 +62,7 @@ const activities = [
     organization: 'Palang Merah Indonesia',
     date: '25 April 2025',
     location: 'Jakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Kesehatan']
   },
   {
@@ -70,7 +71,7 @@ const activities = [
     organization: 'BNPB',
     date: '30 April 2025',
     location: 'Surabaya',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Mitigasi Bencana']
   },
   {
@@ -79,7 +80,7 @@ const activities = [
     organization: 'Lembaga Sosial',
     date: '5 Mei 2025',
     location: 'Yogyakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Sosial']
   },
   {
@@ -88,7 +89,7 @@ const activities = [
     organization: 'Komunitas Seni',
     date: '10 Mei 2025',
     location: 'Bandung',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Seni Budaya']
   },
   {
@@ -97,7 +98,7 @@ const activities = [
     organization: 'Organisasi Lingkungan',
     date: '15 Mei 2025',
     location: 'Jakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Lingkungan']
   },
   {
@@ -106,7 +107,7 @@ const activities = [
     organization: 'Yayasan Kesehatan Anak',
     date: '20 Mei 2025',
     location: 'Semarang',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Kesehatan']
   },
   {
@@ -115,7 +116,7 @@ const activities = [
     organization: 'Lembaga Pendidikan',
     date: '25 Mei 2025',
     location: 'Surabaya',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Pendidikan']
   },
   {
@@ -124,7 +125,7 @@ const activities = [
     organization: 'Organisasi Sosial',
     date: '30 Mei 2025',
     location: 'Yogyakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Sosial']
   },
   {
@@ -133,7 +134,7 @@ const activities = [
     organization: 'BNPB',
     date: '5 Juni 2025',
     location: 'Jakarta',
-    image: '/src/assets/images/Aksi.png',
+    image: aksiImage,
     categories: ['Event', 'Mitigasi Bencana']
   }
 ]

@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { useRouter } from 'vue-router'
+import AksiRelawanIcon from '../assets/images/icons/AksiRelawan.png'  // Import logo icon image using relative path
 
 // Register TextPlugin
 gsap.registerPlugin(TextPlugin)
@@ -46,8 +47,8 @@ gsap.to(taglineRef.value, {
         <!-- Kolom 1: Logo dan Tagline -->
         <div class="space-y-6 flex flex-col items-start">
           <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden">
-              <img src="../assets/images/icons/AksiRelawan.png" alt="Logo Aksi Relawan" class="h-full w-full object-cover" />
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+              <img :src="AksiRelawanIcon" alt="Logo Aksi Relawan" class="h-full w-full object-cover" />
             </div>
             <h3 class="text-xl font-semibold">Aksi Relawan</h3>
           </div>

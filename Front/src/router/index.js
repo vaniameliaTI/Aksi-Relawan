@@ -17,6 +17,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -84,9 +88,9 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token');
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/');
+    next('/home'); // Redirect to home page instead of login
   } else if (to.meta.requiresGuest && isAuthenticated) {
-    next('/');
+    next('/home'); // Redirect logged-in users to home page
   } else {
     next();
   }
