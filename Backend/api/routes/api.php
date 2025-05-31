@@ -18,6 +18,10 @@ return [
     'POST /api/login' => ['AuthController', 'login'],
     'POST /api/logout' => ['AuthController', 'logout'],
 
+    // Rute Organisasi
+    'POST /api/organization/register' => ['OrganizationAuthController', 'register'],
+    'POST /api/organization/login' => ['OrganizationAuthController', 'login'],
+
     // Rute Profile
     'GET /api/profile' => ['ProfileController', 'getProfile'],
     'PUT /api/profile' => ['ProfileController', 'updateProfile'],

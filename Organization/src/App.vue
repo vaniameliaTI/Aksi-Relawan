@@ -1,5 +1,9 @@
 <template>
-  <router-view></router-view>
+  <div id="app">
+    <router-view v-slot="{ Component }">
+      <component :is="Component" />
+    </router-view>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,5 +27,6 @@ body {
 
 #app {
   min-height: 100vh;
+  width: 100%;
 }
 </style>

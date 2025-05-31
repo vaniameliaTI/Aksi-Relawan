@@ -61,3 +61,30 @@ CREATE TABLE IF NOT EXISTS activity_photos (
     FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE,
     FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabel Organizations
+CREATE TABLE IF NOT EXISTS organizations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    organization_name VARCHAR(255) NOT NULL,
+    registration_number VARCHAR(50),
+    legal_document_url VARCHAR(255),
+    office_address TEXT,
+    official_phone VARCHAR(20),
+    official_email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    field_of_work TEXT,
+    description TEXT,
+    status ENUM('pending', 'active', 'suspended') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabel Organization_Members (untuk mengelola anggota organisasi selain admin)
+CREATE TABLE IF NOT EXISTS organization_members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    organization_id INT NOT NULL,
+    role ENUM('member') DEFAULT 'member',
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
