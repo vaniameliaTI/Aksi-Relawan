@@ -70,5 +70,4 @@ if ($controllerAction) {
         'timestamp' => date('Y-m-d H:i:s')
     ]);
 }
-
 ?> 

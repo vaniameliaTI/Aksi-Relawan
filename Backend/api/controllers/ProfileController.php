@@ -41,7 +41,8 @@ class ProfileController {
             $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$profile) {
-                return ['status' => 'error', 'message' => 'Profile not found'];
+                echo json_encode(['status' => 'error', 'message' => 'Profile not found']);
+                exit();
             }
 
             // Jika photo_url ada tapi bukan URL lengkap, tambahkan base URL
@@ -50,9 +51,11 @@ class ProfileController {
                 $profile['photo_url'] = $profile['photo_url'];
             }
 
-            return ['status' => 'success', 'data' => $profile];
+            echo json_encode(['status' => 'success', 'data' => $profile]);
+            exit();
         } catch (PDOException $e) {
-            return ['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()];
+            echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+            exit();
         }
     }
 
@@ -64,7 +67,8 @@ class ProfileController {
         $data = json_decode(file_get_contents('php://input'), true);
         
         if (!$data) {
-            return ['status' => 'error', 'message' => 'Invalid request data'];
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request data']);
+            exit();
         }
         
         try {
@@ -126,9 +130,11 @@ class ProfileController {
                 ]);
             }
 
-            return ['status' => 'success', 'message' => 'Profile updated successfully'];
+            echo json_encode(['status' => 'success', 'message' => 'Profile updated successfully']);
+            exit();
         } catch (PDOException $e) {
-            return ['status' => 'error', 'message' => 'Failed to update profile: ' . $e->getMessage()];
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update profile: ' . $e->getMessage()]);
+            exit();
         }
     }
 
@@ -139,7 +145,8 @@ class ProfileController {
         try {
             if (!isset($_FILES['photo'])) {
                 error_log("No photo uploaded");
-                return ['status' => 'error', 'message' => 'No photo uploaded'];
+                echo json_encode(['status' => 'error', 'message' => 'No photo uploaded']);
+                exit();
             }
 
             $file = $_FILES['photo'];
@@ -149,12 +156,14 @@ class ProfileController {
             
             if (!in_array($file['type'], $allowedTypes)) {
                 error_log("Invalid file type: " . $file['type']);
-                return ['status' => 'error', 'message' => 'Invalid file type. Only JPG, PNG and GIF are allowed'];
+                echo json_encode(['status' => 'error', 'message' => 'Invalid file type. Only JPG, PNG and GIF are allowed']);
+                exit();
             }
 
             if ($file['size'] > 5 * 1024 * 1024) { // 5MB limit
                 error_log("File too large: " . $file['size']);
-                return ['status' => 'error', 'message' => 'File size too large. Maximum size is 5MB'];
+                echo json_encode(['status' => 'error', 'message' => 'File size too large. Maximum size is 5MB']);
+                exit();
             }
 
             // Hapus foto lama
@@ -192,7 +201,8 @@ class ProfileController {
             // Move uploaded file
             if (!move_uploaded_file($file['tmp_name'], $filepath)) {
                 error_log("Failed to move uploaded file: " . error_get_last()['message']);
-                return ['status' => 'error', 'message' => 'Failed to save photo: ' . error_get_last()['message']];
+                echo json_encode(['status' => 'error', 'message' => 'Failed to save photo: ' . error_get_last()['message']]);
+                exit();
             }
 
             // Set permissions on the uploaded file
@@ -211,14 +221,17 @@ class ProfileController {
             $stmt->execute([$photoUrl, $userId]);
 
             error_log("Photo uploaded successfully. URL: " . $photoUrl);
-            return [
+            echo json_encode([
                 'status' => 'success',
                 'message' => 'Photo uploaded successfully',
                 'photo_url' => $photoUrl
-            ];
+            ]);
+            exit();
         } catch (Exception $e) {
             error_log("Exception during photo upload: " . $e->getMessage());
-            return ['status' => 'error', 'message' => 'Failed to upload photo: ' . $e->getMessage()];
+            echo json_encode(['status' => 'error', 'message' => 'Failed to upload photo: ' . $e->getMessage()]);
+            exit();
         }
     }
-} 
+}
+?>

@@ -25,7 +25,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./Backend:/var/www/html
-      - ./Backend/uploads:/var/www/html/uploads
+      # Use a named volume for persistent uploads, mapping to the specific subdirectory
+      - profile_photos_volume:/var/www/html/uploads/profile_photos
+      # Named volume for organization profile photos
+      - organization_photos_volume:/var/www/html/uploads/organizations
     environment:
       PHP_MEMORY_LIMIT: 256M
       PHP_UPLOAD_MAX_FILESIZE: 10M
@@ -65,4 +68,8 @@ networks:
 
 volumes:
   dbdata:
+  profile_photos_volume:
+    driver: local # Use the local driver for single host
+  organization_photos_volume:
+    driver: local # Use the local driver for single host
   uploads_data: 

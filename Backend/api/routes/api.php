@@ -18,6 +18,11 @@ return [
     'POST /api/login' => ['AuthController', 'login'],
     'POST /api/logout' => ['AuthController', 'logout'],
 
+    // Rute Profile
+    'GET /api/profile' => ['ProfileController', 'getProfile'],
+    'PUT /api/profile' => ['ProfileController', 'updateProfile'],
+    'POST /api/profile/photo' => ['ProfileController', 'uploadPhoto'],
+
     // Rute Organisasi
     'POST /api/organization/register' => ['OrganizationAuthController', 'register'],
     'POST /api/organization/login' => ['OrganizationAuthController', 'login'],
@@ -26,14 +31,11 @@ return [
     'POST /api/organization/upload-photo' => ['OrganizationProfileController', 'uploadPhoto'],
     'GET /api/organization/stats' => ['OrganizationProfileController', 'getStats'],
 
-    // Rute Profile
-    'GET /api/profile' => ['ProfileController', 'getProfile'],
-    'PUT /api/profile' => ['ProfileController', 'updateProfile'],
-    'POST /api/profile/photo' => ['ProfileController', 'uploadPhoto'],
-
     // Contoh Rute untuk Relawan (sesuaikan path dan method jika perlu)
     // 'GET /api/relawan' => ['RelawanController', 'getAll'],
     // 'GET /api/relawan/{id}' => ['RelawanController', 'getById'], // Perlu penanganan parameter {id}
     // 'POST /api/relawan' => ['RelawanController', 'create'],
     // 'PUT /api/relawan/{id}/status' => ['RelawanController', 'updateStatus'], // Perlu penanganan parameter {id}
 ]; 
+
+?>

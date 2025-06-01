@@ -5,9 +5,7 @@
 require_once __DIR__ . '/../config/database.php';
 
 class AuthController {
-    private $db;
     private $pdo;
-    private $secret_key = "aksi_relawan_secret_key_2025"; // Ganti dengan secret key yang aman
 
     public function __construct() {
         $database = new Database();
@@ -24,68 +22,6 @@ class AuthController {
         }
         // Properti $this->db mungkin tidak diperlukan lagi jika hanya butuh $pdo
         // $this->db = $database;
-    }
-
-    private function generateJWT($user) {
-        $issued_at = time();
-        $expiration = $issued_at + (60 * 60); // Token berlaku 1 jam
-
-        $payload = [
-            'iss' => 'aksi_relawan_api', // issuer
-            'aud' => 'aksi_relawan_app', // audience
-            'iat' => $issued_at, // issued at
-            'exp' => $expiration, // expiration
-            'data' => [
-                'id' => $user['id'],
-                'email' => $user['email'],
-                'username' => $user['username']
-            ]
-        ];
-
-        // Encode Header
-        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
-        $header = base64_encode($header);
-
-        // Encode Payload
-        $payload = json_encode($payload);
-        $payload = base64_encode($payload);
-
-        // Create Signature
-        $signature = hash_hmac('sha256', "$header.$payload", $this->secret_key, true);
-        $signature = base64_encode($signature);
-
-        // Create JWT Token
-        $jwt = "$header.$payload.$signature";
-
-        return $jwt;
-    }
-
-    private function verifyJWT($token) {
-        $parts = explode('.', $token);
-        if (count($parts) !== 3) {
-            return false;
-        }
-
-        list($header, $payload, $signature) = $parts;
-
-        // Verify Signature
-        $valid_signature = base64_encode(
-            hash_hmac('sha256', "$header.$payload", $this->secret_key, true)
-        );
-
-        if ($signature !== $valid_signature) {
-            return false;
-        }
-
-        // Decode Payload
-        $payload = json_decode(base64_decode($payload), true);
-
-        // Check Expiration
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
-            return false;
-        }
-
-        return $payload;
     }
 
     /**
@@ -190,7 +126,8 @@ class AuthController {
             }
 
             // 5. Generate JWT token
-            $jwt = $this->generateJWT($user);
+            // Menggunakan generateToken dari Auth util
+            $jwt = Auth::generateToken($user);
             
             // 6. Hapus password dari response
             unset($user['password']);

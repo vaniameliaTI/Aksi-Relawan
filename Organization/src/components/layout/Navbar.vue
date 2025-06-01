@@ -64,18 +64,7 @@ const router = useRouter()
 
 // State
 const showDropdown = ref(false)
-const userAvatar = computed(() => {
-  if (organization.value?.photo_url && typeof organization.value.photo_url === 'string') {
-    if (!organization.value.photo_url || organization.value.photo_url.trim() === '') return defaultPhotoUrl;
-  // Assuming backend serves uploads from /uploads
-  // Add cache buster to force reload on change if URL is from localhost
-  const url = `http://localhost:8080${organization.value.photo_url}`; // Adjust base URL if needed
-  if (url.startsWith('http://localhost')) {
-     const cacheBuster = Date.now();
-     return `${url}?cb=${cacheBuster}`;
-  }
-  return url;
-});
+const defaultPhotoUrl = '/default-avatar.png' // Default avatar image path
 
 const organization = ref<OrganizationData | null>(null)
 
@@ -88,6 +77,20 @@ const currentPageTitle = computed(() => {
     '/organization': 'Profil Organisasi'
   }
   return routeTitles[route.path] || 'Dashboard'
+})
+
+const userAvatar = computed(() => {
+  if (!organization.value?.photo_url || organization.value.photo_url.trim() === '') {
+    return defaultPhotoUrl;
+  }
+  // Assuming backend serves uploads from /uploads
+  // Add cache buster to force reload on change if URL is from localhost
+  const url = `http://localhost:8080${organization.value.photo_url}`; // Adjust base URL if needed
+  if (url.startsWith('http://localhost')) {
+    const cacheBuster = Date.now();
+    return `${url}?cb=${cacheBuster}`;
+  }
+  return url;
 })
 
 // Methods
