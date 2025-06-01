@@ -198,6 +198,7 @@
 import { ref, onMounted, computed } from 'vue'
 import DashboardLayout from '../components/layout/DashboardLayout.vue'
 import organizationService from '../services/organization'
+import authService from '../services/auth'
 import type { OrganizationProfile, OrganizationStats } from '../services/organization'
 
 // State
@@ -252,7 +253,7 @@ const fullPhotoUrl = computed(() => {
      return `${url}?cb=${cacheBuster}`;
   }
   return url;
-});
+})
 
 // Methods
 const toggleEditMode = () => {
@@ -323,6 +324,10 @@ const fetchOrganizationData = async () => {
       field_of_work: data.field_of_work,
       description: data.description
     })
+    
+    // Update organization data in local storage and trigger event for Navbar
+    localStorage.setItem('organization', JSON.stringify(data));
+    window.dispatchEvent(new CustomEvent('organizationProfileUpdated'));
   } catch (error) {
     console.error('Error fetching organization data:', error)
     showToast('Gagal memuat data organisasi', 'error')

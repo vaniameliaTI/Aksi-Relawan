@@ -87,8 +87,8 @@ const userAvatar = computed(() => {
   // Add cache buster to force reload on change if URL is from localhost
   const url = `http://localhost:8080${organization.value.photo_url}`; // Adjust base URL if needed
   if (url.startsWith('http://localhost')) {
-    const cacheBuster = Date.now();
-    return `${url}?cb=${cacheBuster}`;
+     const cacheBuster = Date.now();
+     return `${url}?cb=${cacheBuster}`;
   }
   return url;
 })
@@ -125,6 +125,7 @@ onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   window.addEventListener('organizationProfileUpdated', loadOrganizationData);
   loadOrganizationData()
+  console.log('Navbar: onMounted. Initial organization data load triggered.');
 })
 
 // Remove event listeners

@@ -4,14 +4,17 @@ require_once __DIR__ . '/../utils/auth.php';
 
 class OrganizationProfileController {
     private $conn;
-    private $uploadDir = __DIR__ . '/../../uploads/organizations/';
+    // Define the upload directory path inside the Docker container, matching the volume mount
+    private $uploadDir = '/var/www/html/uploads/organizations/';
 
     public function __construct() {
         $database = new Database();
         $this->conn = $database->getConnection();
         
-        // Buat direktori upload jika belum ada
+        // Ensure the upload directory exists inside the container
         if (!file_exists($this->uploadDir)) {
+            // Note: With Docker volumes, this mkdir might not be strictly needed
+            // if the volume is created beforehand, but it's harmless.
             mkdir($this->uploadDir, 0777, true);
         }
     }
@@ -197,24 +200,33 @@ class OrganizationProfileController {
                 $oldPhotoResult = $oldPhotoStmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($oldPhotoResult && !empty($oldPhotoResult['photo_url'])) {
-                    // Pastikan hanya menghapus file di direktori upload yang benar
-                    $oldPhotoFilename = basename($oldPhotoResult['photo_url']);
-                    $oldPhotoPath = $this->uploadDir . $oldPhotoFilename;
+                    // Get the old photo path based on the URL stored in DB
+                    // The URL is expected to be like /uploads/organizations/filename.jpg
+                    // We need to construct the full path inside the container's filesystem
+                    $oldPhotoUrl = $oldPhotoResult['photo_url'];
 
-                    if (file_exists($oldPhotoPath)) {
-                        if (unlink($oldPhotoPath)) {
-                            error_log("[uploadPhoto] Old photo deleted: " . $oldPhotoPath);
+                    // Assuming the photo_url starts with /uploads/organizations/
+                    // Replace this base URL part with the actual upload directory path
+                    $oldPhotoRelativePath = str_replace('/uploads/organizations/', '', $oldPhotoUrl);
+                    $oldPhotoPathToDelete = $this->uploadDir . $oldPhotoRelativePath;
+
+                    error_log("[uploadPhoto] Attempting to delete old photo: " . $oldPhotoPathToDelete);
+
+                    if (file_exists($oldPhotoPathToDelete)) {
+                        if (unlink($oldPhotoPathToDelete)) {
+                            error_log("[uploadPhoto] Old photo deleted successfully: " . $oldPhotoPathToDelete);
                         } else {
-                            error_log("[uploadPhoto] Failed to delete old photo: " . $oldPhotoPath);
-                            // Handle error deletion jika perlu (opsional)
+                            error_log("[uploadPhoto] Failed to delete old photo: " . $oldPhotoPathToDelete);
+                            // Consider adding error handling or logging if unlink fails
                         }
                     } else {
-                         error_log("[uploadPhoto] Old photo file not found on disk: " . $oldPhotoPath);
+                        error_log("[uploadPhoto] Old photo file not found on disk (path from DB): " . $oldPhotoPathToDelete);
+                        // It might not exist if the URL format changed or file was manually removed
                     }
                 }
                 // --- End: Delete old photo if exists ---
 
-                // Update database dengan URL foto BARU
+                // Update database dengan URL foto BARU (gunakan URL path yang akan diakses dari frontend)
                 $photoUrl = '/uploads/organizations/' . $filename;
                 $query = "UPDATE organizations SET photo_url = :photo_url WHERE id = :id";
                 $stmt = $this->conn->prepare($query);
