@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 py-8 max-w-3xl">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-blue-800">Profil Pengguna</h1>
+      <h1 class="text-3xl font-bold text-black mb-0">Profil Pengguna</h1>
     </div>
 
     <div class="flex flex-col md:flex-row items-start md:items-center gap-8 bg-white p-6 rounded-lg shadow-md">
@@ -10,70 +10,50 @@
         <img
           :src="previewImage || fullPhotoUrl || defaultUserIcon"
           alt="Foto Profil"
-          class="w-full h-full rounded-full object-cover border-4 border-blue-500"
+          class="w-full h-full rounded-full object-cover border-4 border-blue-800"
         />
-        <!-- Optional: Add an edit icon overlay -->
         <div class="absolute inset-0 rounded-full bg-black opacity-0 hover:opacity-25 transition-opacity flex items-center justify-center">
-           <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a12.006 12.006 0 010 16.972l-7.5 7.5L3 17.5l1.5-7.5 7.5-7.5z"></path></svg>
+          <svg
+            class="w-10 h-10 text-white transition-transform transform hover:scale-110"
+            fill="white"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 20h9" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
+          </svg>
         </div>
       </div>
 
       <!-- Data Profil/Form -->
-      <div class="flex-grow w-full">
-        <div v-if="!isEditing" class="space-y-4">
-          <div class="pb-2 border-b border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-600">Nama Panggilan:</h3>
-            <p class="text-gray-800">{{ profile.username }}</p>
+      <div class="flex-grow w-full max-w-full overflow-hidden relative z-10">
+        <div v-if="!isEditing" class="flex flex-col space-y-4 h-full justify-between max-w-full overflow-hidden">
+          <div v-for="field in fields" :key="field.key" class="border-b border-gray-200 pb-2 max-w-full overflow-hidden">
+            <h3 class="text-sm font-semibold text-gray-600 mb-2">{{ field.label }}</h3>
+            <p class="text-gray-800 break-words overflow-wrap break-word max-w-full overflow-hidden">
+              <span v-if="!profile[field.key] || profile[field.key].trim() === ''" class="text-gray-400 italic">empty</span>
+              <span v-else>{{ profile[field.key] }}</span>
+            </p>
           </div>
-          <div class="pb-2 border-b border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-600">Nama Lengkap:</h3>
-            <p class="text-gray-800">{{ profile.full_name }}</p>
+          <div class="flex justify-end">
+            <button @click="toggleEdit" class="mt-2 bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-8 rounded-full transition duration-300">Edit Profil</button>
           </div>
-          <div class="pb-2 border-b border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-600">Email:</h3>
-            <p class="text-gray-800">{{ profile.email }}</p>
-          </div>
-          <div class="pb-2 border-b border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-600">Telepon:</h3>
-            <p class="text-gray-800">{{ profile.phone }}</p>
-          </div>
-          <div class="pb-2 border-b border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-600">Alamat:</h3>
-            <p class="text-gray-800">{{ profile.address }}</p>
-          </div>
-          <button @click="toggleEdit" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300">
-            Edit Profil
-          </button>
         </div>
 
         <form v-else @submit.prevent="updateProfile" class="space-y-4">
-          <div class="form-group">
-            <label for="username" class="block text-sm font-semibold text-gray-600">Nama Panggilan:</label>
-            <input type="text" id="username" v-model="form.username" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div class="form-group">
-            <label for="full_name" class="block text-sm font-semibold text-gray-600">Nama Lengkap:</label>
-            <input type="text" id="full_name" v-model="form.full_name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div class="form-group">
-            <label for="email" class="block text-sm font-semibold text-gray-600">Email:</label>
-            <input type="email" id="email" v-model="form.email" disabled class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
-          </div>
-          <div class="form-group">
-            <label for="phone" class="block text-sm font-semibold text-gray-600">Telepon:</label>
-            <input type="tel" id="phone" v-model="form.phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div class="form-group">
-            <label for="address" class="block text-sm font-semibold text-gray-600">Alamat:</label>
-            <textarea id="address" v-model="form.address" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+          <div v-for="field in fields" :key="field.key" class="form-group">
+            <label :for="field.key" class="block text-sm font-semibold text-gray-600">{{ field.label }}</label>
+            <component :is="field.type === 'textarea' ? 'textarea' : 'input'"
+                       :id="field.key"
+                       v-model="form[field.key]"
+                       :type="field.inputType || 'text'"
+                       rows="field.type === 'textarea' ? 3 : undefined"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
           </div>
           <div class="flex justify-end gap-4">
-            <button type="button" @click="toggleEdit" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">
-              Batal
-            </button>
-            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300">
-              Simpan
-            </button>
+            <button type="button" @click="toggleEdit" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">Batal</button>
+            <button type="submit" class="px-6 py-2 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-full transition duration-300">Simpan</button>
           </div>
         </form>
       </div>
@@ -89,42 +69,27 @@
             class="w-64 h-64 rounded-full object-cover border-4 border-blue-500"
           />
           <div class="flex justify-center gap-4">
-            <button @click="triggerFileInput" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300">
-              Unggah Foto
-            </button>
-            <button @click="deletePhoto" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300">
-              Hapus Foto
-            </button>
-            <button @click="showPhotoPopup = false" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">
-              Batal
-            </button>
+            <button @click="triggerFileInput" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300">Unggah Foto</button>
+            <button @click="deletePhoto" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300">Hapus Foto</button>
+            <button @click="showPhotoPopup = false" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">Batal</button>
           </div>
         </div>
       </div>
     </transition>
 
-    <input
-      type="file"
-      ref="fileInput"
-      @change="handlePhotoChange"
-      accept="image/jpeg,image/png,image/gif"
-      style="display: none"
-    />
+    <input type="file" ref="fileInput" @change="handlePhotoChange" accept="image/jpeg,image/png,image/gif" style="display: none" />
 
     <!-- Message Notification -->
     <transition name="slide-fade">
-      <div
-        v-if="message"
-        :class="{
-          'bg-green-500': messageType === 'success',
-          'bg-red-500': messageType === 'error',
-          'bg-blue-500': messageType === 'info',
-        }"
-        class="fixed bottom-4 right-4 text-white px-6 py-3 rounded-md shadow-lg z-50"
-      >
+      <div v-if="message" :class="{
+        'bg-green-500': messageType === 'success',
+        'bg-red-500': messageType === 'error',
+        'bg-blue-500': messageType === 'info',
+      }" class="fixed bottom-4 right-4 text-white px-6 py-3 rounded-md shadow-lg z-50">
         {{ message }}
       </div>
     </transition>
+
   </div>
 </template>
 
@@ -142,32 +107,29 @@ const fileInput = ref(null);
 const previewImage = ref(null);
 const showPhotoPopup = ref(false);
 
-// Computed property for full photo URL
+const fields = [
+  { key: 'username', label: 'Nama Panggilan', inputType: 'text' },
+  { key: 'full_name', label: 'Nama Lengkap', inputType: 'text' },
+  { key: 'email', label: 'Email', inputType: 'email' },
+  { key: 'phone', label: 'Telepon', inputType: 'tel' },
+  { key: 'address', label: 'Alamat', type: 'textarea' },
+];
+
 const fullPhotoUrl = computed(() => {
   if (!profile.photo_url || profile.photo_url.trim() === '') return null;
-  // Assuming backend serves uploads from /uploads
-  // Add cache buster to force reload on change if URL is from localhost
   const url = `http://localhost:8080${profile.photo_url}`;
-  if (url.startsWith('http://localhost')) {
-     const cacheBuster = Date.now();
-     return `${url}?cb=${cacheBuster}`;
-  }
-  return url;
+  return url.startsWith('http://localhost') ? `${url}?cb=${Date.now()}` : url;
 });
 
-// Fetch user profile on component mount
 onMounted(() => {
   fetchProfile();
-  // Add event listener for profile photo updates
   window.addEventListener('profilePhotoUpdated', fetchProfile);
 });
 
-// Remove event listener on component unmount
 onBeforeUnmount(() => {
   window.removeEventListener('profilePhotoUpdated', fetchProfile);
 });
 
-// Function to fetch profile data
 const fetchProfile = async () => {
   try {
     const response = await getUserProfile();
@@ -178,181 +140,129 @@ const fetchProfile = async () => {
       showMessage(response.data.message || 'Gagal memuat profil', 'error');
     }
   } catch (error) {
-    console.error('Error fetching profile:', error);
+    console.error(error);
     showMessage('Gagal memuat profil', 'error');
   }
 };
 
-// Toggle between view and edit mode
 const toggleEdit = () => {
-  if (isEditing.value) {
-    // Reset form if canceling edit
-    Object.assign(form, profile);
-  }
+  if (isEditing.value) Object.assign(form, profile);
   isEditing.value = !isEditing.value;
 };
 
-// Update user profile
 const updateProfile = async () => {
   try {
     showMessage('Sedang menyimpan profil...', 'info');
-    const response = await updateUserProfile({
-      username: form.username,
-      full_name: form.full_name,
-      phone: form.phone,
-      address: form.address,
-    });
-
+    const response = await updateUserProfile({ ...form });
     if (response.data.status === 'success') {
-      // Update profile data and toggle edit mode
       Object.assign(profile, form);
       isEditing.value = false;
       showMessage('Profil berhasil diperbarui', 'success');
-
-      // Update localStorage and dispatch event
       const storedUser = JSON.parse(localStorage.getItem('user')) || {};
       storedUser.username = form.username;
-      // assuming email can't be changed via this form, keep existing email in storedUser
       localStorage.setItem('user', JSON.stringify(storedUser));
       window.dispatchEvent(new Event('userProfileUpdated'));
-
     } else {
       showMessage(response.data.message || 'Gagal memperbarui profil', 'error');
     }
   } catch (error) {
-    console.error('Update error:', error);
+    console.error(error);
     showMessage('Gagal memperbarui profil', 'error');
   }
 };
 
-// Trigger file input click
 const triggerFileInput = () => fileInput.value.click();
 
-// Handle photo file selection and upload
 const handlePhotoChange = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  // Basic file validation
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-  if (!allowedTypes.includes(file.type)) {
-    showMessage('Jenis file tidak valid. Hanya JPG, PNG, dan GIF yang diizinkan.', 'error');
-    return;
-  }
-  if (file.size > 5 * 1024 * 1024) { // 5MB
-    showMessage('Ukuran file terlalu besar. Maksimum 5MB.', 'error');
-    return;
-  }
+  if (!allowedTypes.includes(file.type)) return showMessage('Jenis file tidak valid.', 'error');
+  if (file.size > 5 * 1024 * 1024) return showMessage('Ukuran file terlalu besar.', 'error');
 
-  // Show preview
   const reader = new FileReader();
   reader.onload = e => previewImage.value = e.target.result;
   reader.readAsDataURL(file);
-  showPhotoPopup.value = false; // Close popup after selecting file
+  showPhotoPopup.value = false;
 
   try {
     showMessage('Sedang mengunggah foto...', 'info');
     const formData = new FormData();
     formData.append('photo', file);
     const response = await uploadProfilePhoto(formData);
-
     if (response.data.status === 'success') {
-      // Update profile photo_url and localStorage
       profile.photo_url = response.data.photo_url;
-       const storedUser = JSON.parse(localStorage.getItem('user')) || {};
-      storedUser.profilePicture = fullPhotoUrl.value; // Use computed property for full URL
+      const storedUser = JSON.parse(localStorage.getItem('user')) || {};
+      storedUser.profilePicture = fullPhotoUrl.value;
       localStorage.setItem('user', JSON.stringify(storedUser));
       window.dispatchEvent(new Event('profilePhotoUpdated'));
-
       showMessage('Foto profil berhasil diperbarui', 'success');
-
-      // Reset preview and file input
       previewImage.value = null;
-      if (fileInput.value) {
-        fileInput.value.value = '';
-      }
-       fetchProfile(); // Re-fetch profile to ensure data consistency
+      fileInput.value.value = '';
+      fetchProfile();
     } else {
       previewImage.value = null;
       showMessage(response.data.message || 'Gagal mengunggah foto', 'error');
     }
   } catch (error) {
     previewImage.value = null;
-    console.error('Upload error:', error);
+    console.error(error);
     showMessage('Gagal mengunggah foto', 'error');
   }
 };
 
-// Delete profile photo
 const deletePhoto = async () => {
   try {
     showMessage('Sedang menghapus foto...', 'info');
-    // Call updateProfile API with empty photo_url to trigger deletion on backend
     const response = await updateUserProfile({ photo_url: '' });
     if (response.data.status === 'success') {
       profile.photo_url = '';
       previewImage.value = null;
       showPhotoPopup.value = false;
-
-      // Update localStorage and dispatch event
       const storedUser = JSON.parse(localStorage.getItem('user')) || {};
       storedUser.profilePicture = defaultUserIcon;
       localStorage.setItem('user', JSON.stringify(storedUser));
       window.dispatchEvent(new Event('profilePhotoUpdated'));
-
       showMessage('Foto profil berhasil dihapus', 'success');
-
-      // Reset file input value
-      if (fileInput.value) {
-        fileInput.value.value = '';
-      }
+      fileInput.value.value = '';
     } else {
       showMessage(response.data.message || 'Gagal menghapus foto profil', 'error');
     }
   } catch (error) {
-    console.error('Delete photo error:', error);
+    console.error(error);
     showMessage('Gagal menghapus foto profil', 'error');
   }
 };
 
-// Show message notification
 const showMessage = (text, type = 'info') => {
   message.value = text;
   messageType.value = type;
-  setTimeout(() => { message.value = '', 3000 }); // Fix: setTimeout callback should be a function
+  setTimeout(() => { message.value = ''; }, 3000);
 };
 
-// Watcher to reset preview image if profile.photo_url changes
-watch(() => profile.photo_url, newVal => {
+watch(() => profile.photo_url, (newVal) => {
   if (!newVal || newVal.trim() === '') {
     previewImage.value = null;
   }
 });
-
 </script>
 
 <style scoped>
-/* Optional: Add simple fade/slide transitions if desired, otherwise remove */
-/* These could also be done with Tailwind transition utilities */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s ease;
 }
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
-
 .slide-fade-enter-active {
   transition: all 0.3s ease-out;
 }
-
 .slide-fade-leave-active {
   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
+.slide-fade-enter-from, .slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
 }
-
 </style>

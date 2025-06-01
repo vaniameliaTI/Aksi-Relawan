@@ -12,6 +12,7 @@ const showAuthModal = ref(false);
 const authMode = ref('login');
 const showAboutPopup = ref(false);
 const showProfilePopup = ref(false);
+let aboutPopupTimeout = null;
 
 import { watch } from 'vue';
 
@@ -247,57 +248,78 @@ function onProfilePhotoClickWithReload() {
 function onAboutMouseLeave() {
   showAboutPopup.value = false;
 }
+
+function openAboutPopup() {
+  clearTimeout(aboutPopupTimeout);
+  showAboutPopup.value = true;
+}
+function closeAboutPopup() {
+  aboutPopupTimeout = setTimeout(() => {
+    showAboutPopup.value = false;
+  }, 120); // 120ms delay, bisa diubah sesuai selera
+}
 </script>
 
 <template>
   <nav class="bg-white shadow-md py-4 fixed w-full top-0 z-50">
-    <div class="container mx-auto px-4 flex justify-between items-center">
+    <div class="container mx-auto px-4 flex items-center relative">
       <!-- Logo -->
-<a
-  href="#"
-  class="flex items-center nav-logo cursor-pointer"
-  @click.prevent="handleNavItemClick({ path: '/home' })"
->
+      <a
+        href="#"
+        class="flex items-center nav-logo cursor-pointer"
+        @click.prevent="handleNavItemClick({ path: '/home' })"
+      >
         <div class="nav-logo-content flex items-center">
           <img :src="AksiRelawanIcon" alt="AksiRelawan Logo" class="h-11 mr-2" />
           <div class="font-bold text-xl text-black-800">Aksi Relawan</div>
         </div>
       </a>
-      
-      <!-- Navigation Links -->
-      <div class="hidden md:flex space-x-8">
-        <div v-for="item in navItems" :key="item.name" class="relative group nav-item">
-          <a
-            v-if="!item.hasPopup"
-            href="#"
-            class="text-black hover:text-black transition-colors cursor-pointer"
-            :class="{ active: isActive(item) }"
-            @click.prevent="handleNavItemClick(item)"
-          >
-            {{ item.name }}
-          </a>
-          <div v-else
-            @mouseenter="showAboutPopup = true"
-            @mouseleave="onAboutMouseLeave"
-          >
-            <a 
+
+      <!-- Center: Navigation Links -->
+      <div class="hidden md:flex space-x-8 nav-links absolute left-1/2 -translate-x-1/2">
+        <div
+          v-for="item in navItems"
+          :key="item.name"
+          class="relative group nav-item"
+        >
+          <template v-if="!item.hasPopup">
+            <a
               href="#"
               class="text-black hover:text-black transition-colors cursor-pointer"
-              :class="{ active: isSubMenuActive(item) }"
+              :class="{ active: isActive(item) }"
+              @click.prevent="handleNavItemClick(item)"
             >
               {{ item.name }}
             </a>
-            <AboutPopup 
-              v-if="item.hasPopup && showAboutPopup" 
-              @close="showAboutPopup = false"
-              class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
-            />
-          </div>
+          </template>
+          <template v-else>
+            <div
+              class="relative"
+              @mouseenter="openAboutPopup"
+              @mouseleave="closeAboutPopup"
+              style="z-index:60"
+            >
+              <a
+                href="#"
+                class="text-black hover:text-black transition-colors cursor-pointer"
+                :class="{ active: isSubMenuActive(item) }"
+              >
+                {{ item.name }}
+              </a>
+              <AboutPopup
+                v-if="showAboutPopup"
+                @mouseenter="openAboutPopup"
+                @mouseleave="closeAboutPopup"
+                @close="showAboutPopup = false"
+                class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+              />
+            </div>
+          </template>
         </div>
       </div>
-      
-      <!-- Auth Buttons -->
-      <div class="flex space-x-2 auth-button" v-if="!isLoggedIn">
+
+      <!-- Right: Auth Buttons or Profile Menu -->
+      <div class="flex items-center space-x-2 auth-button ml-auto" v-if="!isLoggedIn">
         <button @click="openLoginModal" class="btn-login">
           Masuk
         </button>
@@ -305,14 +327,12 @@ function onAboutMouseLeave() {
           Daftar
         </button>
       </div>
-
-      <!-- Profile Menu -->
-      <div class="relative auth-button" v-else>
+      <div class="relative auth-button flex items-center ml-auto" v-else>
         <template v-if="user && user.profilePicture">
           <img
             :src="user.profilePicture"
             alt="Profile"
-            class="w-10 h-10 rounded-full cursor-pointer"
+            class="w-10 h-10 rounded-full cursor-pointer ml-2"
             @click="toggleProfilePopup"
           />
         </template>
@@ -320,13 +340,13 @@ function onAboutMouseLeave() {
           <img
             :src="UserIcon"
             alt="User Icon"
-            class="w-10 h-10 rounded-full cursor-pointer"
+            class="w-10 h-10 rounded-full cursor-pointer ml-2"
             @click="toggleProfilePopup"
           />
         </template>
         <div
           v-if="showProfilePopup"
-          class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-4 px-4 z-50"
+          class="absolute right-0 top-full w-48 bg-white rounded-md shadow-lg py-4 px-4 z-50"
         >
           <div class="flex flex-col items-center space-y-2 mb-4">
             <img
@@ -334,8 +354,7 @@ function onAboutMouseLeave() {
               alt="Profile Photo"
               class="w-16 h-16 rounded-full cursor-pointer"
               @click="onProfilePhotoClickWithReload"
-   
-              />
+            />
             <p class="font-semibold text-gray-800">{{ user.username || 'User' }}</p>
             <p class="text-gray-600 text-sm">{{ user.email || 'user@example.com' }}</p>
           </div>
@@ -349,10 +368,8 @@ function onAboutMouseLeave() {
       </div>
     </div>
   </nav>
-  
   <!-- Spacer -->
   <div class="h-16"></div>
-
   <!-- Auth Modal -->
   <AuthModal 
     v-if="showAuthModal"

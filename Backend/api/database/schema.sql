@@ -23,6 +23,25 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabel Organizations
+CREATE TABLE IF NOT EXISTS organizations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    organization_name VARCHAR(255) NOT NULL,
+    registration_number VARCHAR(50),
+    legal_document_url VARCHAR(255),
+    office_address TEXT,
+    official_phone VARCHAR(20),
+    official_email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    field_of_work TEXT,
+    description TEXT,
+    status ENUM('pending', 'active', 'suspended') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    photo_url VARCHAR(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 -- Tabel Activities (Kegiatan)
 CREATE TABLE IF NOT EXISTS activities (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,24 +81,6 @@ CREATE TABLE IF NOT EXISTS activity_photos (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE,
     FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Tabel Organizations
-CREATE TABLE IF NOT EXISTS organizations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    organization_name VARCHAR(255) NOT NULL,
-    registration_number VARCHAR(50),
-    legal_document_url VARCHAR(255),
-    office_address TEXT,
-    official_phone VARCHAR(20),
-    official_email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    field_of_work TEXT,
-    description TEXT,
-    status ENUM('pending', 'active', 'suspended') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    photo_url VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabel Organization_Members (untuk mengelola anggota organisasi selain admin)
