@@ -44,17 +44,17 @@ class Auth {
 
         list($header, $payload, $signature) = $parts;
 
-        // Verify Signature
-        $valid_signature = base64_encode(
+        // Verify Signature (gunakan base64url)
+        $valid_signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(
             hash_hmac('sha256', "$header.$payload", self::$secret_key, true)
-        );
+        ));
 
         if ($signature !== $valid_signature) {
             return false;
         }
 
         // Decode Payload
-        $payload = json_decode(base64_decode($payload), true);
+        $payload = json_decode(base64_decode(strtr($payload, '-_', '+/')), true);
 
         // Check Expiration
         if (isset($payload['exp']) && $payload['exp'] < time()) {

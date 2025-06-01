@@ -70,17 +70,30 @@ class ProfileController {
         try {
             // Check if photo_url is present in data to update photo_url as well
             if (array_key_exists('photo_url', $data)) {
-                // If photo_url is empty string, do not update other fields to avoid deleting data unintentionally
+                // If photo_url is empty string, delete the old photo file
                 if ($data['photo_url'] === '') {
+                    // Get old photo URL
+                    $stmtGet = $this->db->prepare("SELECT photo_url FROM users WHERE id = ?");
+                    $stmtGet->execute([$userId]);
+                    $oldPhoto = $stmtGet->fetchColumn();
+                    
+                    // Delete old photo file if exists
+                    if ($oldPhoto && strpos($oldPhoto, 'http') !== 0) {
+                        $oldPhotoPath = str_replace($this->uploadUrlPath, $this->uploadDir, $oldPhoto);
+                        error_log("Attempting to delete old photo: " . $oldPhotoPath);
+                        if (file_exists($oldPhotoPath)) {
+                            unlink($oldPhotoPath);
+                            error_log("Old photo deleted successfully");
+                        }
+                    }
+                    
+                    // Update database to remove photo_url
                     $stmt = $this->db->prepare("
                         UPDATE users 
-                        SET photo_url = ?
+                        SET photo_url = NULL
                         WHERE id = ?
                     ");
-                    $stmt->execute([
-                        $data['photo_url'],
-                        $userId
-                    ]);
+                    $stmt->execute([$userId]);
                 } else {
                     $stmt = $this->db->prepare("
                         UPDATE users 

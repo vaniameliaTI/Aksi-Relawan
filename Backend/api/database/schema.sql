@@ -34,8 +34,10 @@ CREATE TABLE IF NOT EXISTS activities (
     max_participants INT,
     current_participants INT DEFAULT 0,
     status ENUM('pending', 'ongoing', 'completed', 'cancelled') DEFAULT 'pending',
+    organization_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabel Activity_Participants (Relasi antara Users dan Activities)
@@ -76,7 +78,8 @@ CREATE TABLE IF NOT EXISTS organizations (
     description TEXT,
     status ENUM('pending', 'active', 'suspended') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    photo_url VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabel Organization_Members (untuk mengelola anggota organisasi selain admin)

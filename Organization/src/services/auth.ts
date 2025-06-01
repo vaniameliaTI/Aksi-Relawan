@@ -12,6 +12,7 @@ export interface OrganizationData {
     official_phone: string;
     office_address: string;
     field_of_work: string;
+    photo_url: string | null;
 }
 
 export interface ApiResponse<T> {

@@ -21,6 +21,10 @@ return [
     // Rute Organisasi
     'POST /api/organization/register' => ['OrganizationAuthController', 'register'],
     'POST /api/organization/login' => ['OrganizationAuthController', 'login'],
+    'GET /api/organization/profile' => ['OrganizationProfileController', 'getProfile'],
+    'PUT /api/organization/profile' => ['OrganizationProfileController', 'updateProfile'],
+    'POST /api/organization/upload-photo' => ['OrganizationProfileController', 'uploadPhoto'],
+    'GET /api/organization/stats' => ['OrganizationProfileController', 'getStats'],
 
     // Rute Profile
     'GET /api/profile' => ['ProfileController', 'getProfile'],

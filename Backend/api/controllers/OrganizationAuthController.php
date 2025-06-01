@@ -113,6 +113,8 @@ class OrganizationAuthController {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // Verify password
+                error_log("Stored password hash: " . $row['password']);
+                error_log("Input password: " . $data->password);
                 if (password_verify($data->password, $row['password'])) {
                     // Generate JWT token
                     $token = Auth::generateToken([
@@ -192,5 +194,4 @@ class OrganizationAuthController {
 
         return true;
     }
-}
-?> 
+} 
