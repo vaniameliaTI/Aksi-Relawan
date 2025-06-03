@@ -147,16 +147,10 @@ onMounted(() => {
 .hero-description {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #000000; /* Black */
+  color: #ffffff; /* Black */
   text-align: center;
   max-width: 600px;
   margin: 0 auto;
-  text-shadow:
-    -1px -1px 0 #ffffff,
-    1px -1px 0 #ffffff,
-    -1px 1px 0 #ffffff,
-    1px 1px 0 #ffffff,
-    1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive adjustments */
