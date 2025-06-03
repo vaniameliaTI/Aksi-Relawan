@@ -239,9 +239,11 @@ function onProfilePhotoClick() {
 // Method to handle profile photo click with reload
 function onProfilePhotoClickWithReload() {
   showProfilePopup.value = false;
-  router.push('/profile').then(() => {
+  if (router.currentRoute.value.path === '/profile') {
     window.location.reload();
-  });
+  } else {
+    router.push('/profile');
+  }
 }
 
 // Method to handle mouse leave on "Tentang Kami" nav item
@@ -360,8 +362,9 @@ function closeAboutPopup() {
           </div>
           <button
             @click="handleLogout"
-            class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition-colors"
+            class="logout-button"
           >
+            <i class="fas fa-sign-out-alt mr-2"></i>
             Keluar
           </button>
         </div>
@@ -479,4 +482,41 @@ function closeAboutPopup() {
 }
   /* Increase border thickness for user icon placeholder */
   /* Removed invalid CSS selector targeting template element */
+  /* Explicit styles for logout button in profile popup */
+  button.logout-button {
+    background-color: #fff;
+    color: #dc2626;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;      /* Tambahkan ini untuk center horizontal */
+    width: 100%;
+    text-align: center;           /* Pastikan text juga rata tengah */
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 400;
+  }
+  button.logout-button:hover {
+    background-color: #fee2e2;   /* Background merah pudar saat hover */
+    color: #f87171;              /* Font merah pudar saat hover */
+  }
+  button.logout-button i {
+    margin-right: 0.5rem;
+  }
+
+img.w-10.h-10.rounded-full.cursor-pointer.ml-2,
+img.w-16.h-16.rounded-full.cursor-pointer {
+  transition: transform 0.1s cubic-bezier(0.4,0,0.2,1);
+}
+img.w-10.h-10.rounded-full.cursor-pointer.ml-2:active,
+img.w-16.h-16.rounded-full.cursor-pointer:active {
+  transform: scale(0.92);
+}
+
+.auth-button button:active,
+.auth-button .btn-login:active,
+.auth-button .btn-register:active {
+  transform: scale(0.95);
+}
 </style>

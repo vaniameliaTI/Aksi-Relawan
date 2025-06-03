@@ -95,8 +95,8 @@ gsap.to(taglineRef.value, {
         </div>
         
         <div class="flex space-x-6 text-sm">
-          <a href="#" class="text-blue-300">Kebijakan Privasi</a>
-          <a href="#" class="text-blue-300">Syarat & Ketentuan</a>
+          <a href="#">Kebijakan Privasi</a>
+          <a href="#">Syarat & Ketentuan</a>
         </div>
       </div>
     </div>
@@ -106,30 +106,32 @@ gsap.to(taglineRef.value, {
 <style scoped>
 /* Link default */
 footer a {
-  position: relative; /* Dibutuhkan untuk pseudo-element */
-  text-decoration: none; /* Hilangkan underline default */
-  color: #ffffff; /* Warna teks tetap putih */
-  transition: color 0.3s ease; /* Transisi warna teks */
+  position: relative;
+  text-decoration: none;
+  color: #ffffff !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  transition: color 0.3s ease;
 }
 
 /* Pseudo-element untuk underline */
 footer a::after {
-  content: ''; /* Pseudo-element kosong */
+  content: '';
   position: absolute;
   left: 0;
-  bottom: -2px; /* Jarak underline dari teks */
-  width: 0; /* Awalnya tidak terlihat */
-  height: 2px; /* Ketebalan underline */
-  background-color: currentColor; /* Warna mengikuti teks */
-  transition: width 0.3s ease; /* Transisi untuk animasi */
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s ease;
 }
 
 /* Hover effect */
 footer a:hover {
-  color: #ffffff; /* Warna teks tetap putih saat hover */
+  color: #ffffff;
 }
 
 footer a:hover::after {
-  width: 100%; /* Underline meluas ke seluruh teks */
+  width: 100%;
 }
 </style>

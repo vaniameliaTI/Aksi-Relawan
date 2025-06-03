@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
             }
 
             // Handle other errors
-            const errorMessage = error.response.data?.message || 'An error occurred';
+            const errorMessage = (error.response.data as { message?: string })?.message || 'An error occurred';
             console.error('API Error:', errorMessage);
         }
         return Promise.reject(error);

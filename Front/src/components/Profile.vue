@@ -1,96 +1,148 @@
 <template>
-  <div class="container mx-auto px-4 py-8 max-w-3xl">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-black mb-0">Profil Pengguna</h1>
-    </div>
-
-    <div class="flex flex-col md:flex-row items-start md:items-center gap-8 bg-white p-6 rounded-lg shadow-md">
-      <!-- Foto Profil -->
-      <div class="flex-shrink-0 w-48 h-48 mx-auto md:mx-0 cursor-pointer relative" @click="showPhotoPopup = true">
-        <img
-          :src="previewImage || fullPhotoUrl || defaultUserIcon"
-          alt="Foto Profil"
-          class="w-full h-full rounded-full object-cover border-4 border-blue-800"
-        />
-        <div class="absolute inset-0 rounded-full bg-black opacity-0 hover:opacity-25 transition-opacity flex items-center justify-center">
-          <svg
-            class="w-10 h-10 text-white transition-transform transform hover:scale-110"
-            fill="white"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 20h9" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
-          </svg>
-        </div>
+  <transition name="fade-slide">
+    <div class="container mx-auto px-4 py-2 max-w-3xl" v-if="profileLoaded">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-black mb-0">Profil Pengguna</h1>
       </div>
 
-      <!-- Data Profil/Form -->
-      <div class="flex-grow w-full max-w-full overflow-hidden relative z-10">
-        <div v-if="!isEditing" class="flex flex-col space-y-4 h-full justify-between max-w-full overflow-hidden">
-          <div v-for="field in fields" :key="field.key" class="border-b border-gray-200 pb-2 max-w-full overflow-hidden">
-            <h3 class="text-sm font-semibold text-gray-600 mb-2">{{ field.label }}</h3>
-            <p class="text-gray-800 break-words overflow-wrap break-word max-w-full overflow-hidden">
-              <span v-if="!profile[field.key] || profile[field.key].trim() === ''" class="text-gray-400 italic">empty</span>
-              <span v-else>{{ profile[field.key] }}</span>
-            </p>
-          </div>
-          <div class="flex justify-end">
-            <button @click="toggleEdit" class="mt-2 bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-8 rounded-full transition duration-300">Edit Profil</button>
-          </div>
-        </div>
-
-        <form v-else @submit.prevent="updateProfile" class="space-y-4">
-          <div v-for="field in fields" :key="field.key" class="form-group">
-            <label :for="field.key" class="block text-sm font-semibold text-gray-600">{{ field.label }}</label>
-            <component :is="field.type === 'textarea' ? 'textarea' : 'input'"
-                       :id="field.key"
-                       v-model="form[field.key]"
-                       :type="field.inputType || 'text'"
-                       rows="field.type === 'textarea' ? 3 : undefined"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
-          </div>
-          <div class="flex justify-end gap-4">
-            <button type="button" @click="toggleEdit" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">Batal</button>
-            <button type="submit" class="px-6 py-2 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-full transition duration-300">Simpan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Pop Up Foto -->
-    <transition name="fade">
-      <div v-if="showPhotoPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="showPhotoPopup = false">
-        <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center gap-4">
+      <div class="flex flex-col md:flex-row items-start md:items-start gap-8 bg-white p-6 rounded-lg shadow-md min-h-[260px]">
+        <!-- Foto Profil -->
+        <div
+          class="flex-shrink-0 w-56 h-56 mx-auto md:mx-0 cursor-pointer relative mb-4 md:mb-0 transition-all duration-300 profile-photo-container"
+          @click="showPhotoPopup = true"
+        >
           <img
             :src="previewImage || fullPhotoUrl || defaultUserIcon"
-            alt="Foto Profil Besar"
-            class="w-64 h-64 rounded-full object-cover border-4 border-blue-500"
+            alt="Foto Profil"
+            class="w-full h-full rounded-full object-cover border-4 border-blue-800"
           />
-          <div class="flex justify-center gap-4">
-            <button @click="triggerFileInput" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300">Unggah Foto</button>
-            <button @click="deletePhoto" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300">Hapus Foto</button>
-            <button @click="showPhotoPopup = false" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">Batal</button>
+          <div class="absolute inset-0 rounded-full bg-black opacity-0 hover:opacity-25 transition-opacity flex items-center justify-center">
+            <svg
+              class="w-10 h-10 text-white transition-transform transform hover:scale-110"
+              fill="white"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 20h9" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
+            </svg>
           </div>
         </div>
+
+        <!-- Data Profil dengan Transisi -->
+        <transition name="fade" mode="out-in">
+          <div v-if="!isEditing" key="display" class="flex-grow w-full max-w-full overflow-hidden relative z-10 flex flex-col space-y-4 h-full justify-between">
+            <!-- Data Profil Display -->
+            <div v-for="field in fields" :key="field.key" class="border-b border-gray-200 pb-2 max-w-full overflow-hidden">
+              <h3 class="text-sm font-semibold text-gray-600 mb-2">{{ field.label }}</h3>
+              <p class="text-gray-800 break-words overflow-wrap break-word max-w-full overflow-hidden">
+                <span v-if="profileLoaded && (!profile[field.key] || profile[field.key].trim() === '')" class="text-gray-400 italic">empty</span>
+                <span v-else>{{ profile[field.key] }}</span>
+              </p>
+            </div>
+            <div class="flex justify-end">
+              <button @click="toggleEdit" class="mt-2 bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-8 rounded-full transition duration-300">Edit Profil</button>
+            </div>
+          </div>
+          <div v-else key="edit" class="flex-grow w-full max-w-full overflow-hidden relative z-10">
+            <!-- Data Profil Form -->
+            <form @submit.prevent="updateProfile" class="space-y-4">
+              <div v-for="field in fields" :key="field.key" class="form-group">
+                <label :for="field.key" class="block text-sm font-semibold text-gray-600">{{ field.label }}</label>
+                <template v-if="field.type === 'textarea'">
+                  <textarea
+                    :id="field.key"
+                    v-model="form[field.key]"
+                    rows="3"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </template>
+                <template v-else>
+                  <input
+                    :id="field.key"
+                    v-model="form[field.key]"
+                    :type="field.inputType || 'text'"
+                    :disabled="field.key === 'email' && (!emailVerified || emailError)"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <div v-if="field.key === 'email' && emailError" class="text-red-500 text-xs mt-1">{{ emailError }}</div>
+                  <div v-if="field.key === 'email' && !emailVerified && !emailError && form.email !== profile.email">
+                    <button
+                      type="button"
+                      @click="sendEmailVerification"
+                      :disabled="emailVerificationSent"
+                      class="mt-2 px-4 py-1 bg-blue-600 text-white rounded-full"
+                    >
+                      {{ emailVerificationSent ? 'Verifikasi Terkirim...' : 'Kirim Verifikasi Email' }}
+                    </button>
+                  </div>
+                </template>
+              </div>
+              <div class="flex justify-end gap-4">
+                <button
+                  type="button"
+                  @click="toggleEdit"
+                  class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  class="px-6 py-2 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-full transition duration-300"
+                  :disabled="form.email !== profile.email && (!emailVerified || emailError)"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </transition>
       </div>
-    </transition>
 
-    <input type="file" ref="fileInput" @change="handlePhotoChange" accept="image/jpeg,image/png,image/gif" style="display: none" />
+      <!-- Pop Up Foto -->
+      <transition name="fade">
+        <div v-if="showPhotoPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="showPhotoPopup = false">
+          <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center gap-4">
+            <img
+              :src="previewImage || fullPhotoUrl || defaultUserIcon"
+              alt="Foto Profil Besar"
+              class="w-64 h-64 rounded-full object-cover border-4 border-blue-500"
+            />
+            <div class="flex justify-center gap-4">
+              <button @click="triggerFileInput" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300">Unggah Foto</button>
+              <button @click="deletePhoto" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300">Hapus Foto</button>
+              <button @click="showPhotoPopup = false" class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">Batal</button>
+            </div>
+          </div>
+        </div>
+      </transition>
 
-    <!-- Message Notification -->
-    <transition name="slide-fade">
-      <div v-if="message" :class="{
-        'bg-green-500': messageType === 'success',
-        'bg-red-500': messageType === 'error',
-        'bg-blue-500': messageType === 'info',
-      }" class="fixed bottom-4 right-4 text-white px-6 py-3 rounded-md shadow-lg z-50">
-        {{ message }}
+      <input type="file" ref="fileInput" @change="handlePhotoChange" accept="image/jpeg,image/png,image/gif" style="display: none" />
+
+      <!-- Message Notification -->
+      <transition name="slide-fade">
+        <div v-if="message" :class="{
+          'bg-green-500': messageType === 'success',
+          'bg-red-500': messageType === 'error',
+          'bg-blue-500': messageType === 'info',
+        }" class="fixed bottom-4 right-4 text-white px-6 py-3 rounded-md shadow-lg z-50">
+          {{ message }}
+        </div>
+      </transition>
+
+    </div>
+    <div v-else class="flex items-center justify-center min-h-[400px]">
+      <!-- Spinner Loading -->
+      <div class="flex flex-col items-center">
+        <svg class="animate-spin h-12 w-12 text-blue-800 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <span class="text-blue-800 font-semibold">Memuat profil...</span>
       </div>
-    </transition>
-
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -107,10 +159,16 @@ const fileInput = ref(null);
 const previewImage = ref(null);
 const showPhotoPopup = ref(false);
 
+const emailVerified = ref(false);
+const emailVerificationSent = ref(false);
+const emailError = ref('');
+
+const authProvider = localStorage.getItem('authProvider') || 'email'; // contoh, sesuaikan dengan implementasi Anda
+
 const fields = [
   { key: 'username', label: 'Nama Panggilan', inputType: 'text' },
   { key: 'full_name', label: 'Nama Lengkap', inputType: 'text' },
-  { key: 'email', label: 'Email', inputType: 'email' },
+  { key: 'email', label: 'Email', inputType: 'email', editable: authProvider === 'email' },
   { key: 'phone', label: 'Telepon', inputType: 'tel' },
   { key: 'address', label: 'Alamat', type: 'textarea' },
 ];
@@ -121,21 +179,39 @@ const fullPhotoUrl = computed(() => {
   return url.startsWith('http://localhost') ? `${url}?cb=${Date.now()}` : url;
 });
 
+const profileLoaded = ref(false);
+
+function onProfilePhotoUpdated() {
+  fetchProfile();
+}
+
 onMounted(() => {
   fetchProfile();
-  window.addEventListener('profilePhotoUpdated', fetchProfile);
+  window.addEventListener('profilePhotoUpdated', onProfilePhotoUpdated);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('profilePhotoUpdated', fetchProfile);
+  window.removeEventListener('profilePhotoUpdated', onProfilePhotoUpdated);
 });
 
 const fetchProfile = async () => {
   try {
     const response = await getUserProfile();
     if (response.data.status === 'success') {
-      Object.assign(profile, response.data.data);
-      Object.assign(form, response.data.data);
+      const data = response.data.data;
+      profile.username = data.username || '';
+      profile.full_name = data.full_name || '';
+      profile.email = data.email || '';
+      profile.phone = data.phone || '';
+      profile.address = data.address || '';
+      profile.photo_url = data.photo_url || '';
+
+      form.username = data.username || '';
+      form.full_name = data.full_name || '';
+      form.email = data.email || '';
+      form.phone = data.phone || '';
+      form.address = data.address || '';
+      profileLoaded.value = true;
     } else {
       showMessage(response.data.message || 'Gagal memuat profil', 'error');
     }
@@ -146,7 +222,14 @@ const fetchProfile = async () => {
 };
 
 const toggleEdit = () => {
-  if (isEditing.value) Object.assign(form, profile);
+  if (!isEditing.value) {
+    // entering edit mode, copy profile to form
+    form.username = profile.username;
+    form.full_name = profile.full_name;
+    form.email = profile.email;
+    form.phone = profile.phone;
+    form.address = profile.address;
+  }
   isEditing.value = !isEditing.value;
 };
 
@@ -235,6 +318,35 @@ const deletePhoto = async () => {
   }
 };
 
+function validateEmail(email) {
+  // Regex sederhana validasi email
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+watch(() => form.email, (newEmail) => {
+  emailVerified.value = false;
+  emailVerificationSent.value = false;
+  if (!validateEmail(newEmail)) {
+    emailError.value = 'Format email tidak valid';
+  } else if (newEmail === profile.email) {
+    emailError.value = '';
+    emailVerified.value = true;
+  } else {
+    emailError.value = '';
+  }
+});
+
+const sendEmailVerification = async () => {
+  // Simulasi kirim email verifikasi (ganti dengan API Anda)
+  emailVerificationSent.value = true;
+  showMessage('Link verifikasi telah dikirim ke email baru. Silakan cek email Anda.', 'info');
+  // Setelah user klik link di email, set emailVerified.value = true (simulasi manual di sini)
+  setTimeout(() => {
+    emailVerified.value = true;
+    showMessage('Email berhasil diverifikasi. Anda bisa menyimpan perubahan.', 'success');
+  }, 3000); // Simulasi delay verifikasi
+};
+
 const showMessage = (text, type = 'info') => {
   message.value = text;
   messageType.value = type;
@@ -264,5 +376,37 @@ watch(() => profile.photo_url, (newVal) => {
 .slide-fade-enter-from, .slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
+}
+.fade-slide-enter-active {
+  transition: all 0.5s cubic-bezier(.55,0,.1,1);
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Menggunakan animasi fade yang sudah ada */
+.button-fade-slide-enter-active, .button-fade-slide-leave-active {
+  transition: all 0.3s cubic-bezier(.55,0,.1,1);
+}
+.button-fade-slide-enter-from, .button-fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+.button-fade-slide-enter-to, .button-fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.profile-photo-container {
+  margin-top: 70px;
+  transition: margin 0.3s;
+}
+@media (min-width: 768px) {
+  .profile-photo-container {
+    margin-bottom: 0;
+  }
 }
 </style>
